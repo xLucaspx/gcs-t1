@@ -33,18 +33,41 @@ a _branch_, enquanto o comando `switch` irá transferir a `head` para a _branch_
 ## Boas Práticas
 
 1. **Sempre documentar todos os métodos**; também é boa prática documentar as classes (não se esqueça do atributo
-`@author`) e os atributos mais complexos;
+	 `@author`) e os atributos mais complexos;
 2. Atualizar o diagrama de classes com as modificações realizadas;
 3. **RAII** (_Resource Acquisition is Initialization_): Iniciar os atributos da classe no construtor;
 4. Não criar _getters_ e _setters_ desnecessários (isso fere o encapsulamento e a imutabilidade, devemos criar apenas
-os métodos que realmente vamos utilizar);
+	 os métodos que realmente vamos utilizar);
 5. Quando um método retorna uma lista, devemos sempre torná-la imutável com `Collections.unmodifiableList()`, passando
-a lista em questão por parâmetro;
+	 a lista em questão por parâmetro;
 6. Quando utilizar a classe `Scanner`, utilize **apenas** o método `nextLine()`; se necessário ler um número, utilize
-os métodos de conversão das classes _wrappers_ (e.g. `Integer.parseInt()`, `Double.parseDouble` etc.); 
+	 os métodos de conversão das classes _wrappers_ (e.g. `Integer.parseInt()`, `Double.parseDouble` etc.);
 7. **Não commitar na _branch_ main**;
 8. **Não commitar código que não funciona**!
 
 Após terminar o desenvolvimento da sua _feature_ e _commitar_ localmente, faça o _push_ para o repositório remoto
 (`git push origin feature/nome-da-branch`) e abra um `pull request`. Se necessitar de auxílio, não hesite em entrar
 em contato.
+
+## Preenchimento de dados
+
+Um dos requisitos de sistema é que o mesmo seja inicializado com dados já inseridos. A maneira escolhida para alcançar
+este objetivo foi a criação de um arquivo que contém, linha a linha, os dados dos objetos que deve ser criados e
+inseridos no sistema. Um método da classe de aplicação deverá ler este arquivo, instânciar os objetos lá dispostos e
+armazená-los corretamente nas classes _handler_.
+
+O arquivo será armazenado em [_resources/seeder.txt_](./resources/seeder.txt) e terá a seguinte estrutura:
+
+- Número `x` de jogadores que serão cadastrados;
+- `x` linhas contendo as informações de cada jogador no formato `nome,email,pin`;
+- Número `y` de itens que serão cadastrados;
+- `y` linhas contendo as informações de cada item no formato `id,nome,descricao,categoria,preco,email-jogador`;
+- Número `z` de propostas que serão cadastradas;
+- `z` linhas contendo as informações de cada proposta no formato
+	`email-solicitante,id-item-solicitante,email-solicitado,id-item-solicitado,data,status`.
+
+Excepcionalmente na inserção manual de dados, o ID dos itens será informado; isso se dá visando garantir a consistência
+dos dados inseridos.
+
+Todas as propostas devem ser criadas com _status_ aberto e, baseado no _status_ presente no arquivo, deve ser chamado o
+método correspondente para atualizar a proposta e, caso necessário, atualizar os itens dos jogadores envolvidos.
