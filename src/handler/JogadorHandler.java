@@ -7,8 +7,6 @@ public class JogadorHandler {
 
 	private Jogador jogador;
 
-	private Collection<Jogador> jogador;
-
 	public JogadorHandler() {
 
 	}

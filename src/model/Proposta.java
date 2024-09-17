@@ -1,24 +1,39 @@
 package model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import handler.PropostaHandler;
 
 public class Proposta {
 	private DadosProposta solicitante;
 	private DadosProposta solicitado;
 	private LocalDateTime data;
-	private Jogador jogador;
-	private ArrayList<Jogador> jogador;
-	private Item item;
-	private StatusProposta statusProposta;
-	private DadosProposta dadosProposta;
-	private PropostaHandler propostaHandler;
-	private ArrayList<Jogador> jogador;
-	private ArrayList<Item> item;
+	private StatusProposta status;
 
 
-	public void setStatus(StatusProposta status) {
+	public Proposta(DadosProposta solicitado, DadosProposta solicitante) {
+		this.solicitado = solicitado;
+		this.solicitante = solicitante;
+		this.data = LocalDateTime.now();
+
 	}
+	public void setStatus(StatusProposta status) {
+		this.status = status;
+	}
+
+	/**
+	 * Mostra dados da proposta para o usuárop
+	 * @return Retorna uma String com as as propostaas
+	 */
+	public String mostraProposta(){
+		String proposta;
+		proposta =
+				"===============Solicitante============\n"+
+				"Hora: "+ data.toString()+
+				"\n" + solicitante.mostrarDadosProposta()+
+				"===============Solicidtado============\n"
+				+ solicitado.mostrarDadosProposta();
+
+		return proposta;
+	}
+
 
 }
