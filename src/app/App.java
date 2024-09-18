@@ -1,5 +1,8 @@
 package app;
-
+import model.DadosProposta;
+import model.Proposta;
+import model.Jogador;
+import model.Item;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -55,6 +58,7 @@ public class App {
 	public void executar() {
 		System.out.println("TODO: implementar métodos!");
 		insereDados();
+		teste();
 	}
 
 	/**
@@ -127,5 +131,18 @@ public class App {
 	 */
 	private void restauraEntrada() {
 		in = new Scanner(System.in);
+	}
+
+
+	private void teste (){
+		Jogador j1 = new Jogador ( "Luca", "luca@asda", "123133");
+		Jogador j2 = new Jogador ( "jao", "lesds@asda", "177733");
+		Item item1 = new Item(1, "batata", "Explode", "da terra", 500);
+		Item item2 = new Item(2, "batataZera", "ExplodeTudo", "da horta", 300);
+		DadosProposta d1 = new DadosProposta(j1,item1);
+		DadosProposta d2 = new DadosProposta(j2,item2);
+		Proposta p = new Proposta(d1,d2);
+		System.out.println(p.mostraProposta());
+
 	}
 }

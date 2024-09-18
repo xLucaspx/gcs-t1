@@ -21,7 +21,7 @@ public class Item {
 	 * @return Retorna uma String com as informação dos item
 	 */
 	public String mostraInformacoes(){
-		String info = "---------------------------\n" +
+		String info = "------\n" +
 				"Id: " + id +
 				"\nNome: " + nome +
 				"\nDescrição: " +descricao +

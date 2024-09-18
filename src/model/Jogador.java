@@ -42,7 +42,7 @@ public class Jogador {
 	 * Mostra as Informações do jogador
 	 * @return Retorna uma String com as informações do jogador
 	 */
-	public String getInformacoes(){
+	public String mostraInformacoes(){
 		String informacoes = "Nome: " + this.nome +
 				"\nEmail: " + this.email +
 				"\nPIN: " + this.pin;
