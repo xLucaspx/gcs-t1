@@ -8,8 +8,6 @@ public class Proposta {
 	private DadosProposta solicitado;
 	private LocalDateTime data;
 	private StatusProposta status;
-	private Item [] item;
-	private Jogador[] jogador;
 
 	public Proposta(DadosProposta solicitado, DadosProposta solicitante) {
 		this.solicitado = solicitado;
@@ -34,20 +32,14 @@ public class Proposta {
 	 */
 	public String mostraProposta(){
 		String proposta;
-		item = new Item[2];
-		this.item[0] = solicitante.item();
-		this.item[1] = solicitado.item();
-		jogador = new Jogador[2];
-		jogador[0] = solicitante.jogador();
-		jogador[1] = solicitado.jogador();
 		proposta =
 				"\n===============Solicitante============\n"+
 				"Hora: "+ data.toString()+
-				"\nJogador: " + jogador[0].mostraInformacoes() +
-				"\n-------Item" + item[0].mostraInformacoes()+
-				"\n===============Solicidtado============\n" +
-				"\nJogador: " + jogador[1].mostraInformacoes() +
-				"\n------Item" + item[1].mostraInformacoes()+
+				"\nJogador: " + solicitante.jogador().mostraInformacoes() +
+				"\n-------Item" + solicitante.item().mostraInformacoes()+
+				"\n===============Solicitado=============\n" +
+				"\nJogador: " + solicitado.jogador().mostraInformacoes() +
+				"\n------Item" + solicitado.item().mostraInformacoes()+
 				"\n  ||||"+ status.mostrarStatus()+ "||||  \n";
 
 		return proposta;
