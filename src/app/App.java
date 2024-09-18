@@ -1,8 +1,5 @@
 package app;
-import model.DadosProposta;
-import model.Proposta;
-import model.Jogador;
-import model.Item;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

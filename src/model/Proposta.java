@@ -1,7 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 
 public class Proposta {
 	private DadosProposta solicitante;
@@ -13,36 +13,39 @@ public class Proposta {
 		this.solicitado = solicitado;
 		this.solicitante = solicitante;
 		this.data = LocalDateTime.now();
-		status = StatusProposta.ABERTA;
-
-
+		this.status = StatusProposta.ABERTA;
 	}
 
 	/**
-	 * Atualiza o Status da proposta
-	 * @param status Atualmente o status da proposta
+	 * Atualiza o status da proposta.
+	 *
+	 * @param status O novo <code>StatusProposta</code>.
 	 */
 	public void setStatus(StatusProposta status) {
+		// TODO: criar validação: propostas fechadas não devem ser reabertas!
 		this.status = status;
 	}
 
 	/**
-	 * Mostra dados da proposta para o usuárop
-	 * @return Retorna uma String com as as propostaas
+	 * @return Os dados da proposta em formato de String.
 	 */
-	public String mostraProposta(){
-		String proposta;
-		proposta =
-				"\n===============Solicitante============\n"+
-				"Hora: "+ data.toString()+
-				"\nJogador: " + solicitante.jogador().mostraInformacoes() +
-				"\n-------Item" + solicitante.item().mostraInformacoes()+
-				"\n===============Solicitado=============\n" +
-				"\nJogador: " + solicitado.jogador().mostraInformacoes() +
-				"\n------Item" + solicitado.item().mostraInformacoes()+
-				"\n  ||||"+ status.mostrarStatus()+ "||||  \n";
-
-		return proposta;
+	public String mostraProposta() {
+		return """
+			Data: %s
+			Status: %s
+			===============Solicitante============
+			Jogador: %s
+			Item: %s
+			===============Solicitado=============
+			Jogador: %s
+			Item: %s
+			""".formatted(data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
+			status,
+			solicitante.jogador(),
+			solicitante.item(),
+			solicitado.jogador(),
+			solicitado.item()
+		);
 	}
 
 

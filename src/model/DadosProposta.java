@@ -1,5 +1,3 @@
 package model;
 
-public record DadosProposta(Jogador jogador, Item item){}
-
-
+public record DadosProposta(Jogador jogador, Item item) {}

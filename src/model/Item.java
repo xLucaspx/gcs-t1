@@ -1,6 +1,5 @@
 package model;
 
-
 public class Item {
 	private int id;
 	private String nome;
@@ -17,17 +16,15 @@ public class Item {
 	}
 
 	/**
-	 * Mostra as informações dos itens
-	 * @return Retorna uma String com as informação dos item
+	 * @return as informações do item em formato de String.
 	 */
-	public String mostraInformacoes(){
-		String info = "------\n" +
-				"Id: " + id +
-				"\nNome: " + nome +
-				"\nDescrição: " +descricao +
-				"\nCategoraia: " + categoria +
-				"\nPreco: " + preco;
-		return info;
+	@Override
+	public String toString() {
+		return "------\nId: %d\nNome: %s\nDescrição: %s\nCategoria: %s\nPreco: R$ %.2f".formatted(id,
+			nome,
+			descricao,
+			categoria,
+			preco
+		);
 	}
-
 }
