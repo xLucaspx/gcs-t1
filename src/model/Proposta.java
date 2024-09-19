@@ -22,7 +22,7 @@ public class Proposta {
 	 * @param status O novo <code>StatusProposta</code>.
 	 */
 	public void setStatus(StatusProposta status) {
-		if(this.status != StatusProposta.RECUSADA && this.status != StatusProposta.CONFIRMADA ) {
+		if (this.status.equals(StatusProposta.ABERTA)) {
 			this.status = status;
 		}
 	}
