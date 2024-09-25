@@ -18,4 +18,13 @@ public class JogadorHandler {
         list.add(j);
         return true;
     }
+
+    public Jogador buscaPorEmail(String email) {
+        for (Jogador j : list) {
+            if( j.getEmail.equals(email)) {
+                return j;
+            }
+        }
+        return null;
+    }
 }
