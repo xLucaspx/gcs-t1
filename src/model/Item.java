@@ -15,6 +15,22 @@ public class Item {
 		this.preco = preco;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public String getCategoria() {
+		return categoria;
+	}
+
 	/**
 	 * @return as informações do item em formato de String.
 	 */

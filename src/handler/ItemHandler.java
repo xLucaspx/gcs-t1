@@ -3,17 +3,25 @@ package handler;
 import model.Item;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
- * Classe responsável por gerenciar objetos do tipo Item. Permite adicionar,
- * remover e buscar itens na lista com base em diferentes critérios, como ID,
- * nome, descrição e categoria.
+ * <p>Classe responsável por gerenciar objetos do tipo <code>Item</code>.
+ * Permite adicionar, remover e buscar itens com base em diferentes critérios,
+ * como ID, nome, descrição e categoria.</p>
+ * <p>Esta classe encapsula uma lista e fornece métodos para operar sobre ela,
+ * garantindo que a mesma possa ser manipulada de maneira controlada e segura.</p>
+ *
+ * @author LucaWB
  */
 public class ItemHandler {
 
-	// Lista que armazenará os objetos do tipo Item.
-	List<Item> lista;
+	/**
+	 * A lista de itens armazenada por esta classe. Todos os objetos do tipo
+	 * Item são armazenados nesta lista.
+	 */
+	private List<Item> lista;
 
 	/**
 	 * Construtor padrão que inicializa uma nova lista de itens.
@@ -27,14 +35,13 @@ public class ItemHandler {
 	 *
 	 * @param i O item a ser adicionado.
 	 * @return <code>true</code> se o item foi adicionado com sucesso,
-	 * <code>false</code> se o item é nulo.
+	 * <code>false</code> caso contrário.
 	 */
 	public boolean add(Item i) {
 		if (i == null) {
 			return false;
 		}
-		lista.add(i);
-		return true;
+		return lista.add(i);
 	}
 
 	/**
@@ -42,14 +49,13 @@ public class ItemHandler {
 	 *
 	 * @param i O item a ser removido.
 	 * @return <code>true</code> se o item foi removido com sucesso,
-	 * <code>false</code> se o item é nulo.
+	 * <code>false</code> caso contrário.
 	 */
 	public boolean remove(Item i) {
 		if (i == null) {
 			return false;
 		}
-		lista.remove(i);
-		return true;
+		return lista.remove(i);
 	}
 
 	/**
@@ -72,7 +78,8 @@ public class ItemHandler {
 	 * Busca um item na lista com base no nome fornecido.
 	 *
 	 * @param nome O nome do item a ser buscado.
-	 * @return O item correspondente ao nome fornecido, ou <code>null</code> se não for encontrado.
+	 * @return O item correspondente ao nome fornecido, ou <code>null</code>
+	 * se não for encontrado.
 	 */
 	public Item buscaPorNome(String nome) {
 		for (Item i : lista) {
@@ -87,8 +94,8 @@ public class ItemHandler {
 	 * Busca todos os itens na lista que correspondem à descrição fornecida.
 	 *
 	 * @param descricao A descrição dos itens a serem buscados.
-	 * @return Uma lista de itens que possuem a descrição fornecida. Se nenhum item
-	 * for encontrado, retorna uma lista vazia.
+	 * @return Uma lista de itens que possuem a descrição fornecida. Se nenhum
+	 * item for encontrado, retorna uma lista vazia.
 	 */
 	public List<Item> buscaPorDescricao(String descricao) {
 		List<Item> itensEncontrados = new ArrayList<>();
@@ -97,15 +104,15 @@ public class ItemHandler {
 				itensEncontrados.add(i);
 			}
 		}
-		return itensEncontrados;
+		return Collections.unmodifiableList(itensEncontrados);
 	}
 
 	/**
 	 * Busca todos os itens na lista que correspondem à categoria fornecida.
 	 *
 	 * @param categoria A categoria dos itens a serem buscados.
-	 * @return Uma lista de itens que possuem a categoria fornecida. Se nenhum item
-	 * for encontrado, retorna uma lista vazia.
+	 * @return Uma lista de itens que possuem a categoria fornecida. Se nenhum
+	 * item for encontrado, retorna uma lista vazia.
 	 */
 	public List<Item> buscaPorCategoria(String categoria) {
 		List<Item> itensEncontrados = new ArrayList<>();
@@ -114,6 +121,6 @@ public class ItemHandler {
 				itensEncontrados.add(i);
 			}
 		}
-		return itensEncontrados;
+		return Collections.unmodifiableList(itensEncontrados);
 	}
 }
