@@ -1,5 +1,6 @@
 package handler;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import model.Item;
 
@@ -92,7 +93,7 @@ public class ItemHandler {
                 itensEncontrados.add(i);
             }
         }
-        return itensEncontrados;
+        return Collections.unmodifiableList(itensEncontrados);
     }
 
     /**
