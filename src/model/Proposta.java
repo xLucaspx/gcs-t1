@@ -22,8 +22,9 @@ public class Proposta {
 	 * @param status O novo <code>StatusProposta</code>.
 	 */
 	public void setStatus(StatusProposta status) {
-		// TODO: criar validação: propostas fechadas não devem ser reabertas!
-		this.status = status;
+		if (this.status.equals(StatusProposta.ABERTA)) {
+			this.status = status;
+		}
 	}
 
 	/**

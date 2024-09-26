@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Item {
+  private static int gerador;
+  
 	private int id;
-	private static int gerador;
 	private String nome;
 	private String descricao;
 	private String categoria;
@@ -14,6 +15,7 @@ public class Item {
 	public Item(int id, String nome, String descricao, String categoria, float preco) {
 		this.id = id;
 		if(gerador < id) gerador = id;
+    
 		this.nome = nome;
 		this.descricao = descricao;
 		this.categoria = categoria;
@@ -25,11 +27,28 @@ public class Item {
 		this.descricao = descricao;
 		this.categoria = categoria;
 		this.preco = preco;
-		gerador++;
-		this.id = gerador;
+    
+		this.id = ++gerador;
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public String getCategoria() {
+		return categoria;
+	}
+
 	/**
-	 * @return as informações do item em formato de String.
+	 * @return As informações do item em formato de String.
 	 */
 	@Override
 	public String toString() {
