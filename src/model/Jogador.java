@@ -72,7 +72,7 @@ public class Jogador {
     public List<Proposta> getPropostaRecebidas() {
         ArrayList<Proposta> recebidas = new ArrayList<>();
         for (Proposta p : propostas) {
-            if (this.equals(p.getSolicitado().jogador()) {
+            if (this.equals(p.getSolicitado().jogador())) {
                 recebidas.add(p);
             }
         }
