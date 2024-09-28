@@ -1,10 +1,11 @@
 package model;
 
 /**
- * @author Rodrigo Miotto Slongo
+ * Record para armazenar dados de uma proposta.
  *
- * Classe record para guardar informações da proposta.
- * @param jogador jogador do item
- * @param item item do jogador
+ * @param jogador <code>Jogador</code> envolvido na proposta.
+ * @param item    <code>Item</code> do respectivo <code>Jogador</code>,
+ *                também envolvido na proposta.
+ * @author Rodrigo Miotto Slongo
  */
 public record DadosProposta(Jogador jogador, Item item) {}

@@ -8,6 +8,7 @@ public enum StatusProposta {
 
 	private final int codigo;
 	private final String status;
+
 	StatusProposta(int codigo, String status) {
 		this.codigo = codigo;
 		this.status = status;
