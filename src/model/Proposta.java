@@ -19,7 +19,6 @@ public class Proposta {
 	/**
 	 * Metodo get para acessar o solicitado
 	 * @return solicitado da proposta
-	 * @author: Rodrigo Miotto Slongo
 	 */
 	public DadosProposta getSolicitado() {
 		return solicitado;
@@ -28,7 +27,6 @@ public class Proposta {
 	/**
 	 * Método get para acessar o solicitante
 	 * @return solocitante da proposta
-	 * @author: Rodrigo Miotto Slongo
 	 */
 	public DadosProposta getSolicitante() {
 		return solicitante;
