@@ -21,13 +21,13 @@ public class ItemHandler {
 	 * A lista de itens armazenada por esta classe. Todos os objetos do tipo
 	 * Item são armazenados nesta lista.
 	 */
-	private List<Item> lista;
+	private final List<Item> itens;
 
 	/**
 	 * Construtor padrão que inicializa uma nova lista de itens.
 	 */
 	public ItemHandler() {
-		this.lista = new ArrayList<>();
+		this.itens = new ArrayList<>();
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class ItemHandler {
 		if (i == null) {
 			return false;
 		}
-		return lista.add(i);
+		return itens.add(i);
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class ItemHandler {
 		if (i == null) {
 			return false;
 		}
-		return lista.remove(i);
+		return itens.remove(i);
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class ItemHandler {
 	 * se não for encontrado.
 	 */
 	public Item buscaPorId(int id) {
-		for (Item i : lista) {
+		for (Item i : itens) {
 			if (i.getId() == id) {
 				return i;
 			}
@@ -82,7 +82,7 @@ public class ItemHandler {
 	 * se não for encontrado.
 	 */
 	public Item buscaPorNome(String nome) {
-		for (Item i : lista) {
+		for (Item i : itens) {
 			if (i.getNome().equals(nome)) {
 				return i;
 			}
@@ -99,7 +99,7 @@ public class ItemHandler {
 	 */
 	public List<Item> buscaPorDescricao(String descricao) {
 		List<Item> itensEncontrados = new ArrayList<>();
-		for (Item i : lista) {
+		for (Item i : itens) {
 			if (i.getDescricao().equals(descricao)) {
 				itensEncontrados.add(i);
 			}
@@ -116,7 +116,7 @@ public class ItemHandler {
 	 */
 	public List<Item> buscaPorCategoria(String categoria) {
 		List<Item> itensEncontrados = new ArrayList<>();
-		for (Item i : lista) {
+		for (Item i : itens) {
 			if (i.getCategoria().equals(categoria)) {
 				itensEncontrados.add(i);
 			}

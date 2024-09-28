@@ -6,21 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JogadorHandler {
-	List<Jogador> list;
+	List<Jogador> jogadores;
 
 	public JogadorHandler() {
-		this.list = new ArrayList<>();
+		this.jogadores = new ArrayList<>();
 	}
 
 	public boolean cadastra(Jogador j) {
 		if (j == null) {
 			return false;
 		}
-		return list.add(j);
+		return jogadores.add(j);
 	}
 
 	public Jogador buscaPorEmail(String email) {
-		for (Jogador j : list) {
+		for (Jogador j : jogadores) {
 			if (j.getEmail().equals(email)) {
 				return j;
 			}
