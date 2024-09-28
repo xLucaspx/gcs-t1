@@ -3,6 +3,9 @@ package model;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * @author Rodrigo Miotto Slongo
+ */
 public class Proposta {
 	private DadosProposta solicitante;
 	private DadosProposta solicitado;
