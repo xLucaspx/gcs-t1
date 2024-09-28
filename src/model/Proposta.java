@@ -3,6 +3,9 @@ package model;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * @author Rodrigo Miotto Slongo
+ */
 public class Proposta {
 	private DadosProposta solicitante;
 	private DadosProposta solicitado;
@@ -17,30 +20,32 @@ public class Proposta {
 	}
 
 	/**
-	 * Metodo get para acessar o solicitado
-	 * @return solicitado da proposta
+	 * @return Dados do solicitado na proposta contendo o <code>Item</code>
+	 * solicitado e o <code>Jogador</code> dono deste item.
 	 */
 	public DadosProposta getSolicitado() {
 		return solicitado;
 	}
 
 	/**
-	 * Método get para acessar o solicitante
-	 * @return solocitante da proposta
+	 * @return Dados do solicitante da proposta contendo o <code>Jogador</code>
+	 * solicitante e o <code>Item</code> oferecido.
 	 */
 	public DadosProposta getSolicitante() {
 		return solicitante;
 	}
 
 	/**
-	 * Atualiza o status da proposta.
+	 * Atualiza o <em>status</em> da proposta; apenas propostas em
+	 * aberto terão o <em>status</em> atualizado.
 	 *
 	 * @param status O novo <code>StatusProposta</code>.
 	 */
 	public void setStatus(StatusProposta status) {
-		if (this.status.equals(StatusProposta.ABERTA)) {
-			this.status = status;
+		if (!this.status.equals(StatusProposta.ABERTA)) {
+			return;
 		}
+		this.status = status;
 	}
 
 	/**
@@ -64,6 +69,4 @@ public class Proposta {
 			solicitado.item()
 		);
 	}
-
-
 }

@@ -1,11 +1,13 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Classe que representa os itens dos jogadores.
+ *
+ * @author Gustavo Fidélis, Lucas da Paz, Rodrigo Slongo
+ */
 public class Item {
-  private static int gerador;
-  
+	private static int geradorId;
+
 	private int id;
 	private String nome;
 	private String descricao;
@@ -14,21 +16,21 @@ public class Item {
 
 	public Item(int id, String nome, String descricao, String categoria, float preco) {
 		this.id = id;
-		if(gerador < id) gerador = id;
-    
+		if (geradorId < id) geradorId = id;
+
 		this.nome = nome;
 		this.descricao = descricao;
 		this.categoria = categoria;
 		this.preco = preco;
 	}
 
-	public Item(String nome, String descricao, String categoria, float preco){
+	public Item(String nome, String descricao, String categoria, float preco) {
 		this.nome = nome;
 		this.descricao = descricao;
 		this.categoria = categoria;
 		this.preco = preco;
-    
-		this.id = ++gerador;
+
+		this.id = ++geradorId;
 	}
 
 	public int getId() {
