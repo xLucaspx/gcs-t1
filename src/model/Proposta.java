@@ -17,6 +17,22 @@ public class Proposta {
 	}
 
 	/**
+	 * Metodo get para acessar o solicitado
+	 * @return solicitado da proposta
+	 */
+	public DadosProposta getSolicitado() {
+		return solicitado;
+	}
+
+	/**
+	 * Método get para acessar o solicitante
+	 * @return solocitante da proposta
+	 */
+	public DadosProposta getSolicitante() {
+		return solicitante;
+	}
+
+	/**
 	 * Atualiza o status da proposta.
 	 *
 	 * @param status O novo <code>StatusProposta</code>.
