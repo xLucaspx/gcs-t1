@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JogadorHandler {
-	List<Jogador> jogadores;
+	private final List<Jogador> jogadores;
 
 	public JogadorHandler() {
 		this.jogadores = new ArrayList<>();
