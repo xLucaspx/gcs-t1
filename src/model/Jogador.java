@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
  * trocas que o envolvem devem aparecer, junto com opções de aceitar ou declinar a proposta. Aceitando, o
  * sistema automaticamente troca a propriedade dos dois itens.
  *
- * @author Lucas da Paz, Rodrigo Slongo, William Klein
+ * @author Lucas da Paz, Rodrigo Slongo, William Klein, Luca WB
  */
 
 public class Jogador {
@@ -68,17 +69,17 @@ public class Jogador {
 	 * @return a lista com todos os itens
 	 */
 	public List<Item> getItems() {
-		return itens;
+		return Collections.unmodifiableList(itens);
 	}
 
-	public List<Proposta> getPropostaRecebidas() {
+	public List<Proposta> getPropostasRecebidas() {
 		ArrayList<Proposta> recebidas = new ArrayList<>();
 		for (Proposta p : propostas) {
 			if (this.equals(p.getSolicitado().jogador())) {
 				recebidas.add(p);
 			}
 		}
-		return recebidas;
+		return Collections.unmodifiableList(recebidas) ;
 	}
 
 	public List<Proposta> getPropostasRealizadas() {
@@ -88,7 +89,7 @@ public class Jogador {
 				realizadas.add(p);
 			}
 		}
-		return realizadas;
+		return Collections.unmodifiableList(realizadas);
 	}
 
 	public String getEmail() {

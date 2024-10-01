@@ -39,6 +39,9 @@ public class ItemHandler {
      * nulo.
      */
     public boolean add(Item i) {
+      if (i == null) {
+			  return false;
+		  }
         return itens.add(i);
     }
 
@@ -49,6 +52,9 @@ public class ItemHandler {
      * @return true se o item foi removido com sucesso, false se o item é nulo.
      */
     public boolean remove(Item i) {
+      if (i == null) {
+        return false;
+		  }
         return itens.remove(i);
     }
 
