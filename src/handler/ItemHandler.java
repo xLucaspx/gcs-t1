@@ -77,11 +77,11 @@ public class ItemHandler {
     }
 
     /**
-     * Busca um item na lista com base no nome fornecido.
+     * Busca todos os itens na lista que correspondem ao nome fornecido.
      *
      * @param nome O nome do item a ser buscado.
-     * @return O item correspondente ao nome fornecido, ou null se não for
-     * encontrado.
+     * @return Lista de itens contendo o nome fornecido. Se nenhum item for
+     * encontrado, retorna uma lista vazia.
      */
     public List<Item> buscaPorNome(String nome) {
         List<Item> itensEncontrados = new ArrayList<>();
