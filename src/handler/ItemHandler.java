@@ -123,4 +123,8 @@ public class ItemHandler {
 		}
 		return Collections.unmodifiableList(itensEncontrados);
 	}
+
+	public List<Item> getItens(){
+		return Collections.unmodifiableList(itens);
+	}
 }
