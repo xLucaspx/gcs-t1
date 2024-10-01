@@ -1,7 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Collections;
 
 /**
  * O sistema deverá permitir que jogadores se inscrevam, cadastrem itens de jogos (físicos ou virtuais),
@@ -14,7 +16,7 @@ import java.util.List;
  * trocas que o envolvem devem aparecer, junto com opções de aceitar ou declinar a proposta. Aceitando, o
  * sistema automaticamente troca a propriedade dos dois itens.
  *
- * @author Lucas da Paz, Rodrigo Slongo, William Klein
+ * @author Lucas da Paz, Rodrigo Slongo, William Klein, Luca WB
  */
 
 public class Jogador {
@@ -68,7 +70,7 @@ public class Jogador {
 	 * @return a lista com todos os itens
 	 */
 	public List<Item> getItems() {
-		return itens;
+		return Collections.unmodifiableList(itens);
 	}
 
 	public List<Proposta> getPropostaRecebidas() {
