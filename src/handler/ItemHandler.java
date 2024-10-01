@@ -85,8 +85,9 @@ public class ItemHandler {
      */
     public List<Item> buscaPorNome(String nome) {
         List<Item> itensEncontrados = new ArrayList<>();
+        nome = nome.toLowerCase();
         for (Item i : lista) {
-            if (i.getNome().equals(nome)) {
+            if (i.getNome().toLowerCase().contains(nome)) {
                 itensEncontrados.add(i);
             }
         }
@@ -102,8 +103,9 @@ public class ItemHandler {
      */
     public List<Item> buscaPorDescricao(String descricao) {
         List<Item> itensEncontrados = new ArrayList<>();
+        descricao = descricao.toLowerCase();
         for (Item i : lista) {
-            if (i.getDescricao().equals(descricao)) {
+            if (i.getDescricao().toLowerCase().contains(descricao)) {
                 itensEncontrados.add(i);
             }
         }
@@ -119,8 +121,9 @@ public class ItemHandler {
      */
     public List<Item> buscaPorCategoria(String categoria) {
         List<Item> itensEncontrados = new ArrayList<>();
+        categoria = categoria.toLowerCase();
         for (Item i : lista) {
-            if (i.getCategoria().equals(categoria)) {
+            if (i.getCategoria().toLowerCase().contains(categoria)) {
                 itensEncontrados.add(i);
             }
         }
