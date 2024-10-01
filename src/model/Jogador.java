@@ -1,9 +1,8 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * O sistema deverá permitir que jogadores se inscrevam, cadastrem itens de jogos (físicos ou virtuais),
@@ -80,7 +79,7 @@ public class Jogador {
 				recebidas.add(p);
 			}
 		}
-		return recebidas;
+		return Collections.unmodifiableList(recebidas) ;
 	}
 
 	public List<Proposta> getPropostasRealizadas() {
@@ -90,7 +89,7 @@ public class Jogador {
 				realizadas.add(p);
 			}
 		}
-		return realizadas;
+		return Collections.unmodifiableList(realizadas);
 	}
 
 	public String getEmail() {
