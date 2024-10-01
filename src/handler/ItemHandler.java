@@ -22,13 +22,13 @@ public class ItemHandler {
      * A lista de itens armazenada por esta classe. Todos os objetos do tipo
      * Item são armazenados nesta lista.
      */
-    private List<Item> lista;
+    private final List<Item> itens;
 
     /**
      * Construtor padrão que inicializa uma nova lista de itens.
      */
     public ItemHandler() {
-        this.lista = new ArrayList<>();
+        this.itens = new ArrayList<>();
     }
 
     /**
@@ -39,11 +39,7 @@ public class ItemHandler {
      * nulo.
      */
     public boolean add(Item i) {
-        if (i == null) {
-            return false;
-        }
-        lista.add(i);
-        return true;
+        return itens.add(i);
     }
 
     /**
@@ -53,11 +49,7 @@ public class ItemHandler {
      * @return true se o item foi removido com sucesso, false se o item é nulo.
      */
     public boolean remove(Item i) {
-        if (i == null) {
-            return false;
-        }
-        lista.remove(i);
-        return true;
+        return itens.remove(i);
     }
 
     /**
@@ -68,7 +60,7 @@ public class ItemHandler {
      * encontrado.
      */
     public Item buscaPorId(int id) {
-        for (Item i : lista) {
+        for (Item i : itens) {
             if (i.getId() == id) {
                 return i;
             }
@@ -86,7 +78,7 @@ public class ItemHandler {
     public List<Item> buscaPorNome(String nome) {
         List<Item> itensEncontrados = new ArrayList<>();
         nome = nome.toLowerCase();
-        for (Item i : lista) {
+        for (Item i : itens) {
             if (i.getNome().toLowerCase().contains(nome)) {
                 itensEncontrados.add(i);
             }
@@ -104,7 +96,7 @@ public class ItemHandler {
     public List<Item> buscaPorDescricao(String descricao) {
         List<Item> itensEncontrados = new ArrayList<>();
         descricao = descricao.toLowerCase();
-        for (Item i : lista) {
+        for (Item i : itens) {
             if (i.getDescricao().toLowerCase().contains(descricao)) {
                 itensEncontrados.add(i);
             }
@@ -122,7 +114,7 @@ public class ItemHandler {
     public List<Item> buscaPorCategoria(String categoria) {
         List<Item> itensEncontrados = new ArrayList<>();
         categoria = categoria.toLowerCase();
-        for (Item i : lista) {
+        for (Item i : itens) {
             if (i.getCategoria().toLowerCase().contains(categoria)) {
                 itensEncontrados.add(i);
             }
