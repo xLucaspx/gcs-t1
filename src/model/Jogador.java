@@ -72,7 +72,7 @@ public class Jogador {
 		return Collections.unmodifiableList(itens);
 	}
 
-	public List<Proposta> getPropostaRecebidas() {
+	public List<Proposta> getPropostasRecebidas() {
 		ArrayList<Proposta> recebidas = new ArrayList<>();
 		for (Proposta p : propostas) {
 			if (this.equals(p.getSolicitado().jogador())) {
