@@ -1,5 +1,13 @@
 package app;
 
+import handler.ItemHandler;
+import handler.JogadorHandler;
+import model.DadosProposta;
+import model.Item;
+import model.Jogador;
+import model.Proposta;
+import model.StatusProposta;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -46,8 +54,16 @@ public class App {
 	 */
 	private static final String CAMINHO_ARQUIVO_SEEDER = "./resources/seeder.txt";
 
+	private final JogadorHandler jogadorHandler;
+	private final ItemHandler itemHandler;
+
 	private final PrintStream out = System.out;
 	private Scanner in;
+
+	public App() {
+		jogadorHandler = new JogadorHandler();
+		itemHandler = new ItemHandler();
+	}
 
 	/**
 	 * Método que executa a aplicação.
@@ -68,21 +84,24 @@ public class App {
 		System.out.printf("%d jogadores:%n", qtdJogadores);
 		for (int i = 0; i < qtdJogadores; i++) {
 			String[] playerInfo = in.nextLine().split(",");
-			System.out.printf("nome: %s, e-mail: %s, pin: %s%n", playerInfo[0], playerInfo[1], playerInfo[2]);
+			Jogador j = new Jogador(playerInfo[0], playerInfo[1], playerInfo[2]);
+			jogadorHandler.cadastra(j);
+			System.out.println(j);
 		}
 
 		int qtdItens = Integer.parseInt(in.nextLine());
 		System.out.printf("%d itens:%n", qtdItens);
 		for (int i = 0; i < qtdItens; i++) {
 			String[] itemInfo = in.nextLine().split(",");
-			System.out.printf("id: %d, nome: %s, descrição, %s, categoria: %s, preço: R$ %.2f, e-mail jogador: %s%n",
-				Integer.parseInt(itemInfo[0]),
-				itemInfo[1],
-				itemInfo[2],
-				itemInfo[3],
-				Float.parseFloat(itemInfo[4]),
-				itemInfo[5]
-			);
+			int id = Integer.parseInt(itemInfo[0]);
+			String nome = itemInfo[1];
+			String descricao = itemInfo[2];
+			String categoria = itemInfo[3];
+			float preco = Float.parseFloat(itemInfo[4]);
+			Jogador j = jogadorHandler.buscaPorEmail(itemInfo[5]);
+			Item item = new Item(id, nome, descricao, categoria, preco, j);
+			itemHandler.add(item);
+			System.out.println(item);
 		}
 
 		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -90,15 +109,22 @@ public class App {
 		System.out.printf("%d propostas:%n", qtdPropostas);
 		for (int i = 0; i < qtdPropostas; i++) {
 			String[] propostaInfo = in.nextLine().split(",");
-			System.out.printf(
-				"e-mail solicitante: %s, id item solicitante: %d, e-mail solicitado: %s, id item solicitado: %d, data: %s, status: %d%n",
-				propostaInfo[0],
-				Integer.parseInt(propostaInfo[1]),
-				propostaInfo[2],
-				Integer.parseInt(propostaInfo[3]),
-				LocalDateTime.parse(propostaInfo[4], df).format(df),
-				Integer.parseInt(propostaInfo[5])
+			Jogador solicitante = jogadorHandler.buscaPorEmail(propostaInfo[0]);
+			Item itemSolicitante = itemHandler.buscaPorId(Integer.parseInt(propostaInfo[1]));
+
+			Jogador solicitado = jogadorHandler.buscaPorEmail(propostaInfo[2]);
+			Item itemSolicitado = itemHandler.buscaPorId(Integer.parseInt(propostaInfo[3]));
+
+			LocalDateTime data = LocalDateTime.parse(propostaInfo[4], df);
+			StatusProposta status = StatusProposta.valueOf(propostaInfo[5]);
+
+			Proposta p = new Proposta(new DadosProposta(solicitante, itemSolicitante),
+				new DadosProposta(solicitado, itemSolicitado),
+				data,
+				status
 			);
+
+			System.out.println(p);
 		}
 
 		restauraEntrada();

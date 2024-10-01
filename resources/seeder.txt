@@ -10,34 +10,34 @@ Julia Santos,juliasantos@email.com,080808
 Mariana Pereira,marianapereira@email.com,090909
 Anderson Martins,andersonmartins@email.com,101010
 20
-1,Espada de Fogo,Uma espada envolta em chamas eternas,Arma,65,mariasantos@email.com
-2,Arco dos Ventos,Um arco que dispara flechas rápidas como o vento,Arma,55,rafaelribeiro@email.com
+1,Espada de Fogo,Uma espada envolta em chamas eternas,Arma,65,rafaelribeiro@email.com
+2,Arco dos Ventos,Um arco que dispara flechas rápidas como o vento,Arma,55,mariasantos@email.com
 3,Elmo do Guerreiro,Um elmo que concede força sobre-humana,Armadura,48.5,carlosnascimento@email.com
 4,Poção de Cura,Recupera 20 pontos de vida instantaneamente,Poção,25,lucasilva@email.com
 5,Báculo do Mago,Amplifica os poderes mágicos de quem o empunha,Artefato,52.75,gabrielalmeida@email.com
 6,Escudo de Gelo,Um escudo que cria uma barreira de gelo ao redor,Ferramenta,60,larissasantos@email.com
 7,Lança Sagrada,Uma lança imbuída com poder divino,Arma,65,rafaelribeiro@email.com
-8,Poção de Invisibilidade,Torna o usuário invisível por 10 minutos,Poção,20,gabrielalmeida@email.com
+8,Poção de Invisibilidade,Torna o usuário invisível por 10 minutos,Poção,20,carlosnascimento@email.com
 9,Anel da Sabedoria,Aumenta o conhecimento do portador,Artefato,42,mariasantos@email.com
-10,Dardo Envenenado,Dardo que envenena inimigos ao ser lançado,Arma,28.99,juliasantos@email.com
+10,Dardo Envenenado,Dardo que envenena inimigos ao ser lançado,Arma,28.99,lucasilva@email.com
 11,Cota de Malha,Uma armadura leve e resistente,Armadura,30,eduardoveiga@email.com
 12,Martelo do Trovão,Martelo que invoca relâmpagos ao ser utilizado,Arma,63.25,andersonmartins@email.com
 13,Poção de Força,Aumenta a força física por uma hora,Poção,18,eduardoveiga@email.com
 14,Cajado das Sombras,Cajado que controla as forças das trevas,Artefato,40,andersonmartins@email.com
-15,Botas de Velocidade,Aumenta a velocidade de quem as calça,Armadura,38,carlosnascimento@email.com
+15,Botas de Velocidade,Aumenta a velocidade de quem as calça,Armadura,38,gabrielalmeida@email.com
 16,Adaga de Sangue,Adaga que drena a vitalidade dos inimigos,Arma,59,marianapereira@email.com
 17,Capa do Silêncio,Permite ao usuário mover-se sem fazer barulho,Artefato,29.9,marianapereira@email.com
 18,Luvas de Ferro,Aumenta o poder de ataque dos punhos,Armadura,22,larissasantos@email.com
 19,Poção de Mana,Recupera pontos de mana para magos e feiticeiros,Poção,12,juliasantos@email.com
-20,Brincos da Fortuna,Aumenta as chances de encontrar tesouros raros,Artefato,23,lucasilva@email.com
+20,Brincos da Fortuna,Aumenta as chances de encontrar tesouros raros,Artefato,23,juliasantos@email.com
 10
-lucasilva@email.com,20,juliasantos@email.com,10,06/05/2024 15:32:11,2
-andersonmartins@email.com,14,marianapereira@email.com,16,10/05/2024 20:10:00,3
-mariasantos@email.com,1,rafaelribeiro@email.com,2,12/06/2024 07:40:55,2
-larissasantos@email.com,18,eduardoveiga@email.com,11,20/06/2024 23:00:44,3
-gabrielalmeida@email.com,8,carlosnascimento@email.com,15,01/07/2024 11:22:33,2
-juliasantos@email.com,19,andersonmartins@email.com,12,09/07/2024 21:15:10,3
-marianapereira@email.com,16,lucasilva@email.com,10,30/07/2024 12:34:56,1
-rafaelribeiro@email.com,7,gabrielalmeida@email.com,5,14/08/2024 03:21:01,1
-eduardoveiga@email.com,11,mariasantos@email.com,9,26/08/2024 07:53:31,1
-carlosnascimento@email.com,3,larissasantos@email.com,6,02/09/2024 16:22:59,1
+lucasilva@email.com,20,juliasantos@email.com,10,06/05/2024 15:32:11,CONFIRMADA
+andersonmartins@email.com,14,marianapereira@email.com,16,10/05/2024 20:10:00,RECUSADA
+mariasantos@email.com,1,rafaelribeiro@email.com,2,12/06/2024 07:40:55,CONFIRMADA
+larissasantos@email.com,18,eduardoveiga@email.com,11,20/06/2024 23:00:44,RECUSADA
+gabrielalmeida@email.com,8,carlosnascimento@email.com,15,01/07/2024 11:22:33,CONFIRMADA
+juliasantos@email.com,19,andersonmartins@email.com,12,09/07/2024 21:15:10,RECUSADA
+marianapereira@email.com,16,lucasilva@email.com,10,30/07/2024 12:34:56,ABERTA
+rafaelribeiro@email.com,7,gabrielalmeida@email.com,5,14/08/2024 03:21:01,ABERTA
+eduardoveiga@email.com,11,mariasantos@email.com,9,26/08/2024 07:53:31,ABERTA
+carlosnascimento@email.com,3,larissasantos@email.com,6,02/09/2024 16:22:59,ABERTA

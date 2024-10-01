@@ -67,7 +67,6 @@ O arquivo será armazenado em [_resources/seeder.txt_](./resources/seeder.txt) e
 	`email-solicitante,id-item-solicitante,email-solicitado,id-item-solicitado,data,status`.
 
 Excepcionalmente na inserção manual de dados, o ID dos itens será informado; isso se dá visando garantir a consistência
-dos dados inseridos.
-
-Todas as propostas devem ser criadas com _status_ aberto e, baseado no _status_ presente no arquivo, deve ser chamado o
-método correspondente para atualizar a proposta e, caso necessário, atualizar os itens dos jogadores envolvidos.
+dos dados inseridos. De mesmo modo, as propostas de inserção manual devem receber a data e o _status_ no construtor.
+(No arquivo toma-se como garantido, no caso das propostas com _status_ `CONFIRMADA`, que os itens envolvidos já estão
+na posse dos donos corretos, i.e. ao confirmar a troca o item do solicitante foi para o solicitado e vice-versa).

@@ -33,7 +33,7 @@ public class Jogador {
 	}
 
 	/**
-	 * Verificação para o Pin apenas ser criado com 6 digitos numéricos
+	 * Verificação para o pin apenas ser criado com 6 digitos numéricos
 	 *
 	 * @param pin a ser verificado
 	 */
@@ -58,8 +58,8 @@ public class Jogador {
 	 *
 	 * @param item a ser removido
 	 */
-	public void removeItem(Item item) { // n contem esse parâmetro no diagrama
-		itens.remove(item);
+	public boolean removeItem(Item item) { // n contem esse parâmetro no diagrama
+		return itens.remove(item);
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class Jogador {
 	}
 
 	public List<Proposta> getPropostasRealizadas() {
-		ArrayList<Proposta> realizadas = new ArrayList<Proposta>();
+		ArrayList<Proposta> realizadas = new ArrayList<>();
 		for (Proposta p : propostas) {
 			if (this.equals(p.getSolicitante().jogador())) {
 				realizadas.add(p);
