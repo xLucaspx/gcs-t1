@@ -87,6 +87,12 @@ public class App {
         mostraInformacoesSistema();
     }
 
+	/**
+ 	* Lista os itens de um jogador com base no email fornecido pelo usuário.
+ 	* O método solicita ao usuário que insira o email de um jogador. Caso o jogador seja encontrado,
+ 	* seus itens serão listados no console. Se o jogador não possuir itens ou se o email não corresponder
+ 	* a nenhum jogador cadastrado, uma mensagem adequada será exibida.
+ 	*/
     private void listaItensJogador() {
         System.out.println("Digite o email do jogador o qual deseja buscar");
         String emailJogador = in.nextLine();
