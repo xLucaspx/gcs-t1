@@ -87,12 +87,13 @@ public class App {
         mostraInformacoesSistema();
     }
 
-	/**
- 	* Lista os itens de um jogador com base no email fornecido pelo usuário.
- 	* O método solicita ao usuário que insira o email de um jogador. Caso o jogador seja encontrado,
- 	* seus itens serão listados no console. Se o jogador não possuir itens ou se o email não corresponder
- 	* a nenhum jogador cadastrado, uma mensagem adequada será exibida.
- 	*/
+    /**
+     * Lista os itens de um jogador com base no email fornecido pelo usuário. O
+     * método solicita ao usuário que insira o email de um jogador. Caso o
+     * jogador seja encontrado, seus itens serão listados no console. Se o
+     * jogador não possuir itens ou se o email não corresponder a nenhum jogador
+     * cadastrado, uma mensagem adequada será exibida.
+     */
     private void listaItensJogador() {
         System.out.println("Digite o email do jogador o qual deseja buscar");
         String emailJogador = in.nextLine();
@@ -111,14 +112,14 @@ public class App {
 
     }
 
-	/**
- 	* Método responsável por buscar um item pelo seu ID.
- 	* 
- 	* O método solicita ao usuário o ID do item que deseja buscar. Em seguida,
- 	* realiza a busca no sistema utilizando o ID fornecido. Caso o item seja encontrado,
- 	* suas informações serão exibidas. Caso contrário, uma mensagem informando que nenhum
- 	* item foi encontrado é exibida.
- 	*/
+    /**
+     * Método responsável por buscar um item pelo seu ID.
+     *
+     * O método solicita ao usuário o ID do item que deseja buscar. Em seguida,
+     * realiza a busca no sistema utilizando o ID fornecido. Caso o item seja
+     * encontrado, suas informações serão exibidas. Caso contrário, uma mensagem
+     * informando que nenhum item foi encontrado é exibida.
+     */
     private void buscaItensId() {
         System.out.println("Digite o id do item o qual deseja buscar.");
         int id = Integer.parseInt(in.nextLine());
@@ -130,14 +131,15 @@ public class App {
         }
     }
 
-	/**
- 	* Método responsável por buscar itens pelo nome.
-	 * 
- 	* O método solicita ao usuário o nome (ou parte do nome) do item que deseja buscar.
- 	* Em seguida, realiza a busca no sistema utilizando o nome fornecido. Caso itens 
- 	* sejam encontrados, suas informações serão exibidas. Caso contrário, uma mensagem
- 	* informando que nenhum item foi encontrado é exibida.
-	 */
+    /**
+     * Método responsável por buscar itens pelo nome.
+     *
+     * O método solicita ao usuário o nome (ou parte do nome) do item que deseja
+     * buscar. Em seguida, realiza a busca no sistema utilizando o nome
+     * fornecido. Caso itens sejam encontrados, suas informações serão exibidas.
+     * Caso contrário, uma mensagem informando que nenhum item foi encontrado é
+     * exibida.
+     */
     private void buscaItensNome() {
         System.out.println("Digite o nome do item o qual deseja buscar.");
         String nome = in.nextLine();
@@ -151,14 +153,15 @@ public class App {
         }
     }
 
-	/**
-	 * Método responsável por buscar itens pela descrição.
-	 * 
-	 * O método solicita ao usuário a descrição (ou parte da descrição) do item que deseja
-	 * buscar. Em seguida, realiza a busca no sistema utilizando a descrição fornecida. Caso
-	 * itens sejam encontrados, suas informações serão exibidas. Caso contrário, uma mensagem
-	 * informando que nenhum item foi encontrado é exibida.
-	 */
+    /**
+     * Método responsável por buscar itens pela descrição.
+     *
+     * O método solicita ao usuário a descrição (ou parte da descrição) do item
+     * que deseja buscar. Em seguida, realiza a busca no sistema utilizando a
+     * descrição fornecida. Caso itens sejam encontrados, suas informações serão
+     * exibidas. Caso contrário, uma mensagem informando que nenhum item foi
+     * encontrado é exibida.
+     */
     private void buscaItensDescricao() {
         System.out.println("Digite a descrição do item o qual deseja buscar.");
         String descricao = in.nextLine();
@@ -172,14 +175,15 @@ public class App {
         }
     }
 
-	/**
-	 * Método responsável por buscar itens pela categoria.
-	 * 
-	 * O método solicita ao usuário a categoria do item que deseja buscar. Em seguida,
-	 * realiza a busca no sistema utilizando a categoria fornecida. Caso itens sejam
-	 * encontrados, suas informações serão exibidas. Caso contrário, uma mensagem
-	 * informando que nenhum item foi encontrado é exibida.
-	 */
+    /**
+     * Método responsável por buscar itens pela categoria.
+     *
+     * O método solicita ao usuário a categoria do item que deseja buscar. Em
+     * seguida, realiza a busca no sistema utilizando a categoria fornecida.
+     * Caso itens sejam encontrados, suas informações serão exibidas. Caso
+     * contrário, uma mensagem informando que nenhum item foi encontrado é
+     * exibida.
+     */
     private void buscaItensCategoria() {
         System.out.println("Digite a categoria do item o qual deseja buscar.");
         String categoria = in.nextLine();
@@ -193,15 +197,15 @@ public class App {
         }
     }
 
-	/**
-	 * Método responsável por exibir informações gerais do sistema.
-	 * 
-	 * Este método coleta e exibe no console diversas informações importantes sobre o sistema:
-	 * - Total de usuários cadastrados.
-	 * - Total de itens cadastrados e a soma de seus preços.
-	 * - Quantidade de propostas de troca aceitas ou declinadas.
-	 * - Quantidade de propostas de troca que estão aguardando uma resposta.
-	 */
+    /**
+     * Método responsável por exibir informações gerais do sistema.
+     *
+     * Este método coleta e exibe no console diversas informações importantes
+     * sobre o sistema: - Total de usuários cadastrados. - Total de itens
+     * cadastrados e a soma de seus preços. - Quantidade de propostas de troca
+     * aceitas ou declinadas. - Quantidade de propostas de troca que estão
+     * aguardando uma resposta.
+     */
     private void mostraInformacoesSistema() {
         int totalUsuarios = jogadorHandler.size();
         int totalItens = itemHandler.size();
@@ -221,30 +225,45 @@ public class App {
      * uso na aplicação.
      */
     private void insereDados() {
-        redirecionaEntrada(CAMINHO_ARQUIVO_SEEDER);
-
+		System.out.println("Digite quantos Jogadores você deseja cadastrar");
         int qtdJogadores = Integer.parseInt(in.nextLine());
-        System.out.printf("%d jogadores:%n", qtdJogadores);
         for (int i = 0; i < qtdJogadores; i++) {
-            String[] playerInfo = in.nextLine().split(",");
-            Jogador j = new Jogador(playerInfo[0], playerInfo[1], playerInfo[2]);
+			System.out.println("Digite o nome do jogador");
+			String nome = in.nextLine();
+			System.out.println("Digite o email do jogador");
+			String email = in.nextLine();
+			System.out.println("Digite o pin do jogador");
+			String pin = in.nextLine();
+            Jogador j = new Jogador(nome, email, pin);
             jogadorHandler.cadastra(j);
-            System.out.println(j);
+            if(jogadorHandler.cadastra(j)){
+				System.out.println("Jogador cadastrado com sucesso");
+			}else{
+				System.out.println("Jogador não cadastrado.");
+			}
         }
 
+		System.out.println("Digite quantos itens você deseja cadastrar");
         int qtdItens = Integer.parseInt(in.nextLine());
-        System.out.printf("%d itens:%n", qtdItens);
         for (int i = 0; i < qtdItens; i++) {
-            String[] itemInfo = in.nextLine().split(",");
-            int id = Integer.parseInt(itemInfo[0]);
-            String nome = itemInfo[1];
-            String descricao = itemInfo[2];
-            String categoria = itemInfo[3];
-            float preco = Float.parseFloat(itemInfo[4]);
-            Jogador j = jogadorHandler.buscaPorEmail(itemInfo[5]);
-            Item item = new Item(id, nome, descricao, categoria, preco, j);
+            System.out.println("Digite o nome do item");
+			String nome = in.nextLine();
+            System.out.println("Digite a descrição do item");
+            String descricao = in.nextLine();
+			System.out.println("Digite a categoria do item");
+            String categoria = in.nextLine();
+			System.out.println("Digite o preço do item");
+            float preco = Float.parseFloat(in.nextLine());
+			System.out.println("Digite o email do jogador proprietário do item");
+			String email = in.nextLine();
+            Jogador jogador = jogadorHandler.buscaPorEmail(email);
+            Item item = new Item(nome, descricao, categoria, preco, jogador);
             itemHandler.add(item);
-            System.out.println(item);
+            if(itemHandler.add(item)){
+				System.out.println("Item cadastrado com sucesso");
+			}else{
+				System.out.println("Item não cadastrado.");
+			}
         }
 
         DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
