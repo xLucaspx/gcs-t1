@@ -141,6 +141,21 @@ public class App {
 		}
 	}
 
+	private void buscaItensCategoria(){
+		String categoria;
+		List<Item> itensEncontrados = new ArrayList<Item>();
+		System.out.println("Digite a categoria do item o qual deseja buscar.");
+		categoria = in.nextLine();
+		itensEncontrados = itemHandler.buscaPorCategoria(categoria);
+		if(itensEncontrados.isEmpty()){
+			System.out.println("Não foi encontrado nenhum item com a categoria digitada.");
+		}else{
+			for(Item item : itensEncontrados){
+				System.out.println(item.toString());
+			}
+		}
+	}
+
 
 	private void mostraInformacoesSistema(){
 
