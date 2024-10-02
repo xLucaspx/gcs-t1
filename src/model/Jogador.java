@@ -79,7 +79,7 @@ public class Jogador {
 				recebidas.add(p);
 			}
 		}
-		return Collections.unmodifiableList(recebidas) ;
+		return Collections.unmodifiableList(recebidas);
 	}
 
 	public List<Proposta> getPropostasRealizadas() {

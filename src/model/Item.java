@@ -24,6 +24,7 @@ public class Item {
 		this.categoria = categoria;
 		this.preco = preco;
 		this.jogador = jogador;
+		jogador.addItem(this);
 	}
 
 	public Item(String nome, String descricao, String categoria, float preco, Jogador jogador) {
@@ -32,12 +33,17 @@ public class Item {
 		this.categoria = categoria;
 		this.preco = preco;
 		this.jogador = jogador;
+		jogador.addItem(this);
 
 		this.id = ++geradorId;
 	}
 
 	public int getId() {
 		return id;
+	}
+
+	public float getPreco() {
+		return preco;
 	}
 
 	public String getNome() {

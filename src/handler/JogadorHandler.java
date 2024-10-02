@@ -27,4 +27,8 @@ public class JogadorHandler {
 		}
 		return null;
 	}
+
+	public int size() {
+		return jogadores.size();
+	}
 }
