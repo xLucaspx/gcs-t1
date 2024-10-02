@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 import model.DadosProposta;
@@ -72,6 +74,7 @@ public class App {
 		insereDados();
 		listaItensJogador();
 		buscaItensId();
+		buscaItensNome();
 	}
 
 
@@ -104,6 +107,21 @@ public class App {
 			System.out.println("Não foi encontrado nenhum item com o id digitado.");
 		}else{
 			System.out.println(item.toString());
+		}
+	}
+
+	private void buscaItensNome(){
+		String nome;
+		List<Item> itensEncontrados = new ArrayList<Item>();
+		System.out.println("Digite o nome do item o qual deseja buscar.");
+		nome = in.nextLine();
+		itensEncontrados = itemHandler.buscaPorNome(nome);
+		if(itensEncontrados.isEmpty()){
+			System.out.println("Não foi encontrado nenhum item com o nome digitado.");
+		}else{
+			for(Item item : itensEncontrados){
+				System.out.println(item.toString());
+			}
 		}
 	}
 
