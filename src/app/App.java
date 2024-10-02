@@ -2,12 +2,6 @@ package app;
 
 import handler.ItemHandler;
 import handler.JogadorHandler;
-import model.DadosProposta;
-import model.Item;
-import model.Jogador;
-import model.Proposta;
-import model.StatusProposta;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,6 +10,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Scanner;
+import model.DadosProposta;
+import model.Item;
+import model.Jogador;
+import model.Proposta;
+import model.StatusProposta;
 
 /**
  * <p>Classe da aplicação.</p>
@@ -33,7 +32,7 @@ import java.util.Scanner;
  *   </li>
  * </ul>
  *
- * @author Lucas da Paz
+ * @author Gabriel Domingues e Lucas da Paz
  */
 public class App {
 	/**
@@ -71,7 +70,37 @@ public class App {
 	public void executar() {
 		System.out.println("TODO: implementar métodos!");
 		insereDados();
+		listaItensJogador();
 	}
+
+
+	private void listaItensJogador(){
+		String emailJogador;
+		System.out.println("Digite o email do jogador o qual deseja buscar");
+		emailJogador = in.nextLine();
+		Jogador jogador = jogadorHandler.buscaPorEmail(emailJogador);
+		if(jogador == null){
+			System.out.println("Não existe nenhum jogador cadastrado com esse email.");
+			return;
+		}
+		if(jogador.getItems().isEmpty()){
+			System.out.println("O jogador com o email" + jogador.getEmail() + "não possui itens.");
+		}else{
+			for(Item item : jogador.getItems()){
+				System.out.println(item.toString());
+			}
+		}
+
+	}
+
+	private void buscaItens(){
+
+	}
+
+	private void mostraInformacoesSistema(){
+
+	}
+
 
 	/**
 	 * Método que deve ler arquivo contendo os dados que serão inseridos no sistema,
