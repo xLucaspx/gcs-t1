@@ -75,6 +75,7 @@ public class App {
 		listaItensJogador();
 		buscaItensId();
 		buscaItensNome();
+		buscaItensDescricao();
 	}
 
 
@@ -118,6 +119,21 @@ public class App {
 		itensEncontrados = itemHandler.buscaPorNome(nome);
 		if(itensEncontrados.isEmpty()){
 			System.out.println("Não foi encontrado nenhum item com o nome digitado.");
+		}else{
+			for(Item item : itensEncontrados){
+				System.out.println(item.toString());
+			}
+		}
+	}
+
+	private void buscaItensDescricao(){
+		String descricao;
+		List<Item> itensEncontrados = new ArrayList<Item>();
+		System.out.println("Digite a descrição do item o qual deseja buscar.");
+		descricao = in.nextLine();
+		itensEncontrados = itemHandler.buscaPorDescricao(descricao);
+		if(itensEncontrados.isEmpty()){
+			System.out.println("Não foi encontrado nenhum item com a descrição digitada.");
 		}else{
 			for(Item item : itensEncontrados){
 				System.out.println(item.toString());
