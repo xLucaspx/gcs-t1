@@ -1,9 +1,8 @@
 package handler;
 
-import model.Jogador;
-
 import java.util.ArrayList;
 import java.util.List;
+import model.Jogador;
 
 public class JogadorHandler {
 	private final List<Jogador> jogadores;
@@ -26,5 +25,9 @@ public class JogadorHandler {
 			}
 		}
 		return null;
+	}
+
+	public int size() {
+		return jogadores.size();
 	}
 }

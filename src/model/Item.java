@@ -40,6 +40,10 @@ public class Item {
 		return id;
 	}
 
+	public float getPreco(){
+		return preco;
+	}
+
 	public String getNome() {
 		return nome;
 	}
