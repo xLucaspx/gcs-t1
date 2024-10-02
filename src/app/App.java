@@ -151,6 +151,14 @@ public class App {
         }
     }
 
+	/**
+	 * Método responsável por buscar itens pela descrição.
+	 * 
+	 * O método solicita ao usuário a descrição (ou parte da descrição) do item que deseja
+	 * buscar. Em seguida, realiza a busca no sistema utilizando a descrição fornecida. Caso
+	 * itens sejam encontrados, suas informações serão exibidas. Caso contrário, uma mensagem
+	 * informando que nenhum item foi encontrado é exibida.
+	 */
     private void buscaItensDescricao() {
         System.out.println("Digite a descrição do item o qual deseja buscar.");
         String descricao = in.nextLine();
