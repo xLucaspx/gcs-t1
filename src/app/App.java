@@ -7,6 +7,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -14,6 +16,7 @@ import model.DadosProposta;
 import model.Item;
 import model.Jogador;
 import model.Proposta;
+import model.StatusProposta;
 
 /**
  * <p>
@@ -222,75 +225,49 @@ public class App {
      * uso na aplicação.
      */
     private void insereDados() {
-        System.out.println("Digite quantos Jogadores você deseja cadastrar");
+        redirecionaEntrada(CAMINHO_ARQUIVO_SEEDER);
         int qtdJogadores = Integer.parseInt(in.nextLine());
         for (int i = 0; i < qtdJogadores; i++) {
-            System.out.println("Digite o nome do jogador");
-            String nome = in.nextLine();
-            System.out.println("Digite o email do jogador");
-            String email = in.nextLine();
-            System.out.println("Digite o pin do jogador");
-            String pin = in.nextLine();
-            Jogador j = new Jogador(nome, email, pin);
+            String[] playerInfo = in.nextLine().split(",");
+            Jogador j = new Jogador(playerInfo[0], playerInfo[1], playerInfo[2]);
             jogadorHandler.cadastra(j);
-            if (jogadorHandler.cadastra(j)) {
-                System.out.println("Jogador cadastrado com sucesso");
-            } else {
-                System.out.println("Jogador não cadastrado.");
-            }
         }
 
-        System.out.println("Digite quantos itens você deseja cadastrar");
         int qtdItens = Integer.parseInt(in.nextLine());
         for (int i = 0; i < qtdItens; i++) {
-            System.out.println("Digite o nome do item");
-            String nome = in.nextLine();
-            System.out.println("Digite a descrição do item");
-            String descricao = in.nextLine();
-            System.out.println("Digite a categoria do item");
-            String categoria = in.nextLine();
-            System.out.println("Digite o preço do item");
-            float preco = Float.parseFloat(in.nextLine());
-            System.out.println("Digite o email do jogador proprietário do item");
-            String email = in.nextLine();
-            Jogador jogador = jogadorHandler.buscaPorEmail(email);
-            Item item = new Item(nome, descricao, categoria, preco, jogador);
+            String[] itemInfo = in.nextLine().split(",");
+            int id = Integer.parseInt(itemInfo[0]);
+            String nome = itemInfo[1];
+            String descricao = itemInfo[2];
+            String categoria = itemInfo[3];
+            float preco = Float.parseFloat(itemInfo[4]);
+            Jogador j = jogadorHandler.buscaPorEmail(itemInfo[5]);
+            Item item = new Item(id, nome, descricao, categoria, preco, j);
             itemHandler.add(item);
-            if (itemHandler.add(item)) {
-                System.out.println("Item cadastrado com sucesso");
-            } else {
-                System.out.println("Item não cadastrado.");
-            }
         }
 
-        System.out.println("Digite quantas propostas você deseja cadastrar");
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         int qtdPropostas = Integer.parseInt(in.nextLine());
         for (int i = 0; i < qtdPropostas; i++) {
-            System.out.println("Digite o email do jogador solicitante");
-            String emailSolicitante = in.nextLine();
-            Jogador solicitante = jogadorHandler.buscaPorEmail(emailSolicitante);
+            String[] propostaInfo = in.nextLine().split(",");
+            Jogador solicitante = jogadorHandler.buscaPorEmail(propostaInfo[0]);
+            Item itemSolicitante = itemHandler.buscaPorId(Integer.parseInt(propostaInfo[1]));
 
-            System.out.println("Digite o ID do item oferecido pelo solicitante");
-            int idItemSolicitante = Integer.parseInt(in.nextLine());
-            Item itemSolicitante = itemHandler.buscaPorId(idItemSolicitante);
+            Jogador solicitado = jogadorHandler.buscaPorEmail(propostaInfo[2]);
+            Item itemSolicitado = itemHandler.buscaPorId(Integer.parseInt(propostaInfo[3]));
 
-            System.out.println("Digite o email do jogador solicitado");
-            String emailSolicitado = in.nextLine();
-            Jogador solicitado = jogadorHandler.buscaPorEmail(emailSolicitado);
+            LocalDateTime data = LocalDateTime.parse(propostaInfo[4], df);
+            StatusProposta status = StatusProposta.valueOf(propostaInfo[5]);
 
-            System.out.println("Digite o ID do item desejado pelo solicitante");
-            int idItemSolicitado = Integer.parseInt(in.nextLine());
-            Item itemSolicitado = itemHandler.buscaPorId(idItemSolicitado);
-
-            Proposta proposta = new Proposta(new DadosProposta(solicitante, itemSolicitante),
-                    new DadosProposta(solicitado, itemSolicitado));
-
-            if (propostaHandler.cadastra(proposta)) {
-                System.out.println("Proposta cadastrada com sucesso.");
-            } else {
-                System.out.println("Proposta não cadastrada.");
-            }
+            Proposta p = new Proposta(new DadosProposta(solicitante, itemSolicitante),
+                    new DadosProposta(solicitado, itemSolicitado),
+                    data,
+                    status
+            );
+            propostaHandler.cadastra(p);
         }
+
+        restauraEntrada();
     }
 
     /**
