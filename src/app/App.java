@@ -111,6 +111,14 @@ public class App {
 
     }
 
+	/**
+ 	* Método responsável por buscar um item pelo seu ID.
+ 	* 
+ 	* O método solicita ao usuário o ID do item que deseja buscar. Em seguida,
+ 	* realiza a busca no sistema utilizando o ID fornecido. Caso o item seja encontrado,
+ 	* suas informações serão exibidas. Caso contrário, uma mensagem informando que nenhum
+ 	* item foi encontrado é exibida.
+ 	*/
     private void buscaItensId() {
         System.out.println("Digite o id do item o qual deseja buscar.");
         int id = Integer.parseInt(in.nextLine());
