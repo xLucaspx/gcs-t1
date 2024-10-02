@@ -168,8 +168,9 @@ public class App {
 		int totalItens = itemHandler.size();
 		int propostasFinalizadas = propostaHandler.getNumeroPrpostasFinalizadas();
 		int propostasEmAndamento = propostaHandler.getNumeroPropostasAbertas();
+		float precoTotal = itemHandler.precoTotal();
 		System.out.println("O total de usuários é :"+ totalUsarios);
-		System.out.println("O total de itens é: "+ totalItens + "e a soma total de seus preços"); 
+		System.out.println("O total de itens é: "+ totalItens + "e a soma total de seus preços é: " + precoTotal); 
 		System.out.println("A quantidade de propostas de trocas aceitas/declinadas é: "+ propostasFinalizadas);
 		System.out.println("A quantidade total de propostas aguardando resposta é: " + propostasEmAndamento);
 

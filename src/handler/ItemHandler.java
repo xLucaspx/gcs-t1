@@ -131,4 +131,11 @@ public class ItemHandler {
 		return itens.size();
 	}
 
+    public float precoTotal(){
+        float total = 0;
+        for(Item item : itens){
+            total = total + item.getPreco();
+        }
+        return total;
+    }
 }
