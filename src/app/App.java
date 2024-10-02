@@ -193,6 +193,15 @@ public class App {
         }
     }
 
+	/**
+	 * Método responsável por exibir informações gerais do sistema.
+	 * 
+	 * Este método coleta e exibe no console diversas informações importantes sobre o sistema:
+	 * - Total de usuários cadastrados.
+	 * - Total de itens cadastrados e a soma de seus preços.
+	 * - Quantidade de propostas de troca aceitas ou declinadas.
+	 * - Quantidade de propostas de troca que estão aguardando uma resposta.
+	 */
     private void mostraInformacoesSistema() {
         int totalUsuarios = jogadorHandler.size();
         int totalItens = itemHandler.size();
