@@ -130,6 +130,14 @@ public class App {
         }
     }
 
+	/**
+ 	* Método responsável por buscar itens pelo nome.
+	 * 
+ 	* O método solicita ao usuário o nome (ou parte do nome) do item que deseja buscar.
+ 	* Em seguida, realiza a busca no sistema utilizando o nome fornecido. Caso itens 
+ 	* sejam encontrados, suas informações serão exibidas. Caso contrário, uma mensagem
+ 	* informando que nenhum item foi encontrado é exibida.
+	 */
     private void buscaItensNome() {
         System.out.println("Digite o nome do item o qual deseja buscar.");
         String nome = in.nextLine();
