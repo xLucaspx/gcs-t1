@@ -71,6 +71,7 @@ public class App {
 		System.out.println("TODO: implementar métodos!");
 		insereDados();
 		listaItensJogador();
+		buscaItensId();
 	}
 
 
@@ -93,9 +94,19 @@ public class App {
 
 	}
 
-	private void buscaItens(){
-
+	private void buscaItensId(){
+		int id;
+		System.out.println("Digite o id do item o qual deseja buscar.");
+		id = Integer.parseInt(in.nextLine());
+		Item item;
+		item = itemHandler.buscaPorId(id);
+		if(item == null){
+			System.out.println("Não foi encontrado nenhum item com o id digitado.");
+		}else{
+			System.out.println(item.toString());
+		}
 	}
+
 
 	private void mostraInformacoesSistema(){
 
