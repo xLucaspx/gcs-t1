@@ -172,6 +172,14 @@ public class App {
         }
     }
 
+	/**
+	 * Método responsável por buscar itens pela categoria.
+	 * 
+	 * O método solicita ao usuário a categoria do item que deseja buscar. Em seguida,
+	 * realiza a busca no sistema utilizando a categoria fornecida. Caso itens sejam
+	 * encontrados, suas informações serão exibidas. Caso contrário, uma mensagem
+	 * informando que nenhum item foi encontrado é exibida.
+	 */
     private void buscaItensCategoria() {
         System.out.println("Digite a categoria do item o qual deseja buscar.");
         String categoria = in.nextLine();
