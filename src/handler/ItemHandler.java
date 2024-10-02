@@ -127,4 +127,8 @@ public class ItemHandler {
         }
         return Collections.unmodifiableList(itensEncontrados);
     }
+    public int size() {
+		return itens.size();
+	}
+
 }

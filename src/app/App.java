@@ -2,10 +2,12 @@ package app;
 
 import handler.ItemHandler;
 import handler.JogadorHandler;
+import handler.PropostaHandler;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.SocketTimeoutException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -57,6 +59,7 @@ public class App {
 
 	private final JogadorHandler jogadorHandler;
 	private final ItemHandler itemHandler;
+	private final PropostaHandler propostaHandler; 
 
 	private final PrintStream out = System.out;
 	private Scanner in;
@@ -64,6 +67,7 @@ public class App {
 	public App() {
 		jogadorHandler = new JogadorHandler();
 		itemHandler = new ItemHandler();
+		propostaHandler = new PropostaHandler();
 	}
 
 	/**
@@ -76,6 +80,8 @@ public class App {
 		buscaItensId();
 		buscaItensNome();
 		buscaItensDescricao();
+		buscaItensCategoria();
+		mostraInformacoesSistema();
 	}
 
 
@@ -158,8 +164,18 @@ public class App {
 
 
 	private void mostraInformacoesSistema(){
+		int totalUsarios = jogadorHandler.size();
+		int totalItens = itemHandler.size();
+		int propostasFinalizadas = propostaHandler.getNumeroPrpostasFinalizadas();
+		int propostasEmAndamento = propostaHandler.getNumeroPropostasAbertas();
+		System.out.println("O total de usuários é :"+ totalUsarios);
+		System.out.println("O total de itens é: "+ totalItens + "e a soma total de seus preços"); 
+		System.out.println("A quantidade de propostas de trocas aceitas/declinadas é: "+ propostasFinalizadas);
+		System.out.println("A quantidade total de propostas aguardando resposta é: " + propostasEmAndamento);
 
 	}
+
+
 
 
 	/**
