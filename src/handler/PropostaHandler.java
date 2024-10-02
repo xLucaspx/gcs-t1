@@ -12,7 +12,7 @@ public class PropostaHandler {
         this.propostas = new ArrayList<Proposta>();
     }
 
-    public int getNumeroPrpostasFinalizadas(){
+    public int getNumeroPropostasFinalizadas(){
         return 0;
     }
     public int getNumeroPropostasAbertas(){
