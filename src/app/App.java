@@ -188,6 +188,9 @@ public class App {
 		}
 	}
 
+	/**
+	 * <p>Método para retornar/printar todas as propostas recebidas do jogador logado </p>
+	 */
 	private void listaPropostasRecebidas(){
 		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas();
 		for (int i = 0; i < recebidas.size(); i++) {
@@ -195,6 +198,9 @@ public class App {
 		}
 	}
 
+	/**
+	 * <p>Método para retornar/printar todas as propostas realizadas do jogador logado </p>
+	 */
 	private void listaPropostasRealizadas(){
 		List<Proposta> realizadas = jogadorLogado.getPropostasRealizadas();
 		for (int i = 0; i < realizadas.size(); i++) {
