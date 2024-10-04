@@ -195,6 +195,13 @@ public class App {
 		}
 	}
 
+	private void listaPropostasRealizadas(){
+		List<Proposta> realizadas = jogadorLogado.getPropostasRealizadas();
+		for (int i = 0; i < realizadas.size(); i++) {
+			System.out.println(realizadas.get(i));
+		}
+	}
+
 	/**
 	 * <p>Método responsável por exibir informações gerais do sistema.</p>
 	 * <p>Este método coleta e exibe no console diversas informações importantes
