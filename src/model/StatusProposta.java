@@ -14,10 +14,19 @@ public enum StatusProposta {
 		this.descricao = status;
 	}
 
+	/**
+	 * Pega o codigo do status atual
+	 * @return o codigo do atual da proposta
+	 */
 	public int getCodigo() {
 		return codigo;
 	}
 
+	/**
+	 * Pega a descricao do status atual
+	 * @return a descrição atual da proposta
+	 */
+	public String getDescricao() {return descricao;}
 	@Override
 	public String toString() {
 		return descricao;
