@@ -60,7 +60,7 @@ public class Proposta {
 	 * @return o status atual em que esta a proposta
 	 */
 	public String getStatus(){
-		return this.status.getDescricao();
+		return this.status.toString();
 	}
 
 	/**

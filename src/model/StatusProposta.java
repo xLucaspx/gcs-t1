@@ -21,12 +21,6 @@ public enum StatusProposta {
 	public int getCodigo() {
 		return codigo;
 	}
-
-	/**
-	 * Pega a descricao do status atual
-	 * @return a descrição atual da proposta
-	 */
-	public String getDescricao() {return descricao;}
 	@Override
 	public String toString() {
 		return descricao;
