@@ -13,8 +13,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -248,9 +250,9 @@ public class App {
 			StatusProposta status = StatusProposta.valueOf(propostaInfo[5]);
 
 			Proposta p = new Proposta(new DadosProposta(solicitante, itemSolicitante),
-				new DadosProposta(solicitado, itemSolicitado),
-				data,
-				status
+					new DadosProposta(solicitado, itemSolicitado),
+					data,
+					status
 			);
 			propostaHandler.cadastra(p);
 		}
@@ -283,4 +285,15 @@ public class App {
 	private void restauraEntrada() {
 		in = new Scanner(System.in);
 	}
+
+	private void abreProposta(DadosProposta solicitante, DadosProposta solicitado){
+		List<Proposta> propostasAbertas = new ArrayList<>();
+		Proposta novaProposta = new Proposta(solicitante, solicitado);
+		propostasAbertas.add(novaProposta);
+
+		System.out.println("A nova proposta com o jogador "+ novaProposta.getSolicitado()+" foi aberta com sucesso!");
+		System.out.println("O jogador "+ novaProposta.getSolicitante()+ " enviou uma nova proposta de troca!");
+	}
+
 }
+
