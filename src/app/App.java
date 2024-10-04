@@ -31,7 +31,7 @@ import java.util.Scanner;
  * 	<li>Toda entrada e saida de dados deve ocorrer apenas na classe <code>App</code>.</li>
  * </ul>
  *
- * @author Gabriel Domingues e Lucas da Paz
+ * @author Gabriel Domingues, Gabriel Paim, Lucas da Paz
  */
 public class App {
 
@@ -68,16 +68,55 @@ public class App {
 
 	/**
 	 * Método que executa a aplicação.
+	 *
 	 */
+
 	public void executar() {
 		System.out.println("TODO: implementar métodos!");
+
 		insereDados();
-		listaItensJogador();
-		buscaItensId();
-		buscaItensNome();
-		buscaItensDescricao();
-		buscaItensCategoria();
-		mostraInformacoesSistema();
+
+		int option = -1;
+
+		while(option != 0){
+			menu();
+			option = Integer.parseInt(in.nextLine());
+			switch(option){
+				case 1:
+					cadastro();
+					break;
+				case 2:
+					login();
+					break;
+				case 3:
+					listaItensJogador();
+					break;
+				case 4:
+					listaTodosItens();
+					break;
+				case 5:
+					buscaItens();
+					break;
+				case 6:
+					abrePropostaTroca();
+					break;
+				case 7:
+					listaPropostasRealizadas();
+					break;
+				case 8:
+					listaPropostasRecebidas();
+					break;
+				case 9:
+					handlePropostaRecebida();
+					break;
+				case 10:
+					mostraInformacoesSistema();
+					break;
+				default:
+					System.out.println("opção invalida!");
+					break;
+			}
+		}
 	}
 
 	/**
@@ -105,12 +144,11 @@ public class App {
 	}
 
 	/**
-	 * Método responsável por buscar um item pelo seu ID.
-	 * <p>
-	 * O método solicita ao usuário o ID do item que deseja buscar. Em seguida,
+	 * <p>Método responsável por buscar um item pelo seu ID.</p>
+	 * <p>O método solicita ao usuário o ID do item que deseja buscar. Em seguida,
 	 * realiza a busca no sistema utilizando o ID fornecido. Caso o item seja
 	 * encontrado, suas informações serão exibidas. Caso contrário, uma mensagem
-	 * informando que nenhum item foi encontrado é exibida.
+	 * informando que nenhum item foi encontrado é exibida.</p>
 	 */
 	private void buscaItensId() {
 		System.out.println("Digite o id do item o qual deseja buscar");
@@ -123,6 +161,24 @@ public class App {
 		System.out.println(item);
 	}
 
+	private void menu(){
+		System.out.println(
+				"""
+				====================================================
+				 1.		Cadastro
+				 2.		Login
+				 3.		Listar meus itens
+				 4.		Listar todos os itens
+				 5.		Buscar itens
+				 6.		Fazer proposta
+				 7.		Propostas realizadas
+				 8.		Propostas recebidas
+				 9.		Informações do sistema
+				10.		Insere dados
+				====================================================
+				"""
+		);
+	}
 	/**
 	 * <p>Método responsável por buscar itens pelo nome.</p>
 	 * <p>O método solicita ao usuário o nome (ou parte do nome) do item que deseja
