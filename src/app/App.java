@@ -52,7 +52,6 @@ public class App {
 	/**
 	 * Método que executa a aplicação.
 	 *
-	 * 	@author Gabriel Paim
 	 */
 
 	public void executar() {
@@ -101,9 +100,7 @@ public class App {
 			}
 		}
 	}
-	/*
-	* @author Gabriel Paim
-	*/
+
 	private void menu(){
 		System.out.println(
 				"""
