@@ -25,7 +25,7 @@ import java.util.Scanner;
  *   </li>
  * </ul>
  *
- * @author Lucas da Paz
+ * @author Gabriel Paim, Lucas da Paz
  */
 public class App {
 	/**
@@ -51,7 +51,10 @@ public class App {
 
 	/**
 	 * Método que executa a aplicação.
+	 *
+	 * 	@author Gabriel Paim
 	 */
+
 	public void executar() {
 		System.out.println("TODO: implementar métodos!");
 
@@ -63,31 +66,44 @@ public class App {
 			option = Integer.parseInt(in.nextLine());
 			switch(option){
 				case 1:
+					cadastro();
 					break;
 				case 2:
+					login();
 					break;
 				case 3:
+					listaItensJogador();
 					break;
 				case 4:
+					listaTodosItens();
 					break;
 				case 5:
+					buscaItens();
 					break;
 				case 6:
+					abrePropostaTroca();
 					break;
 				case 7:
+					listaPropostasRealizadas();
 					break;
 				case 8:
+					listaPropostasRecebidas();
 					break;
 				case 9:
+					handlePropostaRecebida();
 					break;
 				case 10:
+					mostraInformacoesSistema();
 					break;
 				default:
+					System.out.println("opção invalida!");
 					break;
 			}
 		}
 	}
-
+	/*
+	* @author Gabriel Paim
+	*/
 	private void menu(){
 		System.out.println(
 				"""
