@@ -54,9 +54,58 @@ public class App {
 	 */
 	public void executar() {
 		System.out.println("TODO: implementar métodos!");
+
 		insereDados();
+		int option = -1;
+
+		while(option != 0){
+			menu();
+			option = Integer.parseInt(in.nextLine());
+			switch(option){
+				case 1:
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+				case 6:
+					break;
+				case 7:
+					break;
+				case 8:
+					break;
+				case 9:
+					break;
+				case 10:
+					break;
+				default:
+					break;
+			}
+		}
 	}
 
+	private void menu(){
+		System.out.println(
+				"""
+				====================================================
+				 1.		Cadastro
+				 2.		Login
+				 3.		Listar meus itens
+				 4.		Listar todos os itens
+				 5.		Buscar itens
+				 6.		Fazer proposta
+				 7.		Propostas realizadas
+				 8.		Propostas recebidas
+				 9.		Informações do sistema
+				10.		Insere dados
+				====================================================
+				"""
+		);
+	}
 	/**
 	 * Método que deve ler arquivo contendo os dados que serão inseridos no sistema,
 	 * instanciar os objetos e armazená-los corretamente para posterior uso na aplicação.
