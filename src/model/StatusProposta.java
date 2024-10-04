@@ -4,22 +4,25 @@ package model;
  * @author Rodrigo Miotto Slongo
  */
 public enum StatusProposta {
-	ABERTA(1, "Em processamento"), CONFIRMADA(2, "Realizado com Sucesso"), RECUSADA(3, "Proposta Recusada");
+	ABERTA(1, "Em processamento"), CONFIRMADA(2, "Proposta aceita"), RECUSADA(3, "Proposta recusada");
 
 	private final int codigo;
-	private final String status;
+	private final String descricao;
 
 	StatusProposta(int codigo, String status) {
 		this.codigo = codigo;
-		this.status = status;
+		this.descricao = status;
 	}
 
+	/**
+	 * Pega o codigo do status atual
+	 * @return o codigo do atual da proposta
+	 */
 	public int getCodigo() {
 		return codigo;
 	}
-
 	@Override
 	public String toString() {
-		return status;
+		return descricao;
 	}
 }

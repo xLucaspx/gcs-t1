@@ -7,16 +7,23 @@ import java.time.format.DateTimeFormatter;
  * @author Rodrigo Miotto Slongo
  */
 public class Proposta {
-	private DadosProposta solicitante;
-	private DadosProposta solicitado;
-	private LocalDateTime data;
+	private final DadosProposta solicitante;
+	private final DadosProposta solicitado;
+	private final LocalDateTime data;
 	private StatusProposta status;
 
-	public Proposta(DadosProposta solicitado, DadosProposta solicitante) {
-		this.solicitado = solicitado;
+	public Proposta(DadosProposta solicitante, DadosProposta solicitado) {
 		this.solicitante = solicitante;
+		this.solicitado = solicitado;
 		this.data = LocalDateTime.now();
 		this.status = StatusProposta.ABERTA;
+	}
+
+	public Proposta(DadosProposta solicitante, DadosProposta solicitado, LocalDateTime data, StatusProposta status) {
+		this.solicitante = solicitante;
+		this.solicitado = solicitado;
+		this.data = data;
+		this.status = status;
 	}
 
 	/**
@@ -49,9 +56,18 @@ public class Proposta {
 	}
 
 	/**
+	 * Pega o status atual da proposta
+	 * @return o status atual em que esta a proposta
+	 */
+	public StatusProposta getStatus(){
+		return this.status;
+	}
+
+	/**
 	 * @return Os dados da proposta em formato de String.
 	 */
-	public String mostraProposta() {
+	@Override
+	public String toString() {
 		return """
 			Data: %s
 			Status: %s

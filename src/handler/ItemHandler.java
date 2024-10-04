@@ -7,13 +7,14 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * <p>Classe responsável por gerenciar objetos do tipo <code>Item</code>.
- * Permite adicionar, remover e buscar itens com base em diferentes critérios,
- * como ID, nome, descrição e categoria.</p>
- * <p>Esta classe encapsula uma lista e fornece métodos para operar sobre ela,
- * garantindo que a mesma possa ser manipulada de maneira controlada e segura.</p>
+ * <p>A classe ItemHandler é responsável por gerenciar uma lista de objetos do tipo
+ * Item. Ela permite adicionar, remover e buscar itens na lista com base em
+ * diferentes critérios, como ID, nome, descrição e categoria.</p>
+ * <p>Esta classe encapsula uma lista de itens e fornece métodos para operar sobre
+ * ela, garantindo que a lista possa ser manipulada de maneira controlada e
+ * segura.</p>
  *
- * @author LucaWB
+ * @author Gabriel Domingues, LucaWB
  */
 public class ItemHandler {
 
@@ -21,52 +22,51 @@ public class ItemHandler {
 	 * A lista de itens armazenada por esta classe. Todos os objetos do tipo
 	 * Item são armazenados nesta lista.
 	 */
-	private List<Item> lista;
+	private final List<Item> itens;
 
 	/**
 	 * Construtor padrão que inicializa uma nova lista de itens.
 	 */
 	public ItemHandler() {
-		this.lista = new ArrayList<>();
+		this.itens = new ArrayList<>();
 	}
 
 	/**
 	 * Adiciona um item à lista, se o item não for nulo.
 	 *
 	 * @param i O item a ser adicionado.
-	 * @return <code>true</code> se o item foi adicionado com sucesso,
-	 * <code>false</code> caso contrário.
+	 * @return true se o item foi adicionado com sucesso, false se o item é
+	 * nulo.
 	 */
 	public boolean add(Item i) {
 		if (i == null) {
 			return false;
 		}
-		return lista.add(i);
+		return itens.add(i);
 	}
 
 	/**
 	 * Remove um item da lista, se o item não for nulo.
 	 *
 	 * @param i O item a ser removido.
-	 * @return <code>true</code> se o item foi removido com sucesso,
-	 * <code>false</code> caso contrário.
+	 * @return true se o item foi removido com sucesso, false se o item é nulo.
 	 */
 	public boolean remove(Item i) {
 		if (i == null) {
 			return false;
 		}
-		return lista.remove(i);
+		return itens.remove(i);
 	}
 
 	/**
 	 * Busca um item na lista com base no ID fornecido.
 	 *
 	 * @param id O ID do item a ser buscado.
-	 * @return O item correspondente ao ID fornecido, ou <code>null</code>
-	 * se não for encontrado.
+	 * @return O item correspondente ao ID fornecido, ou null se não for
+	 * encontrado.
 	 */
 	public Item buscaPorId(int id) {
-		for (Item i : lista) {
+		for (Item i : itens) {
 			if (i.getId() == id) {
 				return i;
 			}
@@ -75,19 +75,21 @@ public class ItemHandler {
 	}
 
 	/**
-	 * Busca um item na lista com base no nome fornecido.
+	 * Busca todos os itens na lista que correspondem ao nome fornecido.
 	 *
 	 * @param nome O nome do item a ser buscado.
-	 * @return O item correspondente ao nome fornecido, ou <code>null</code>
-	 * se não for encontrado.
+	 * @return Lista de itens contendo o nome fornecido. Se nenhum item for
+	 * encontrado, retorna uma lista vazia.
 	 */
-	public Item buscaPorNome(String nome) {
-		for (Item i : lista) {
-			if (i.getNome().equals(nome)) {
-				return i;
+	public List<Item> buscaPorNome(String nome) {
+		List<Item> itensEncontrados = new ArrayList<>();
+		nome = nome.toLowerCase();
+		for (Item i : itens) {
+			if (i.getNome().toLowerCase().contains(nome)) {
+				itensEncontrados.add(i);
 			}
 		}
-		return null;
+		return Collections.unmodifiableList(itensEncontrados);
 	}
 
 	/**
@@ -99,8 +101,9 @@ public class ItemHandler {
 	 */
 	public List<Item> buscaPorDescricao(String descricao) {
 		List<Item> itensEncontrados = new ArrayList<>();
-		for (Item i : lista) {
-			if (i.getDescricao().equals(descricao)) {
+		descricao = descricao.toLowerCase();
+		for (Item i : itens) {
+			if (i.getDescricao().toLowerCase().contains(descricao)) {
 				itensEncontrados.add(i);
 			}
 		}
@@ -116,11 +119,24 @@ public class ItemHandler {
 	 */
 	public List<Item> buscaPorCategoria(String categoria) {
 		List<Item> itensEncontrados = new ArrayList<>();
-		for (Item i : lista) {
-			if (i.getCategoria().equals(categoria)) {
+		categoria = categoria.toLowerCase();
+		for (Item i : itens) {
+			if (i.getCategoria().toLowerCase().contains(categoria)) {
 				itensEncontrados.add(i);
 			}
 		}
 		return Collections.unmodifiableList(itensEncontrados);
+	}
+
+	public int size() {
+		return itens.size();
+	}
+
+	public float precoTotal() {
+		float total = 0;
+		for (Item item : itens) {
+			total = total + item.getPreco();
+		}
+		return total;
 	}
 }

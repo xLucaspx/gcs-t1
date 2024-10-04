@@ -13,8 +13,9 @@ public class Item {
 	private String descricao;
 	private String categoria;
 	private float preco;
+	private Jogador jogador;
 
-	public Item(int id, String nome, String descricao, String categoria, float preco) {
+	public Item(int id, String nome, String descricao, String categoria, float preco, Jogador jogador) {
 		this.id = id;
 		if (geradorId < id) geradorId = id;
 
@@ -22,19 +23,27 @@ public class Item {
 		this.descricao = descricao;
 		this.categoria = categoria;
 		this.preco = preco;
+		this.jogador = jogador;
+		jogador.addItem(this);
 	}
 
-	public Item(String nome, String descricao, String categoria, float preco) {
+	public Item(String nome, String descricao, String categoria, float preco, Jogador jogador) {
 		this.nome = nome;
 		this.descricao = descricao;
 		this.categoria = categoria;
 		this.preco = preco;
+		this.jogador = jogador;
+		jogador.addItem(this);
 
 		this.id = ++geradorId;
 	}
 
 	public int getId() {
 		return id;
+	}
+
+	public float getPreco() {
+		return preco;
 	}
 
 	public String getNome() {
@@ -47,6 +56,13 @@ public class Item {
 
 	public String getCategoria() {
 		return categoria;
+	}
+
+	/**
+	 * @return O <code>Jogador</code> dono do item.
+	 */
+	public Jogador getJogador() {
+		return jogador;
 	}
 
 	/**
