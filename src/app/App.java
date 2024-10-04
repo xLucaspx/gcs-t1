@@ -292,6 +292,21 @@ public class App {
 		System.out.println("A nova proposta com o jogador "+ novaProposta.getSolicitado()+" foi aberta com sucesso!");
 		System.out.println("O jogador "+ novaProposta.getSolicitante()+ " enviou uma nova proposta de troca!");
 	}
+	private void propostaHandler(Proposta p){
+		int count =0;
+		boolean atualizaProposta = false;
+		for(int i =0; i< propostaHandler.getPropostas().size(); i++){
+			Proposta propostaExistente = propostaHandler.getPropostas().get(i);
+			if(propostaExistente.getSolicitado().equals(p.getSolicitado())){
+				propostaHandler.getPropostas().set(i,p);
+				atualizaProposta = true;
+				return;
+			}
+		}
+		propostaHandler.getPropostas().add(p);
+
+
+	}
 
 }
 
