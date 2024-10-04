@@ -1,12 +1,11 @@
 package handler;
 
-import model.Proposta;
-
 import java.util.ArrayList;
 import java.util.List;
+import model.Proposta;
 
 /**
- * @author Gabriel Domingues
+ * @author Gabriel Domingues, Luca WB.
  */
 public class PropostaHandler {
 
@@ -17,12 +16,22 @@ public class PropostaHandler {
 	}
 
 	public int getNumeroPropostasFinalizadas() {
-		// TODO: implementar método
-		return 0;
+		int retorno = 0;
+		for (Proposta p : propostas) {
+			if (p.getStatus().equals("CONFIRMADA") || p.getStatus().equals("RECUSADA")) {
+				retorno++;
+			}
+		}
+		return retorno;
 	}
 
 	public int getNumeroPropostasAbertas() {
-		// TODO: implementar método
+		int retorno = 0;
+		for (Proposta p : propostas) {
+			if (p.getStatus().equals("ABERTA")) {
+				retorno++;
+			}
+		}
 		return 0;
 	}
 
