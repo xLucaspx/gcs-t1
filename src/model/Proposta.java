@@ -56,6 +56,14 @@ public class Proposta {
 	}
 
 	/**
+	 * Pega o status atual da proposta
+	 * @return o status atual em que esta a proposta
+	 */
+	public StatusProposta getStatus(){
+		return this.status;
+	}
+
+	/**
 	 * @return Os dados da proposta em formato de String.
 	 */
 	@Override
