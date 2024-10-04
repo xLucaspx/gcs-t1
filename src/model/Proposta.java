@@ -59,8 +59,8 @@ public class Proposta {
 	 * Pega o status atual da proposta
 	 * @return o status atual em que esta a proposta
 	 */
-	public String getStatus(){
-		return this.status.toString();
+	public StatusProposta getStatus(){
+		return this.status;
 	}
 
 	/**
