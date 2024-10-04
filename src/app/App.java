@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -56,6 +57,7 @@ public class App {
 	private final JogadorHandler jogadorHandler;
 	private final ItemHandler itemHandler;
 	private final PropostaHandler propostaHandler;
+	private Jogador jogadorLogado;
 
 	private final PrintStream out = System.out;
 	private Scanner in;
@@ -183,6 +185,13 @@ public class App {
 		}
 		for (Item item : itensEncontrados) {
 			System.out.println(item);
+		}
+	}
+
+	private void listaPropostasRecebidas(){
+		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas();
+		for (int i = 0; i < recebidas.size(); i++) {
+			System.out.println(recebidas.get(i));
 		}
 	}
 
