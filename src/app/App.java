@@ -58,7 +58,6 @@ public class App {
 	private final JogadorHandler jogadorHandler;
 	private final ItemHandler itemHandler;
 	private final PropostaHandler propostaHandler;
-
 	private final PrintStream out = System.out;
 	private Scanner in;
 
@@ -287,9 +286,8 @@ public class App {
 	}
 
 	private void abreProposta(DadosProposta solicitante, DadosProposta solicitado){
-		List<Proposta> propostasAbertas = new ArrayList<>();
 		Proposta novaProposta = new Proposta(solicitante, solicitado);
-		propostasAbertas.add(novaProposta);
+		propostaHandler.getPropostas().add(novaProposta);
 
 		System.out.println("A nova proposta com o jogador "+ novaProposta.getSolicitado()+" foi aberta com sucesso!");
 		System.out.println("O jogador "+ novaProposta.getSolicitante()+ " enviou uma nova proposta de troca!");

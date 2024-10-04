@@ -32,4 +32,7 @@ public class PropostaHandler {
 		}
 		return propostas.add(p);
 	}
+	public List<Proposta> getPropostas() {
+		return propostas;
+	}
 }
