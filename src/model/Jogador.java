@@ -2,7 +2,9 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * O sistema deverá permitir que jogadores se inscrevam, cadastrem itens de jogos (físicos ou virtuais),
@@ -22,19 +24,23 @@ public class Jogador {
 	private String nome;
 	private String email;
 	private String pin;
-	private List<Item> itens;
+	private Map<Integer, Item> itens;
 	private List<Proposta> propostas;
 
 	public Jogador(String nome, String email, String pin) {
 		this.nome = nome;
 		this.email = email;
 		setPin(pin);
-		this.itens = new ArrayList<>();
+		this.itens = new HashMap<>();
 		this.propostas = new ArrayList<>();
 	}
 
+	public boolean verificaPin(String pinDigitado) {
+		return pinDigitado.equals(this.pin);
+	}
+
 	/**
-	 * Verificação para o pin apenas ser criado com 6 digitos numéricos
+	 * Verificação para o pin apenas ser criado com 6 dígitos numéricos
 	 *
 	 * @param pin a ser verificado
 	 */
@@ -46,30 +52,30 @@ public class Jogador {
 	}
 
 	/**
-	 * Adicionar itens na lista de itens
+	 * Adiciona um item no <em>map</em> de itens.
 	 *
-	 * @param item a ser adicionado
+	 * @param item O <code>Item</code> a ser adicionado.
 	 */
-	public boolean addItem(Item item) { // n contem esse parâmetro no diagrama
-		return itens.add(item);
+	public void addItem(Item item) {
+		itens.put(item.getId(), item);
 	}
 
 	/**
-	 * Remover item da lista de itens
+	 * Remove um item do <em>map</em> de itens.
 	 *
-	 * @param item a ser removido
+	 * @param item O <code>Item</code> a ser removido.
 	 */
-	public boolean removeItem(Item item) { // n contem esse parâmetro no diagrama
-		return itens.remove(item);
+	public void removeItem(Item item) {
+		itens.remove(item.getId());
 	}
 
 	/**
-	 * Retorna a lista de itens
+	 * Retorna a lista de itens do jogador.
 	 *
-	 * @return a lista com todos os itens
+	 * @return Lista com todos os itens.
 	 */
 	public List<Item> getItems() {
-		return Collections.unmodifiableList(itens);
+		return List.copyOf(itens.values());
 	}
 
 	public List<Proposta> getPropostasRecebidas() {
