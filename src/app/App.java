@@ -156,6 +156,24 @@ public class App {
 		in.nextLine();
 	}
 
+	/**
+	 * Confirma a opção de encerrar do usuário e, caso afirmativa,
+	 * define que o programa deve parar de executar.
+	 */
+	private void encerrar() {
+		System.out.print("Tem certeza que deseja encerrar o sistema? Digite S para confirmar... ");
+		String input = in.nextLine();
+
+		if (!input.equalsIgnoreCase("S")) {
+			System.out.println("Operação cancelada!");
+			return;
+		}
+
+		System.out.println("\nSistema encerrado!\n");
+		jogadorLogado = null;
+		run = false;
+	}
+
 
 
 	/**
