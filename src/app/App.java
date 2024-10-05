@@ -62,6 +62,7 @@ public class App {
 	private Scanner in;
   
   private Jogador jogadorLogado;
+	private boolean run;
 
 	public App() {
 		jogadorHandler = new JogadorHandler();
@@ -121,6 +122,14 @@ public class App {
 			}
 		}
 	}
+
+	/**
+	 * Imprime o cabeçalho do sistema.
+	 */
+	private void cabecalho() {
+		System.out.println("\n---Sistema de Gerenciamento de Itens---\n");
+	}
+
 
 	/**
 	 * Lista os itens de um jogador com base no email fornecido pelo usuário. O
