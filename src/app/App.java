@@ -569,4 +569,84 @@ public class App {
 	private void restauraEntrada() {
 		in = new Scanner(System.in);
 	}
+
+	private void listaPropostas() {
+		if (!isAutenticado()) return;
+
+		System.out.print("""
+
+			- Listagem de propostas -
+			[1] Propostas recebidas
+			[2] Propostas realizadas
+			[3] Propostas recebidas em aberto
+			[4] Propostas realizadas em aberto
+			[0] Voltar
+
+			Escolha...\s""");
+
+		int op = Integer.parseInt(in.nextLine());
+		switch (op) {
+			case 1 -> listaPropostasRecebidas();
+			case 2 -> listaPropostasRealizadas();
+			case 3 -> listaPropostasRecebidasAbertas();
+			case 4 -> listaPropostasRealizadasAbertas();
+		}
+	}
+
+	/**
+	 * <p>Lista todas as propostas recebidas em aberto do jogador logado </p>
+	 */
+	private void listaPropostasRecebidasAbertas() {
+		if (!isAutenticado()) return;
+
+		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
+			.equals(StatusProposta.ABERTA)).toList();
+		System.out.printf("%n%d propostas recebidas em aberto:%n", recebidas.size());
+
+		for (Proposta p : recebidas) {
+			System.out.println(p);
+		}
+	}
+
+	/**
+	 * <p>Lista todas as propostas recebidas do jogador logado </p>
+	 */
+	private void listaPropostasRecebidas() {
+		if (!isAutenticado()) return;
+
+		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas();
+		System.out.printf("%n%d propostas recebidas:%n", recebidas.size());
+		for (Proposta p : recebidas) {
+			System.out.println(p);
+		}
+	}
+
+	/**
+	 * <p>Lista todas as propostas realizadas em aberto do jogador logado </p>
+	 */
+	private void listaPropostasRealizadasAbertas() {
+		if (!isAutenticado()) return;
+
+		List<Proposta> realizadas = jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus()
+			.equals(StatusProposta.ABERTA)).toList();
+		System.out.printf("%n%d propostas realizadas em aberto:%n", realizadas.size());
+
+		for (Proposta p : realizadas) {
+			System.out.println(p);
+		}
+	}
+
+	/**
+	 * <p>Lista todas as propostas realizadas do jogador logado </p>
+	 */
+	private void listaPropostasRealizadas() {
+		if (!isAutenticado()) return;
+
+		List<Proposta> realizadas = jogadorLogado.getPropostasRealizadas();
+		System.out.printf("%n%d propostas realizadas:%n", realizadas.size());
+
+		for (Proposta p : realizadas) {
+			System.out.println(p);
+		}
+	}
 }
