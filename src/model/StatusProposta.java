@@ -14,6 +14,9 @@ public enum StatusProposta {
 		this.descricao = status;
 	}
 
+	/**
+	 * @return O código numérico que representa o <em>status</em>.
+	 */
 	public int getCodigo() {
 		return codigo;
 	}

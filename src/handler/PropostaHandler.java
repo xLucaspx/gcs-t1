@@ -1,12 +1,14 @@
 package handler;
 
 import model.Proposta;
+import model.StatusProposta;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
- * @author Gabriel Domingues
+ * @author Gabriel Domingues, Luca WB, Lucas da Paz
  */
 public class PropostaHandler {
 
@@ -16,15 +18,40 @@ public class PropostaHandler {
 		this.propostas = new ArrayList<>();
 	}
 
+	/**
+	 * Retorna o número de propostas finalizadas pelo jogador.
+	 * Propostas são consideradas finalizadas se o <em>status</em>
+	 * for diferente de <code>ABERTA</code>.
+	 *
+	 * @return Número de propostas finalizadas.
+	 */
 	public int getNumeroPropostasFinalizadas() {
-		// TODO: implementar método
-		return 0;
+		int cont = 0;
+		for (Proposta p : propostas) {
+			if (!p.getStatus().equals(StatusProposta.ABERTA)) {
+				cont++;
+			}
+		}
+		return cont;
 	}
 
+	/**
+	 * Retorna o número de propostas abertas pelo jogador.
+	 * Propostas são consideradas abertas se o <em>status</em>
+	 * for igual a <code>ABERTA</code>.
+	 *
+	 * @return Número de propostas abertas
+	 */
 	public int getNumeroPropostasAbertas() {
-		// TODO: implementar método
-		return 0;
+		int cont = 0;
+		for (Proposta p : propostas) {
+			if (p.getStatus().equals(StatusProposta.ABERTA)) {
+				cont++;
+			}
+		}
+		return cont;
 	}
+
 
 	public boolean cadastra(Proposta p) {
 		if (p == null) {
@@ -32,7 +59,8 @@ public class PropostaHandler {
 		}
 		return propostas.add(p);
 	}
+
 	public List<Proposta> getPropostas() {
-		return propostas;
+		return Collections.unmodifiableList(propostas);
 	}
 }
