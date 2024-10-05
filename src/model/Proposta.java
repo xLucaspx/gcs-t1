@@ -54,6 +54,31 @@ public class Proposta {
 		}
 		this.status = status;
 	}
+	public StatusProposta getStatus(){
+		return status;
+	}
+	public void aceitaProposta(){
+		boolean aceitou = false;
+		boolean aberta = true;
+		if(this.status.equals(StatusProposta.ABERTA)){
+			aceitou = true;
+			aberta = false;
+			System.out.println("Proposta aceita com sucesso!");
+		}else{
+			System.out.println("Não foi possível aceitar a proposta foi ela foi fechada");
+		}
+	}
+	public void recusaProposta(){
+		boolean aceitou = false;
+		boolean aberta = true;
+		if(this.status.equals(StatusProposta.ABERTA)){
+			aceitou = false;
+			aberta = false;
+			System.out.println("Proposta recusada!");
+		}else{
+			System.out.println("Não foi possível recusar a proposta pois ela já foi fechada");
+		}
+	}
 
 	/**
 	 * @return Os dados da proposta em formato de String.

@@ -13,7 +13,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -292,21 +291,47 @@ public class App {
 		System.out.println("A nova proposta com o jogador "+ novaProposta.getSolicitado()+" foi aberta com sucesso!");
 		System.out.println("O jogador "+ novaProposta.getSolicitante()+ " enviou uma nova proposta de troca!");
 	}
-	private void propostaHandler(Proposta p){
-		int count =0;
-		boolean atualizaProposta = false;
-		for(int i =0; i< propostaHandler.getPropostas().size(); i++){
-			Proposta propostaExistente = propostaHandler.getPropostas().get(i);
-			if(propostaExistente.getSolicitado().equals(p.getSolicitado())){
-				propostaHandler.getPropostas().set(i,p);
-				atualizaProposta = true;
-				return;
+	private void handlePropostaRecebida(Proposta p){
+			ArrayList<Proposta> listaDePropostas = new ArrayList<>();
+			for (Proposta proposta : propostaHandler.getPropostas()) {
+				if (proposta.getStatus().equals(StatusProposta.ABERTA)) {
+				listaDePropostas.add(proposta);
+				}
 			}
+			if (listaDePropostas.isEmpty()) {
+				System.out.println("Nenhuma proposta encontrada!");
+			}
+			System.out.println("Propostas recebidas: ");
+			for(int i = 0; i < listaDePropostas.size(); i++){
+				System.out.println((i+1) + ". " + listaDePropostas.get(i).toString());
+			}
+			System.out.println("Digite a referência da proposta que desejas aceitar, ou digite '0' para fechar a troca: ");
+			int ref = in.nextInt();
+			if(ref>0 && ref<listaDePropostas.size()){
+				Proposta propostaSelecionada = listaDePropostas.get(ref);
+
+				System.out.println("Proposta selecionada: " + propostaSelecionada.toString());
+				System.out.println("Deseja aceitar ou recusar a proposta ? ");
+				System.out.println("Digite '1' para aceitar a proposta ou '2' para recusar");
+				int resposta = in.nextInt();
+				if(resposta==1){
+					propostaSelecionada.aceitaProposta();
+					System.out.println("Proposta aceitada com sucesso!");
+				}else if(resposta==2){
+					propostaSelecionada.recusaProposta();
+					System.out.println("Proposta recusada com sucesso!");
+				}
+				else {
+					System.out.println("Opção inválida!");
+				}
+			}else if (ref == 0){
+				System.out.println("Operação cancelada!");
+			}else{
+				System.out.println("Referência incorreta!");
+			}
+
 		}
-		propostaHandler.getPropostas().add(p);
-
-
 	}
 
-}
+
 
