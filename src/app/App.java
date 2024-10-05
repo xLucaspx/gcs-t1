@@ -434,6 +434,31 @@ public class App {
 		System.out.println("Erro inesperado ao realizar o cadastro...");
 	}
 
+	/**
+	 * Lê as informações de <em>login</em> inseridas no sistema e,
+	 * caso sejam válidas, permite que o usuário entre no sistema.
+	 */
+	private void login() {
+		System.out.print("E-mail: ");
+		String email = in.nextLine();
+		Jogador j = jogadorHandler.buscaPorEmail(email);
+
+		if (j == null) {
+			System.out.println("E-mail não cadastrado!");
+			return;
+		}
+
+		System.out.print("Pin: ");
+		String pin = in.nextLine();
+
+		if (!j.verificaPin(pin)) {
+			System.out.println("Pin incorreto!");
+			return;
+		}
+
+		jogadorLogado = j;
+		System.out.printf("Seja bem-vindo(a), %s%n", j.getNome());
+	}
 
 }
 
