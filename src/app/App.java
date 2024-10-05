@@ -148,6 +148,15 @@ public class App {
 		);
 	}
 
+	/**
+	 * Solicita que o usuário interaja com o sistema antes de continuar.
+	 */
+	private void aguardaUsuario() {
+		System.out.print("\nPressione ENTER para continuar...");
+		in.nextLine();
+	}
+
+
 
 	/**
 	 * Lista os itens de um jogador com base no email fornecido pelo usuário. O
