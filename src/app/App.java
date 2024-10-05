@@ -130,6 +130,24 @@ public class App {
 		System.out.println("\n---Sistema de Gerenciamento de Itens---\n");
 	}
 
+	/**
+	 * Imprime as informações do jogador
+	 */
+	private void informacoesJogador() {
+		if (jogadorLogado == null) return;
+
+		System.out.println(jogadorLogado);
+		long qtdPropostasRecebidasAbertas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
+			.equals(StatusProposta.ABERTA)).count();
+		long qtdPropostasRealizadasAbertas = jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus()
+			.equals(StatusProposta.ABERTA)).count();
+
+		System.out.printf("Notificações:%n- %d propostas recebidas em aberto%n- %d propostas realizadas em aberto%n%n",
+			qtdPropostasRecebidasAbertas,
+			qtdPropostasRealizadasAbertas
+		);
+	}
+
 
 	/**
 	 * Lista os itens de um jogador com base no email fornecido pelo usuário. O
