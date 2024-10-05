@@ -1,11 +1,14 @@
 package handler;
 
-import java.util.ArrayList;
-import java.util.List;
 import model.Proposta;
+import model.StatusProposta;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * @author Gabriel Domingues, Luca WB.
+ * @author Gabriel Domingues, Luca WB, Lucas da Paz
  */
 public class PropostaHandler {
 
@@ -16,36 +19,38 @@ public class PropostaHandler {
 	}
 
 	/**
- * Retorna o número de propostas finalizadas pelo jogador.
- * Propostas são consideradas finalizadas se o status for "CONFIRMADA" ou "RECUSADA".
- *
- * @return Número de propostas finalizadas
- */
-public int getNumeroPropostasFinalizadas() {
-    int retorno = 0;
-    for (Proposta p : propostas) {
-        if (p.getStatus().equals("CONFIRMADA") || p.getStatus().equals("RECUSADA")) {
-            retorno++;
-        }
-    }
-    return retorno;
-}
+	 * Retorna o número de propostas finalizadas pelo jogador.
+	 * Propostas são consideradas finalizadas se o <em>status</em>
+	 * for diferente de <code>ABERTA</code>.
+	 *
+	 * @return Número de propostas finalizadas.
+	 */
+	public int getNumeroPropostasFinalizadas() {
+		int cont = 0;
+		for (Proposta p : propostas) {
+			if (!p.getStatus().equals(StatusProposta.ABERTA)) {
+				cont++;
+			}
+		}
+		return cont;
+	}
 
-/**
- * Retorna o número de propostas abertas pelo jogador.
- * Propostas são consideradas abertas se o status for "ABERTA".
- *
- * @return Número de propostas abertas
- */
-public int getNumeroPropostasAbertas() {
-    int retorno = 0;
-    for (Proposta p : propostas) {
-        if (p.getStatus().equals("ABERTA")) {
-            retorno++;
-        }
-    }
-    return retorno;
-}
+	/**
+	 * Retorna o número de propostas abertas pelo jogador.
+	 * Propostas são consideradas abertas se o <em>status</em>
+	 * for igual a <code>ABERTA</code>.
+	 *
+	 * @return Número de propostas abertas
+	 */
+	public int getNumeroPropostasAbertas() {
+		int cont = 0;
+		for (Proposta p : propostas) {
+			if (p.getStatus().equals(StatusProposta.ABERTA)) {
+				cont++;
+			}
+		}
+		return cont;
+	}
 
 
 	public boolean cadastra(Proposta p) {
@@ -54,7 +59,8 @@ public int getNumeroPropostasAbertas() {
 		}
 		return propostas.add(p);
 	}
+
 	public List<Proposta> getPropostas() {
-		return propostas;
+		return Collections.unmodifiableList(propostas);
 	}
 }
