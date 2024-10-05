@@ -57,10 +57,11 @@ public class App {
 	private final JogadorHandler jogadorHandler;
 	private final ItemHandler itemHandler;
 	private final PropostaHandler propostaHandler;
-	private Jogador jogadorLogado;
-
+  
 	private final PrintStream out = System.out;
 	private Scanner in;
+  
+  private Jogador jogadorLogado;
 
 	public App() {
 		jogadorHandler = new JogadorHandler();
@@ -326,9 +327,9 @@ public class App {
 			StatusProposta status = StatusProposta.valueOf(propostaInfo[5]);
 
 			Proposta p = new Proposta(new DadosProposta(solicitante, itemSolicitante),
-				new DadosProposta(solicitado, itemSolicitado),
-				data,
-				status
+					new DadosProposta(solicitado, itemSolicitado),
+					data,
+					status
 			);
 			propostaHandler.cadastra(p);
 		}
@@ -361,4 +362,29 @@ public class App {
 	private void restauraEntrada() {
 		in = new Scanner(System.in);
 	}
+
+	private void abreProposta(DadosProposta solicitante, DadosProposta solicitado){
+		Proposta novaProposta = new Proposta(solicitante, solicitado);
+		propostaHandler.getPropostas().add(novaProposta);
+
+		System.out.println("A nova proposta com o jogador "+ novaProposta.getSolicitado()+" foi aberta com sucesso!");
+		System.out.println("O jogador "+ novaProposta.getSolicitante()+ " enviou uma nova proposta de troca!");
+	}
+	private void propostaHandler(Proposta p){
+		int count =0;
+		boolean atualizaProposta = false;
+		for(int i =0; i< propostaHandler.getPropostas().size(); i++){
+			Proposta propostaExistente = propostaHandler.getPropostas().get(i);
+			if(propostaExistente.getSolicitado().equals(p.getSolicitado())){
+				propostaHandler.getPropostas().set(i,p);
+				atualizaProposta = true;
+				return;
+			}
+		}
+		propostaHandler.getPropostas().add(p);
+
+
+	}
+
 }
+
