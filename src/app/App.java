@@ -460,5 +460,23 @@ public class App {
 		System.out.printf("Seja bem-vindo(a), %s%n", j.getNome());
 	}
 
+	/**
+	 * Confirma a opção de <em>logout</em> do usuário e, caso afirmativa,
+	 * realiza a saída da aplicação.
+	 */
+	private void logout() {
+		if (!isAutenticado()) return;
+
+		System.out.print("Tem certeza que deseja sair? Digite S para confirmar... ");
+		String input = in.nextLine();
+
+		if (!input.equalsIgnoreCase("S")) {
+			System.out.println("Operação cancelada!");
+		}
+
+		System.out.println("Saindo... Até mais!");
+		jogadorLogado = null;
+	}
+
 }
 
