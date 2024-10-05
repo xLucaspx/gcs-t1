@@ -62,6 +62,7 @@ public class App {
 	private Scanner in;
   
   private Jogador jogadorLogado;
+	private boolean run;
 
 	public App() {
 		jogadorHandler = new JogadorHandler();
@@ -121,6 +122,59 @@ public class App {
 			}
 		}
 	}
+
+	/**
+	 * Imprime o cabeçalho do sistema.
+	 */
+	private void cabecalho() {
+		System.out.println("\n---Sistema de Gerenciamento de Itens---\n");
+	}
+
+	/**
+	 * Imprime as informações do jogador
+	 */
+	private void informacoesJogador() {
+		if (jogadorLogado == null) return;
+
+		System.out.println(jogadorLogado);
+		long qtdPropostasRecebidasAbertas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
+			.equals(StatusProposta.ABERTA)).count();
+		long qtdPropostasRealizadasAbertas = jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus()
+			.equals(StatusProposta.ABERTA)).count();
+
+		System.out.printf("Notificações:%n- %d propostas recebidas em aberto%n- %d propostas realizadas em aberto%n%n",
+			qtdPropostasRecebidasAbertas,
+			qtdPropostasRealizadasAbertas
+		);
+	}
+
+	/**
+	 * Solicita que o usuário interaja com o sistema antes de continuar.
+	 */
+	private void aguardaUsuario() {
+		System.out.print("\nPressione ENTER para continuar...");
+		in.nextLine();
+	}
+
+	/**
+	 * Confirma a opção de encerrar do usuário e, caso afirmativa,
+	 * define que o programa deve parar de executar.
+	 */
+	private void encerrar() {
+		System.out.print("Tem certeza que deseja encerrar o sistema? Digite S para confirmar... ");
+		String input = in.nextLine();
+
+		if (!input.equalsIgnoreCase("S")) {
+			System.out.println("Operação cancelada!");
+			return;
+		}
+
+		System.out.println("\nSistema encerrado!\n");
+		jogadorLogado = null;
+		run = false;
+	}
+
+
 
 	/**
 	 * Lista os itens de um jogador com base no email fornecido pelo usuário. O
