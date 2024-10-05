@@ -32,7 +32,7 @@ import java.util.Scanner;
  * 	<li>Toda entrada e saida de dados deve ocorrer apenas na classe <code>App</code>.</li>
  * </ul>
  *
- * @author Gabriel Domingues, Gabriel Paim, Lucas da Paz
+ * @author Caetano Kich Taffe, Gabriel Domingues, Gabriel Paim, Lucas da Paz
  */
 public class App {
 
@@ -385,6 +385,55 @@ public class App {
 
 
 	}
+
+	/**
+	 * Lê as informações de cadastro inseridas pelo usuário, valida
+	 * conforme as regras da aplicação e realiza o cadastro do usuário.
+	 * Em caso de erro, é exibida mensagem na tela.
+	 */
+	private void cadastro() {
+		if (jogadorLogado != null) {
+			System.out.println("Você já possui cadastro!");
+			return;
+		}
+
+		System.out.print("Digite seu nome: ");
+		String nome = in.nextLine();
+
+		if (nome.isBlank()) {
+			System.out.println("O nome deve ser preenchido!");
+			return;
+		}
+
+		System.out.print("Digite seu e-mail: ");
+		String email = in.nextLine();
+
+		if (email.isBlank()) {
+			System.out.println("O e-mail deve ser preenchido!");
+			return;
+		}
+
+		if (jogadorHandler.buscaPorEmail(email) != null) {
+			System.out.println("Este e-mail já está cadastrado no sistema!");
+			return;
+		}
+
+		System.out.print("Digite seu pin (6 dígitos): ");
+		String pin = in.nextLine();
+
+		if (!pin.matches("\\d{6}")) {
+			System.out.println("O pin deve ser preenchido com 6 dígitos!");
+		}
+
+		Jogador j = new Jogador(nome, email, pin);
+		if (jogadorHandler.cadastra(j)) {
+			System.out.println("Cadastro realizado com sucesso!");
+			return;
+		}
+
+		System.out.println("Erro inesperado ao realizar o cadastro...");
+	}
+
 
 }
 
