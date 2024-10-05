@@ -15,12 +15,12 @@ public enum StatusProposta {
 	}
 
 	/**
-	 * Pega o codigo do status atual
-	 * @return o codigo do atual da proposta
+	 * @return O código numérico que representa o <em>status</em>.
 	 */
 	public int getCodigo() {
 		return codigo;
 	}
+
 	@Override
 	public String toString() {
 		return descricao;

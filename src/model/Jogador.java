@@ -52,20 +52,26 @@ public class Jogador {
 	}
 
 	/**
-	 * Adiciona um item no <em>map</em> de itens.
+	 * Adiciona um <code>Item</code> no <em>map</em> de itens. Garante que a
+	 * instância de <code>Jogador</code> que chamou o método será
+	 * atribuída ao respectivo atributo do <code>Item</code>.
 	 *
 	 * @param item O <code>Item</code> a ser adicionado.
 	 */
 	public void addItem(Item item) {
+		item.setJogador(this);
 		itens.put(item.getId(), item);
 	}
 
 	/**
-	 * Remove um item do <em>map</em> de itens.
+	 * Remove um <code>Item</code> do <em>map</em> de itens.
+	 * Define o atributo <code>Jogador</code> do <code>Item</code>
+	 * para <code>null</code>.
 	 *
 	 * @param item O <code>Item</code> a ser removido.
 	 */
 	public void removeItem(Item item) {
+		item.setJogador(null);
 		itens.remove(item.getId());
 	}
 
@@ -74,8 +80,24 @@ public class Jogador {
 	 *
 	 * @return Lista com todos os itens.
 	 */
-	public List<Item> getItems() {
+	public List<Item> getItens() {
 		return List.copyOf(itens.values());
+	}
+
+	/**
+	 * Busca, na coleção do jogador, o <code>Item</code> com o ID
+	 * passado como argumento.
+	 *
+	 * @param id O ID do <code>Item</code> buscado.
+	 * @return O <code>Item</code> com ID correspondente, ou <code>null</code>
+	 * caso não seja encontrado ID correspondente na coleção.
+	 */
+	public Item getItem(int id) {
+		return itens.get(id);
+	}
+
+	public void addProposta(Proposta p) {
+		propostas.add(p);
 	}
 
 	public List<Proposta> getPropostasRecebidas() {
@@ -100,6 +122,10 @@ public class Jogador {
 
 	public String getEmail() {
 		return email;
+	}
+
+	public String getNome() {
+		return nome;
 	}
 
 	/**
