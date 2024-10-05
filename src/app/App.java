@@ -475,8 +475,23 @@ public class App {
 		}
 
 		System.out.println("Saindo... Até mais!");
-		jogadorLogado = null;
+		jogadorLogado = null;
 	}
+
+	/**
+	 * Verifica se existe um jogador autenticado no sistema.
+	 *
+	 * @return <code>true</code> caso exista um <code>Jogador</code> logado,
+	 * <code>false</code> caso contrário.
+	 */
+	private boolean isAutenticado() {
+		if (jogadorLogado == null) {
+			System.out.println("É necessário realizar o login no sistema!");
+			return false;
+		}
+		return true;
+	}
+
 
 }
 
