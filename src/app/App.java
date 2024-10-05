@@ -32,7 +32,7 @@ import java.util.Scanner;
  * 	<li>Toda entrada e saida de dados deve ocorrer apenas na classe <code>App</code>.</li>
  * </ul>
  *
- * @author Caetano Kich Taffe, Gabriel Domingues, Gabriel Paim, Lucas da Paz
+ * @author Caetano Kich Taffe, Gabriel Domingues, Gabriel Paim, Gustavo Fidélis, Lucas da Paz
  */
 public class App {
 
@@ -174,7 +174,111 @@ public class App {
 		run = false;
 	}
 
+	/**
+	 * Lê as informações de cadastro inseridas pelo usuário, valida
+	 * conforme as regras da aplicação e realiza o cadastro do usuário.
+	 * Em caso de erro, é exibida mensagem na tela.
+	 */
+	private void cadastro() {
+		if (jogadorLogado != null) {
+			System.out.println("Você já possui cadastro!");
+			return;
+		}
 
+		System.out.print("Digite seu nome: ");
+		String nome = in.nextLine();
+
+		if (nome.isBlank()) {
+			System.out.println("O nome deve ser preenchido!");
+			return;
+		}
+
+		System.out.print("Digite seu e-mail: ");
+		String email = in.nextLine();
+
+		if (email.isBlank()) {
+			System.out.println("O e-mail deve ser preenchido!");
+			return;
+		}
+
+		if (jogadorHandler.buscaPorEmail(email) != null) {
+			System.out.println("Este e-mail já está cadastrado no sistema!");
+			return;
+		}
+
+		System.out.print("Digite seu pin (6 dígitos): ");
+		String pin = in.nextLine();
+
+		if (!pin.matches("\\d{6}")) {
+			System.out.println("O pin deve ser preenchido com 6 dígitos!");
+		}
+
+		Jogador j = new Jogador(nome, email, pin);
+		if (jogadorHandler.cadastra(j)) {
+			System.out.println("Cadastro realizado com sucesso!");
+			return;
+		}
+
+		System.out.println("Erro inesperado ao realizar o cadastro...");
+	}
+
+	/**
+	 * Lê as informações de <em>login</em> inseridas no sistema e,
+	 * caso sejam válidas, permite que o usuário entre no sistema.
+	 */
+	private void login() {
+		System.out.print("E-mail: ");
+		String email = in.nextLine();
+		Jogador j = jogadorHandler.buscaPorEmail(email);
+
+		if (j == null) {
+			System.out.println("E-mail não cadastrado!");
+			return;
+		}
+
+		System.out.print("Pin: ");
+		String pin = in.nextLine();
+
+		if (!j.verificaPin(pin)) {
+			System.out.println("Pin incorreto!");
+			return;
+		}
+
+		jogadorLogado = j;
+		System.out.printf("Seja bem-vindo(a), %s%n", j.getNome());
+	}
+
+	/**
+	 * Confirma a opção de <em>logout</em> do usuário e, caso afirmativa,
+	 * realiza a saída da aplicação.
+	 */
+	private void logout() {
+		if (!isAutenticado()) return;
+
+		System.out.print("Tem certeza que deseja sair? Digite S para confirmar... ");
+		String input = in.nextLine();
+
+		if (!input.equalsIgnoreCase("S")) {
+			System.out.println("Operação cancelada!");
+		}
+
+		System.out.println("Saindo... Até mais!");
+		jogadorLogado = null;
+	}
+
+	/**
+	 * Verifica se existe um jogador autenticado no sistema.
+	 *
+	 * @return <code>true</code> caso exista um <code>Jogador</code> logado,
+	 * <code>false</code> caso contrário.
+	 */
+	private boolean isAutenticado() {
+		if (jogadorLogado == null) {
+			System.out.println("É necessário realizar o login no sistema!");
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * Lista os itens de um jogador com base no email fornecido pelo usuário. O
@@ -318,6 +422,55 @@ public class App {
 			System.out.println(realizadas.get(i));
 		}
 	}
+  
+  	private void abreProposta(DadosProposta solicitante, DadosProposta solicitado){
+		Proposta novaProposta = new Proposta(solicitante, solicitado);
+		propostaHandler.getPropostas().add(novaProposta);
+
+		System.out.println("A nova proposta com o jogador "+ novaProposta.getSolicitado()+" foi aberta com sucesso!");
+		System.out.println("O jogador "+ novaProposta.getSolicitante()+ " enviou uma nova proposta de troca!");
+	}
+	private void handlePropostaRecebida(Proposta p){
+			ArrayList<Proposta> listaDePropostas = new ArrayList<>();
+			for (Proposta proposta : propostaHandler.getPropostas()) {
+				if (proposta.getStatus().equals(StatusProposta.ABERTA)) {
+				listaDePropostas.add(proposta);
+				}
+			}
+			if (listaDePropostas.isEmpty()) {
+				System.out.println("Nenhuma proposta encontrada!");
+			}
+			System.out.println("Propostas recebidas: ");
+			for(int i = 0; i < listaDePropostas.size(); i++){
+				System.out.println((i+1) + ". " + listaDePropostas.get(i).toString());
+			}
+			System.out.println("Digite a referência da proposta que desejas aceitar, ou digite '0' para fechar a troca: ");
+			int ref = in.nextInt();
+			if(ref>0 && ref<listaDePropostas.size()){
+				Proposta propostaSelecionada = listaDePropostas.get(ref);
+
+				System.out.println("Proposta selecionada: " + propostaSelecionada.toString());
+				System.out.println("Deseja aceitar ou recusar a proposta ? ");
+				System.out.println("Digite '1' para aceitar a proposta ou '2' para recusar");
+				int resposta = in.nextInt();
+				if(resposta==1){
+					propostaSelecionada.aceitaProposta();
+					System.out.println("Proposta aceitada com sucesso!");
+				}else if(resposta==2){
+					propostaSelecionada.recusaProposta();
+					System.out.println("Proposta recusada com sucesso!");
+				}
+				else {
+					System.out.println("Opção inválida!");
+				}
+			}else if (ref == 0){
+				System.out.println("Operação cancelada!");
+			}else{
+				System.out.println("Referência incorreta!");
+			}
+
+		}
+	}
 
 	/**
 	 * <p>Método responsável por exibir informações gerais do sistema.</p>
@@ -416,136 +569,4 @@ public class App {
 	private void restauraEntrada() {
 		in = new Scanner(System.in);
 	}
-
-	private void abreProposta(DadosProposta solicitante, DadosProposta solicitado){
-		Proposta novaProposta = new Proposta(solicitante, solicitado);
-		propostaHandler.getPropostas().add(novaProposta);
-
-		System.out.println("A nova proposta com o jogador "+ novaProposta.getSolicitado()+" foi aberta com sucesso!");
-		System.out.println("O jogador "+ novaProposta.getSolicitante()+ " enviou uma nova proposta de troca!");
-	}
-	private void propostaHandler(Proposta p){
-		int count =0;
-		boolean atualizaProposta = false;
-		for(int i =0; i< propostaHandler.getPropostas().size(); i++){
-			Proposta propostaExistente = propostaHandler.getPropostas().get(i);
-			if(propostaExistente.getSolicitado().equals(p.getSolicitado())){
-				propostaHandler.getPropostas().set(i,p);
-				atualizaProposta = true;
-				return;
-			}
-		}
-		propostaHandler.getPropostas().add(p);
-
-
-	}
-
-	/**
-	 * Lê as informações de cadastro inseridas pelo usuário, valida
-	 * conforme as regras da aplicação e realiza o cadastro do usuário.
-	 * Em caso de erro, é exibida mensagem na tela.
-	 */
-	private void cadastro() {
-		if (jogadorLogado != null) {
-			System.out.println("Você já possui cadastro!");
-			return;
-		}
-
-		System.out.print("Digite seu nome: ");
-		String nome = in.nextLine();
-
-		if (nome.isBlank()) {
-			System.out.println("O nome deve ser preenchido!");
-			return;
-		}
-
-		System.out.print("Digite seu e-mail: ");
-		String email = in.nextLine();
-
-		if (email.isBlank()) {
-			System.out.println("O e-mail deve ser preenchido!");
-			return;
-		}
-
-		if (jogadorHandler.buscaPorEmail(email) != null) {
-			System.out.println("Este e-mail já está cadastrado no sistema!");
-			return;
-		}
-
-		System.out.print("Digite seu pin (6 dígitos): ");
-		String pin = in.nextLine();
-
-		if (!pin.matches("\\d{6}")) {
-			System.out.println("O pin deve ser preenchido com 6 dígitos!");
-		}
-
-		Jogador j = new Jogador(nome, email, pin);
-		if (jogadorHandler.cadastra(j)) {
-			System.out.println("Cadastro realizado com sucesso!");
-			return;
-		}
-
-		System.out.println("Erro inesperado ao realizar o cadastro...");
-	}
-
-	/**
-	 * Lê as informações de <em>login</em> inseridas no sistema e,
-	 * caso sejam válidas, permite que o usuário entre no sistema.
-	 */
-	private void login() {
-		System.out.print("E-mail: ");
-		String email = in.nextLine();
-		Jogador j = jogadorHandler.buscaPorEmail(email);
-
-		if (j == null) {
-			System.out.println("E-mail não cadastrado!");
-			return;
-		}
-
-		System.out.print("Pin: ");
-		String pin = in.nextLine();
-
-		if (!j.verificaPin(pin)) {
-			System.out.println("Pin incorreto!");
-			return;
-		}
-
-		jogadorLogado = j;
-		System.out.printf("Seja bem-vindo(a), %s%n", j.getNome());
-	}
-
-	/**
-	 * Confirma a opção de <em>logout</em> do usuário e, caso afirmativa,
-	 * realiza a saída da aplicação.
-	 */
-	private void logout() {
-		if (!isAutenticado()) return;
-
-		System.out.print("Tem certeza que deseja sair? Digite S para confirmar... ");
-		String input = in.nextLine();
-
-		if (!input.equalsIgnoreCase("S")) {
-			System.out.println("Operação cancelada!");
-		}
-
-		System.out.println("Saindo... Até mais!");
-		jogadorLogado = null;
-	}
-
-	/**
-	 * Verifica se existe um jogador autenticado no sistema.
-	 *
-	 * @return <code>true</code> caso exista um <code>Jogador</code> logado,
-	 * <code>false</code> caso contrário.
-	 */
-	private boolean isAutenticado() {
-		if (jogadorLogado == null) {
-			System.out.println("É necessário realizar o login no sistema!");
-			return false;
-		}
-		return true;
-	}
-
-
 }
-
