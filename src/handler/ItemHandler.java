@@ -134,16 +134,14 @@ public class ItemHandler {
 		return Collections.unmodifiableList(itensEncontrados);
 	}
 
-	public int size() {
+	/**
+	 * @return O total de itens cadastrados
+	 */
+	public int totalItens() {
 		return itens.size();
 	}
 
-	public float precoTotal() {
-		float total = 0;
-		Collection<Item> list = itens.values();
-		for (Item i : list) {
-			total = total + i.getPreco();
-		}
-		return total;
+	public double precoTotal() {
+		return itens.values().stream().mapToDouble(Item::getPreco).sum();
 	}
 }

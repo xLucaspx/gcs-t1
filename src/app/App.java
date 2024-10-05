@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -57,11 +56,11 @@ public class App {
 	private final JogadorHandler jogadorHandler;
 	private final ItemHandler itemHandler;
 	private final PropostaHandler propostaHandler;
-  
+
 	private final PrintStream out = System.out;
 	private Scanner in;
-  
-  private Jogador jogadorLogado;
+
+	private Jogador jogadorLogado;
 	private boolean run;
 
 	public App() {
@@ -72,7 +71,6 @@ public class App {
 
 	/**
 	 * Método que executa a aplicação.
-	 *
 	 */
 
 	public void executar() {
@@ -82,10 +80,10 @@ public class App {
 
 		int option = -1;
 
-		while(option != 0){
+		while (option != 0) {
 			menu();
 			option = Integer.parseInt(in.nextLine());
-			switch(option){
+			switch (option) {
 				case 1:
 					cadastro();
 					break;
@@ -277,7 +275,7 @@ public class App {
 			System.out.println("É necessário realizar o login no sistema!");
 			return false;
 		}
-		return true;
+		return true;
 	}
 
 	/**
@@ -322,24 +320,23 @@ public class App {
 		System.out.println(item);
 	}
 
-	private void menu(){
-		System.out.println(
-				"""
-				====================================================
-				 1.		Cadastro
-				 2.		Login
-				 3.		Listar meus itens
-				 4.		Listar todos os itens
-				 5.		Buscar itens
-				 6.		Fazer proposta
-				 7.		Propostas realizadas
-				 8.		Propostas recebidas
-				 9.		Informações do sistema
-				10.		Insere dados
-				====================================================
-				"""
-		);
+	private void menu() {
+		System.out.println("""
+			====================================================
+			 1.		Cadastro
+			 2.		Login
+			 3.		Listar meus itens
+			 4.		Listar todos os itens
+			 5.		Buscar itens
+			 6.		Fazer proposta
+			 7.		Propostas realizadas
+			 8.		Propostas recebidas
+			 9.		Informações do sistema
+			10.		Insere dados
+			====================================================
+			""");
 	}
+
 	/**
 	 * <p>Método responsável por buscar itens pelo nome.</p>
 	 * <p>O método solicita ao usuário o nome (ou parte do nome) do item que deseja
@@ -406,7 +403,7 @@ public class App {
 	/**
 	 * <p>Método para retornar/printar todas as propostas recebidas do jogador logado </p>
 	 */
-	private void listaPropostasRecebidas(){
+	private void listaPropostasRecebidas() {
 		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas();
 		for (int i = 0; i < recebidas.size(); i++) {
 			System.out.println(recebidas.get(i));
@@ -416,61 +413,72 @@ public class App {
 	/**
 	 * <p>Método para retornar/printar todas as propostas realizadas do jogador logado </p>
 	 */
-	private void listaPropostasRealizadas(){
+	private void listaPropostasRealizadas() {
 		List<Proposta> realizadas = jogadorLogado.getPropostasRealizadas();
 		for (int i = 0; i < realizadas.size(); i++) {
 			System.out.println(realizadas.get(i));
 		}
 	}
-  
-  	private void abreProposta(DadosProposta solicitante, DadosProposta solicitado){
+
+	private void abreProposta(DadosProposta solicitante, DadosProposta solicitado) {
 		Proposta novaProposta = new Proposta(solicitante, solicitado);
 		propostaHandler.getPropostas().add(novaProposta);
 
-		System.out.println("A nova proposta com o jogador "+ novaProposta.getSolicitado()+" foi aberta com sucesso!");
-		System.out.println("O jogador "+ novaProposta.getSolicitante()+ " enviou uma nova proposta de troca!");
+		System.out.println("A nova proposta com o jogador " + novaProposta.getSolicitado() + " foi aberta com sucesso!");
+		System.out.println("O jogador " + novaProposta.getSolicitante() + " enviou uma nova proposta de troca!");
 	}
-	private void handlePropostaRecebida(Proposta p){
-			ArrayList<Proposta> listaDePropostas = new ArrayList<>();
-			for (Proposta proposta : propostaHandler.getPropostas()) {
-				if (proposta.getStatus().equals(StatusProposta.ABERTA)) {
-				listaDePropostas.add(proposta);
-				}
-			}
-			if (listaDePropostas.isEmpty()) {
-				System.out.println("Nenhuma proposta encontrada!");
-			}
-			System.out.println("Propostas recebidas: ");
-			for(int i = 0; i < listaDePropostas.size(); i++){
-				System.out.println((i+1) + ". " + listaDePropostas.get(i).toString());
-			}
-			System.out.println("Digite a referência da proposta que desejas aceitar, ou digite '0' para fechar a troca: ");
-			int ref = in.nextInt();
-			if(ref>0 && ref<listaDePropostas.size()){
-				Proposta propostaSelecionada = listaDePropostas.get(ref);
 
-				System.out.println("Proposta selecionada: " + propostaSelecionada.toString());
-				System.out.println("Deseja aceitar ou recusar a proposta ? ");
-				System.out.println("Digite '1' para aceitar a proposta ou '2' para recusar");
-				int resposta = in.nextInt();
-				if(resposta==1){
-					propostaSelecionada.aceitaProposta();
-					System.out.println("Proposta aceitada com sucesso!");
-				}else if(resposta==2){
-					propostaSelecionada.recusaProposta();
-					System.out.println("Proposta recusada com sucesso!");
-				}
-				else {
-					System.out.println("Opção inválida!");
-				}
-			}else if (ref == 0){
-				System.out.println("Operação cancelada!");
-			}else{
-				System.out.println("Referência incorreta!");
-			}
+	/**
+	 * Permite ao jogador visualizar suas propostas recebidas em aberto,
+	 * selecionar uma proposta da lista e aceitá-la ou recusá-la.
+	 */
+	private void handlePropostasRecebidas() {
+		System.out.println("\n- Gerenciar propostas recebidas -");
+		List<Proposta> propostas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
+			.equals(StatusProposta.ABERTA)).toList();
+		int size = propostas.size();
 
+		for (int i = 0; i < size; i++) {
+			System.out.printf("[%d]:%n%s%n", i + 1, propostas.get(i));
+		}
+
+		System.out.print("Selecione a proposta: ");
+		int pIndex = Integer.parseInt(in.nextLine());
+
+		if (pIndex < 1 || pIndex > size) {
+			System.out.println("Valor inválido inserido!");
+			return;
+		}
+
+		Proposta p = propostas.get(--pIndex);
+		System.out.printf("%nSeleção: %s%n", p);
+		System.out.print("""
+			[1] Aceitar
+			[2] Rejeitar
+			[0] Voltar
+
+			Escolha...\s""");
+		int op = Integer.parseInt(in.nextLine());
+
+		if (op < 1 || op > 2) {
+			System.out.println("Operação cancelada!");
+			return;
+		}
+
+		System.out.print("Esta operação não pode ser desfeita! Digite S para continuar... ");
+		String input = in.nextLine();
+
+		if (!input.equalsIgnoreCase("S")) {
+			System.out.println("Operação cancelada!");
+			return;
+		}
+
+		switch (op) {
+			case 1 -> p.confirmar();
+			case 2 -> p.recusar();
 		}
 	}
+
 
 	/**
 	 * <p>Método responsável por exibir informações gerais do sistema.</p>
@@ -534,9 +542,9 @@ public class App {
 			StatusProposta status = StatusProposta.valueOf(propostaInfo[5]);
 
 			Proposta p = new Proposta(new DadosProposta(solicitante, itemSolicitante),
-					new DadosProposta(solicitado, itemSolicitado),
-					data,
-					status
+				new DadosProposta(solicitado, itemSolicitado),
+				data,
+				status
 			);
 			propostaHandler.cadastra(p);
 		}
