@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author Gabriel Domingues, Luca WB, Lucas da Paz
+ * @author Gabriel Domingues, Luca WB, Lucas da Paz, Mateus Tieppo
  */
 public class PropostaHandler {
 
@@ -16,6 +16,13 @@ public class PropostaHandler {
 
 	public PropostaHandler() {
 		this.propostas = new ArrayList<>();
+	}
+  
+  public boolean cadastra(Proposta p) {
+		if (p == null) {
+			return false;
+		}
+		return propostas.add(p);
 	}
 
 	/**
@@ -49,14 +56,6 @@ public class PropostaHandler {
 	 */
 	public long getNumeroPropostasAbertas() {
 		return propostas.stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).count();
-	}
-
-
-	public boolean cadastra(Proposta p) {
-		if (p == null) {
-			return false;
-		}
-		return propostas.add(p);
 	}
 
 	public List<Proposta> getPropostas() {
