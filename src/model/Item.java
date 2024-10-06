@@ -72,11 +72,6 @@ public class Item {
 	 */
 	@Override
 	public String toString() {
-		return "------\nId: %d\nNome: %s\nDescrição: %s\nCategoria: %s\nPreco: R$ %.2f".formatted(id,
-			nome,
-			descricao,
-			categoria,
-			preco
-		);
+		return "% 3d: %s [%s] - R$ %.2f\n\t\tDescrição: %s".formatted(id, nome, categoria, preco, descricao);
 	}
 }

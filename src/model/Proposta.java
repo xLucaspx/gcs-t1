@@ -83,31 +83,6 @@ public class Proposta {
 
 		this.status = StatusProposta.RECUSADA;
 	}
-	public StatusProposta getStatus(){
-		return status;
-	}
-	public void aceitaProposta(){
-		boolean aceitou = false;
-		boolean aberta = true;
-		if(this.status.equals(StatusProposta.ABERTA)){
-			aceitou = true;
-			aberta = false;
-			System.out.println("Proposta aceita com sucesso!");
-		}else{
-			System.out.println("Não foi possível aceitar a proposta foi ela foi fechada");
-		}
-	}
-	public void recusaProposta(){
-		boolean aceitou = false;
-		boolean aberta = true;
-		if(this.status.equals(StatusProposta.ABERTA)){
-			aceitou = false;
-			aberta = false;
-			System.out.println("Proposta recusada!");
-		}else{
-			System.out.println("Não foi possível recusar a proposta pois ela já foi fechada");
-		}
-	}
 
 	/**
 	 * @return Os dados da proposta em formato de String.
@@ -115,19 +90,19 @@ public class Proposta {
 	@Override
 	public String toString() {
 		return """
-			Data: %s
-			Status: %s
-			===============Solicitante============
-			Jogador: %s
-			Item: %s
-			===============Solicitado=============
-			Jogador: %s
-			Item: %s
+			Proposta
+			- Data: %s\t|\tStatus: %s
+			- Remetente:
+			\tJogador: %s
+			\tItem oferecido: %s
+			- Destinatário:
+			\tJogador: %s
+			\tItem solicitado: %s
 			""".formatted(data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
 			status,
-			solicitante.jogador(),
+			solicitante.jogador().getNome(),
 			solicitante.item(),
-			solicitado.jogador(),
+			solicitado.jogador().getNome(),
 			solicitado.item()
 		);
 	}

@@ -19,37 +19,36 @@ public class PropostaHandler {
 	}
 
 	/**
-	 * Retorna o número de propostas finalizadas pelo jogador.
-	 * Propostas são consideradas finalizadas se o <em>status</em>
-	 * for diferente de <code>ABERTA</code>.
+	 * Retorna o número de propostas confirmadas pelos jogadores.
+	 * Propostas são consideradas confirmadas se o <em>status</em>
+	 * for igual a <code>StatusProposta.CONFIRMADA</code>.
 	 *
-	 * @return Número de propostas finalizadas.
+	 * @return Número de propostas confirmadas.
 	 */
-	public int getNumeroPropostasFinalizadas() {
-		int cont = 0;
-		for (Proposta p : propostas) {
-			if (!p.getStatus().equals(StatusProposta.ABERTA)) {
-				cont++;
-			}
-		}
-		return cont;
+	public long getNumeroPropostasConfirmadas() {
+		return propostas.stream().filter(p -> p.getStatus().equals(StatusProposta.CONFIRMADA)).count();
 	}
 
 	/**
-	 * Retorna o número de propostas abertas pelo jogador.
-	 * Propostas são consideradas abertas se o <em>status</em>
-	 * for igual a <code>ABERTA</code>.
+	 * Retorna o número de propostas recusadas pelos jogadores.
+	 * Propostas são consideradas recusadas se o <em>status</em>
+	 * for igual a <code>StatusProposta.RECUSADA</code>.
+	 *
+	 * @return Número de propostas recusadas.
+	 */
+	public long getNumeroPropostasRecusadas() {
+		return propostas.stream().filter(p -> p.getStatus().equals(StatusProposta.RECUSADA)).count();
+	}
+
+	/**
+	 * Retorna o número de propostas em aberto.
+	 * Propostas são consideradas em aberto se o <em>status</em>
+	 * for igual a <code>StatusProposta.ABERTA</code>.
 	 *
 	 * @return Número de propostas abertas
 	 */
-	public int getNumeroPropostasAbertas() {
-		int cont = 0;
-		for (Proposta p : propostas) {
-			if (p.getStatus().equals(StatusProposta.ABERTA)) {
-				cont++;
-			}
-		}
-		return cont;
+	public long getNumeroPropostasAbertas() {
+		return propostas.stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).count();
 	}
 
 

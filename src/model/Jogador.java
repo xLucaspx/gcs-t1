@@ -29,7 +29,7 @@ public class Jogador {
 
 	public Jogador(String nome, String email, String pin) {
 		this.nome = nome;
-		this.email = email;
+		setEmail(email);
 		setPin(pin);
 		this.itens = new HashMap<>();
 		this.propostas = new ArrayList<>();
@@ -72,6 +72,15 @@ public class Jogador {
 	 */
 	public void removeItem(Item item) {
 		item.setJogador(null);
+
+		// se o jogador não possui mais o item, as propostas que envolvem o item são canceladas
+		DadosProposta d = new DadosProposta(this, item);
+		for (Proposta p : propostas) {
+			if (p.getSolicitante().equals(d) || p.getSolicitado().equals(d)) {
+				p.recusar();
+			}
+		}
+
 		itens.remove(item.getId());
 	}
 
@@ -124,6 +133,18 @@ public class Jogador {
 		return email;
 	}
 
+	/**
+	 * Verifica se o e-mail passado é válido e, caso positivo, define o atributo do jogador.
+	 *
+	 * @param email e-mail do jogador
+	 */
+	private void setEmail(String email) {
+		if (!email.matches("^\\w+([.\\-]?\\w+)*@\\w+([.\\-]?\\w+)*(\\.\\w{2,3})+$")) {
+			return;
+		}
+		this.email = email;
+	}
+
 	public String getNome() {
 		return nome;
 	}
@@ -133,6 +154,6 @@ public class Jogador {
 	 */
 	@Override
 	public String toString() {
-		return "Nome: %s\nE-mail: %s".formatted(nome, email);
+		return "Usuário: %s\tE-mail: %s%n".formatted(nome, email);
 	}
 }
