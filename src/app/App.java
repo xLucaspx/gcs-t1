@@ -12,7 +12,6 @@ import model.StatusProposta;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -57,11 +56,9 @@ public class App {
 	private final JogadorHandler jogadorHandler;
 	private final ItemHandler itemHandler;
 	private final PropostaHandler propostaHandler;
-  
-	private final PrintStream out = System.out;
+
 	private Scanner in;
-  
-  private Jogador jogadorLogado;
+	private Jogador jogadorLogado;
 	private boolean run;
 
 	public App() {
@@ -72,9 +69,7 @@ public class App {
 
 	/**
 	 * Método que executa a aplicação.
-	 *
 	 */
-
 	public void executar() {
 		System.out.println("TODO: implementar métodos!");
 
@@ -82,10 +77,10 @@ public class App {
 
 		int option = -1;
 
-		while(option != 0){
+		while (option != 0) {
 			menu();
 			option = Integer.parseInt(in.nextLine());
-			switch(option){
+			switch (option) {
 				case 1:
 					cadastro();
 					break;
@@ -277,7 +272,7 @@ public class App {
 			System.out.println("É necessário realizar o login no sistema!");
 			return false;
 		}
-		return true;
+		return true;
 	}
 
 	/**
@@ -295,12 +290,38 @@ public class App {
 			System.out.println("Não existe nenhum jogador cadastrado com esse email.");
 			return;
 		}
-		if (jogador.getItems().isEmpty()) {
+		if (jogador.getItens().isEmpty()) {
 			System.out.printf("O jogador com o email %s não possui itens.%n", emailJogador);
 			return;
 		}
-		for (Item item : jogador.getItems()) {
+		for (Item item : jogador.getItens()) {
 			System.out.println(item);
+		}
+	}
+
+	/**
+	 * Menu de busca de itens.
+	 */
+	private void buscaItens() {
+		if (!isAutenticado()) return;
+
+		System.out.print("""
+
+			- Pesquisa de itens -
+			[1] Buscar por ID
+			[2] Buscar por nome
+			[3] Buscar por descrição
+			[4] Buscar por categoria
+			[0] Voltar
+
+			Escolha...\s""");
+
+		int op = Integer.parseInt(in.nextLine());
+		switch (op) {
+			case 1 -> buscaItemPorId();
+			case 2 -> buscaItensPorNome();
+			case 3 -> buscaItensPorDescricao();
+			case 4 -> buscaItensPorCategoria();
 		}
 	}
 
@@ -311,35 +332,37 @@ public class App {
 	 * encontrado, suas informações serão exibidas. Caso contrário, uma mensagem
 	 * informando que nenhum item foi encontrado é exibida.</p>
 	 */
-	private void buscaItensId() {
-		System.out.println("Digite o id do item o qual deseja buscar");
+	private void buscaItemPorId() {
+		if (!isAutenticado()) return;
+
+		System.out.print("Digite o ID do item: ");
 		int id = Integer.parseInt(in.nextLine());
+
 		Item item = itemHandler.buscaPorId(id);
 		if (item == null) {
-			System.out.println("Não foi encontrado nenhum item com o id digitado.");
+			System.out.println("Item não encontrado!");
 			return;
 		}
 		System.out.println(item);
 	}
 
-	private void menu(){
-		System.out.println(
-				"""
-				====================================================
-				 1.		Cadastro
-				 2.		Login
-				 3.		Listar meus itens
-				 4.		Listar todos os itens
-				 5.		Buscar itens
-				 6.		Fazer proposta
-				 7.		Propostas realizadas
-				 8.		Propostas recebidas
-				 9.		Informações do sistema
-				10.		Insere dados
-				====================================================
-				"""
-		);
+	private void menu() {
+		System.out.println("""
+			====================================================
+			 1.		Cadastro
+			 2.		Login
+			 3.		Listar meus itens
+			 4.		Listar todos os itens
+			 5.		Buscar itens
+			 6.		Fazer proposta
+			 7.		Propostas realizadas
+			 8.		Propostas recebidas
+			 9.		Informações do sistema
+			10.		Insere dados
+			====================================================
+			""");
 	}
+
 	/**
 	 * <p>Método responsável por buscar itens pelo nome.</p>
 	 * <p>O método solicita ao usuário o nome (ou parte do nome) do item que deseja
@@ -348,16 +371,20 @@ public class App {
 	 * Caso contrário, uma mensagem informando que nenhum item foi encontrado é
 	 * exibida.</p>
 	 */
-	private void buscaItensNome() {
-		System.out.println("Digite o nome do item o qual deseja buscar");
+	private void buscaItensPorNome() {
+		if (!isAutenticado()) return;
+
+		System.out.print("Digite o nome para buscar: ");
 		String nome = in.nextLine();
+
 		List<Item> itensEncontrados = itemHandler.buscaPorNome(nome);
 		if (itensEncontrados.isEmpty()) {
-			System.out.println("Não foi encontrado nenhum item com o nome digitado.");
+			System.out.printf("Nenhum item encontrado para a busca \"%s\"!%n", nome);
 			return;
 		}
-		for (Item item : itensEncontrados) {
-			System.out.println(item);
+
+		for (Item i : itensEncontrados) {
+			System.out.printf("%s%n%n", i);
 		}
 	}
 
@@ -369,16 +396,20 @@ public class App {
 	 * exibidas. Caso contrário, uma mensagem informando que nenhum item foi
 	 * encontrado é exibida.</p>
 	 */
-	private void buscaItensDescricao() {
-		System.out.println("Digite a descrição do item o qual deseja buscar");
+	private void buscaItensPorDescricao() {
+		if (!isAutenticado()) return;
+
+		System.out.print("Digite a descrição para buscar: ");
 		String descricao = in.nextLine();
+
 		List<Item> itensEncontrados = itemHandler.buscaPorDescricao(descricao);
 		if (itensEncontrados.isEmpty()) {
-			System.out.println("Não foi encontrado nenhum item com a descrição digitada.");
+			System.out.printf("Nenhum item encontrado para a busca \"%s\"!%n", descricao);
 			return;
 		}
-		for (Item item : itensEncontrados) {
-			System.out.println(item);
+
+		for (Item i : itensEncontrados) {
+			System.out.printf("%s%n%n", i);
 		}
 	}
 
@@ -390,23 +421,27 @@ public class App {
 	 * contrário, uma mensagem informando que nenhum item foi encontrado é
 	 * exibida.</p>
 	 */
-	private void buscaItensCategoria() {
-		System.out.println("Digite a categoria do item o qual deseja buscar.");
+	private void buscaItensPorCategoria() {
+		if (!isAutenticado()) return;
+
+		System.out.print("Digite a categoria para buscar: ");
 		String categoria = in.nextLine();
+
 		List<Item> itensEncontrados = itemHandler.buscaPorCategoria(categoria);
 		if (itensEncontrados.isEmpty()) {
-			System.out.println("Não foi encontrado nenhum item com a categoria digitada.");
+			System.out.printf("Nenhum item encontrado para a busca \"%s\"!%n", categoria);
 			return;
 		}
-		for (Item item : itensEncontrados) {
-			System.out.println(item);
+
+		for (Item i : itensEncontrados) {
+			System.out.printf("%s%n%n", i);
 		}
 	}
 
 	/**
 	 * <p>Método para retornar/printar todas as propostas recebidas do jogador logado </p>
 	 */
-	private void listaPropostasRecebidas(){
+	private void listaPropostasRecebidas() {
 		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas();
 		for (int i = 0; i < recebidas.size(); i++) {
 			System.out.println(recebidas.get(i));
@@ -416,59 +451,57 @@ public class App {
 	/**
 	 * <p>Método para retornar/printar todas as propostas realizadas do jogador logado </p>
 	 */
-	private void listaPropostasRealizadas(){
+	private void listaPropostasRealizadas() {
 		List<Proposta> realizadas = jogadorLogado.getPropostasRealizadas();
 		for (int i = 0; i < realizadas.size(); i++) {
 			System.out.println(realizadas.get(i));
 		}
 	}
-  
-  	private void abreProposta(DadosProposta solicitante, DadosProposta solicitado){
+
+	private void abreProposta(DadosProposta solicitante, DadosProposta solicitado) {
 		Proposta novaProposta = new Proposta(solicitante, solicitado);
 		propostaHandler.getPropostas().add(novaProposta);
 
-		System.out.println("A nova proposta com o jogador "+ novaProposta.getSolicitado()+" foi aberta com sucesso!");
-		System.out.println("O jogador "+ novaProposta.getSolicitante()+ " enviou uma nova proposta de troca!");
+		System.out.println("A nova proposta com o jogador " + novaProposta.getSolicitado() + " foi aberta com sucesso!");
+		System.out.println("O jogador " + novaProposta.getSolicitante() + " enviou uma nova proposta de troca!");
 	}
-	private void handlePropostaRecebida(Proposta p){
-			ArrayList<Proposta> listaDePropostas = new ArrayList<>();
-			for (Proposta proposta : propostaHandler.getPropostas()) {
-				if (proposta.getStatus().equals(StatusProposta.ABERTA)) {
+
+	private void handlePropostaRecebida(Proposta p) {
+		ArrayList<Proposta> listaDePropostas = new ArrayList<>();
+		for (Proposta proposta : propostaHandler.getPropostas()) {
+			if (proposta.getStatus().equals(StatusProposta.ABERTA)) {
 				listaDePropostas.add(proposta);
-				}
 			}
-			if (listaDePropostas.isEmpty()) {
-				System.out.println("Nenhuma proposta encontrada!");
-			}
-			System.out.println("Propostas recebidas: ");
-			for(int i = 0; i < listaDePropostas.size(); i++){
-				System.out.println((i+1) + ". " + listaDePropostas.get(i).toString());
-			}
-			System.out.println("Digite a referência da proposta que desejas aceitar, ou digite '0' para fechar a troca: ");
-			int ref = in.nextInt();
-			if(ref>0 && ref<listaDePropostas.size()){
-				Proposta propostaSelecionada = listaDePropostas.get(ref);
+		}
+		if (listaDePropostas.isEmpty()) {
+			System.out.println("Nenhuma proposta encontrada!");
+		}
+		System.out.println("Propostas recebidas: ");
+		for (int i = 0; i < listaDePropostas.size(); i++) {
+			System.out.println((i + 1) + ". " + listaDePropostas.get(i).toString());
+		}
+		System.out.println("Digite a referência da proposta que desejas aceitar, ou digite '0' para fechar a troca: ");
+		int ref = in.nextInt();
+		if (ref > 0 && ref < listaDePropostas.size()) {
+			Proposta propostaSelecionada = listaDePropostas.get(ref);
 
-				System.out.println("Proposta selecionada: " + propostaSelecionada.toString());
-				System.out.println("Deseja aceitar ou recusar a proposta ? ");
-				System.out.println("Digite '1' para aceitar a proposta ou '2' para recusar");
-				int resposta = in.nextInt();
-				if(resposta==1){
-					propostaSelecionada.aceitaProposta();
-					System.out.println("Proposta aceitada com sucesso!");
-				}else if(resposta==2){
-					propostaSelecionada.recusaProposta();
-					System.out.println("Proposta recusada com sucesso!");
-				}
-				else {
-					System.out.println("Opção inválida!");
-				}
-			}else if (ref == 0){
-				System.out.println("Operação cancelada!");
-			}else{
-				System.out.println("Referência incorreta!");
+			System.out.println("Proposta selecionada: " + propostaSelecionada.toString());
+			System.out.println("Deseja aceitar ou recusar a proposta ? ");
+			System.out.println("Digite '1' para aceitar a proposta ou '2' para recusar");
+			int resposta = in.nextInt();
+			if (resposta == 1) {
+				propostaSelecionada.confirmar();
+				System.out.println("Proposta aceitada com sucesso!");
+			} else if (resposta == 2) {
+				propostaSelecionada.recusar();
+				System.out.println("Proposta recusada com sucesso!");
+			} else {
+				System.out.println("Opção inválida!");
 			}
-
+		} else if (ref == 0) {
+			System.out.println("Operação cancelada!");
+		} else {
+			System.out.println("Referência incorreta!");
 		}
 	}
 
@@ -534,9 +567,9 @@ public class App {
 			StatusProposta status = StatusProposta.valueOf(propostaInfo[5]);
 
 			Proposta p = new Proposta(new DadosProposta(solicitante, itemSolicitante),
-					new DadosProposta(solicitado, itemSolicitado),
-					data,
-					status
+				new DadosProposta(solicitado, itemSolicitado),
+				data,
+				status
 			);
 			propostaHandler.cadastra(p);
 		}
