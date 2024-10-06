@@ -420,6 +420,9 @@ public class App {
 		}
 	}
 
+	/**
+	 * <p>Método para abrir uma proposta de troca de um item próprio do jodador por outro</p>
+	 */
 	private void abrePropostaTroca() {
 		if (!isAutenticado()) return;
 
