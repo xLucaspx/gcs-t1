@@ -420,12 +420,44 @@ public class App {
 		}
 	}
 
-	private void abreProposta(DadosProposta solicitante, DadosProposta solicitado) {
-		Proposta novaProposta = new Proposta(solicitante, solicitado);
-		propostaHandler.getPropostas().add(novaProposta);
+	private void abrePropostaTroca() {
+		if (!isAutenticado()) return;
 
-		System.out.println("A nova proposta com o jogador " + novaProposta.getSolicitado() + " foi aberta com sucesso!");
-		System.out.println("O jogador " + novaProposta.getSolicitante() + " enviou uma nova proposta de troca!");
+		System.out.println("\n- Nova proposta de troca -");
+		System.out.print("Digite o ID do item que está oferecendo: ");
+		int id = Integer.parseInt(in.nextLine());
+		Item itemOferecido = jogadorLogado.getItem(id);
+
+		if (itemOferecido == null) {
+			System.out.println("Item não encontrado!");
+			return;
+		}
+
+		System.out.print("Digite o ID do item solicitado: ");
+		id = Integer.parseInt(in.nextLine());
+		Item itemSolicitado = itemHandler.buscaPorId(id);
+
+		if (itemSolicitado == null) {
+			System.out.println("Item não encontrado!");
+			return;
+		}
+
+		System.out.printf("""
+
+				Remetente: %s
+				Item oferecido: %s
+
+				Destinatário: %s
+				Item solicitado: %s
+
+				""", jogadorLogado.getNome(), itemOferecido, itemSolicitado.getJogador().getNome(), itemSolicitado);
+		System.out.print("Confirma a criação da proposta? Digite S para confirmar... ");
+		String input = in.nextLine();
+
+		if (!input.equalsIgnoreCase("S")) {
+			System.out.println("Operação cancelada!");
+			return;
+		}
 	}
 
 	/**
