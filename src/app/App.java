@@ -489,15 +489,37 @@ public class App {
 	 * aguardando uma resposta.</p>
 	 */
 	private void mostraInformacoesSistema() {
-		int totalUsuarios = jogadorHandler.size();
-		int totalItens = itemHandler.size();
-		int propostasFinalizadas = propostaHandler.getNumeroPropostasFinalizadas();
-		int propostasEmAndamento = propostaHandler.getNumeroPropostasAbertas();
-		float precoTotal = itemHandler.precoTotal();
-		System.out.printf("O total de usuários é: %d%n", totalUsuarios);
-		System.out.printf("O total de itens é: %d e a soma total de seus preços é: R$ %.2f%n", totalItens, precoTotal);
-		System.out.printf("A quantidade de propostas de trocas aceitas/declinadas é: %d%n", propostasFinalizadas);
-		System.out.printf("A quantidade total de propostas aguardando resposta é: %d%n", propostasEmAndamento);
+		int qtdUsuarios = jogadorHandler.totalJogadores();
+		int qtdItens = itemHandler.totalItens();
+		double precoTotalItens = itemHandler.precoTotal();
+		double mediaPrecoItens = precoTotalItens / qtdItens;
+		long propostasAbertas = propostaHandler.getNumeroPropostasAbertas();
+		long propostasConfirmadas = propostaHandler.getNumeroPropostasConfirmadas();
+		long propostasRecusadas = propostaHandler.getNumeroPropostasRecusadas();
+		long totalPropostas = propostasAbertas + propostasConfirmadas + propostasRecusadas;
+
+
+		System.out.printf("""
+				- Informações do Sistema -
+				> Quantidade de usuários cadastrados: %d
+				> Quantidade de itens cadastrados: %d
+				\t- Valor total dos itens: R$ %.2f
+				\t- Média de preço dos itens: R$ %.2f
+				> Quantidade de propostas no sistema: %d
+				\t- Propostas em aberto: %d
+				\t- Propostas fechadas: %d
+				\t\t* Confirmadas: %d
+				\t\t* Recusadas: %d%n""",
+				qtdUsuarios,
+				qtdItens,
+				precoTotalItens,
+				mediaPrecoItens,
+				totalPropostas,
+				propostasAbertas,
+				propostasConfirmadas + propostasRecusadas,
+				propostasConfirmadas,
+				propostasRecusadas
+		);
 	}
 
 	/**
