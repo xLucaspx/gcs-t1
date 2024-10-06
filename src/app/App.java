@@ -400,26 +400,6 @@ public class App {
 		}
 	}
 
-	/**
-	 * <p>Método para retornar/printar todas as propostas recebidas do jogador logado </p>
-	 */
-	private void listaPropostasRecebidas() {
-		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas();
-		for (int i = 0; i < recebidas.size(); i++) {
-			System.out.println(recebidas.get(i));
-		}
-	}
-
-	/**
-	 * <p>Método para retornar/printar todas as propostas realizadas do jogador logado </p>
-	 */
-	private void listaPropostasRealizadas() {
-		List<Proposta> realizadas = jogadorLogado.getPropostasRealizadas();
-		for (int i = 0; i < realizadas.size(); i++) {
-			System.out.println(realizadas.get(i));
-		}
-	}
-
 	private void abreProposta(DadosProposta solicitante, DadosProposta solicitado) {
 		Proposta novaProposta = new Proposta(solicitante, solicitado);
 		propostaHandler.getPropostas().add(novaProposta);
@@ -492,8 +472,8 @@ public class App {
 		int totalUsuarios = jogadorHandler.size();
 		int totalItens = itemHandler.size();
 		int propostasFinalizadas = propostaHandler.getNumeroPropostasFinalizadas();
-		int propostasEmAndamento = propostaHandler.getNumeroPropostasAbertas();
-		float precoTotal = itemHandler.precoTotal();
+		long propostasEmAndamento = propostaHandler.getNumeroPropostasAbertas();
+		double precoTotal = itemHandler.precoTotal();
 		System.out.printf("O total de usuários é: %d%n", totalUsuarios);
 		System.out.printf("O total de itens é: %d e a soma total de seus preços é: R$ %.2f%n", totalItens, precoTotal);
 		System.out.printf("A quantidade de propostas de trocas aceitas/declinadas é: %d%n", propostasFinalizadas);
