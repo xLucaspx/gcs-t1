@@ -57,6 +57,10 @@ public class PropostaHandler {
 	public long getNumeroPropostasAbertas() {
 		return propostas.stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).count();
 	}
+	public long getNumeroPropostasFinalizadas(){
+
+		return getNumeroPropostasRecusadas()+getNumeroPropostasConfirmadas();
+	}
 
 	public List<Proposta> getPropostas() {
 		return Collections.unmodifiableList(propostas);

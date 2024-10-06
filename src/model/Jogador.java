@@ -148,7 +148,6 @@ public class Jogador {
 	public String getNome() {
 		return nome;
 	}
-
 	/**
 	 * @return as informações do jogador em formato de String.
 	 */

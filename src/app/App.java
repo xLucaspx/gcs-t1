@@ -293,11 +293,11 @@ public class App {
 			System.out.println("Não existe nenhum jogador cadastrado com esse email.");
 			return;
 		}
-		if (jogador.getItems().isEmpty()) {
+		if (jogador.getItens().isEmpty()) {
 			System.out.printf("O jogador com o email %s não possui itens.%n", emailJogador);
 			return;
 		}
-		for (Item item : jogador.getItems()) {
+		for (Item item : jogador.getItens()) {
 			System.out.println(item);
 		}
 	}
@@ -469,9 +469,9 @@ public class App {
 	 * aguardando uma resposta.</p>
 	 */
 	private void mostraInformacoesSistema() {
-		int totalUsuarios = jogadorHandler.size();
-		int totalItens = itemHandler.size();
-		int propostasFinalizadas = propostaHandler.getNumeroPropostasFinalizadas();
+		int totalUsuarios = jogadorHandler.totalJogadores();
+		int totalItens = itemHandler.totalItens();
+		long propostasFinalizadas = propostaHandler.getNumeroPropostasFinalizadas();
 		long propostasEmAndamento = propostaHandler.getNumeroPropostasAbertas();
 		double precoTotal = itemHandler.precoTotal();
 		System.out.printf("O total de usuários é: %d%n", totalUsuarios);
