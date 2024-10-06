@@ -24,20 +24,24 @@ public class Item {
 		this.categoria = categoria;
 		this.preco = preco;
 		this.jogador = jogador;
+		jogador.addItem(this);
 	}
 
-	public Item(String nome, String descricao, String categoria, float preco, Jogador jogador) {
+	public Item(String nome, String descricao, String categoria, float preco) {
 		this.nome = nome;
 		this.descricao = descricao;
 		this.categoria = categoria;
 		this.preco = preco;
-		this.jogador = jogador;
 
 		this.id = ++geradorId;
 	}
 
 	public int getId() {
 		return id;
+	}
+
+	public float getPreco() {
+		return preco;
 	}
 
 	public String getNome() {
@@ -57,6 +61,10 @@ public class Item {
 	 */
 	public Jogador getJogador() {
 		return jogador;
+	}
+
+	public void setJogador(Jogador jogador) {
+		this.jogador = jogador;
 	}
 
 	/**

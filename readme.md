@@ -35,7 +35,7 @@ a _branch_, enquanto o comando `switch` irá transferir a `head` para a _branch_
 1. **Sempre documentar todos os métodos**; também é boa prática documentar as classes (não se esqueça do atributo
 	 `@author`) e os atributos mais complexos;
 2. Atualizar o diagrama de classes com as modificações realizadas;
-3. **RAII** (_Resource Acquisition is Initialization_): Iniciar os atributos da classe no construtor;
+3. **RAII** (_Resource Acquisition is Initialization_): Inicializar os atributos da classe no construtor;
 4. Não criar _getters_ e _setters_ desnecessários (isso fere o encapsulamento e a imutabilidade, devemos criar apenas
 	 os métodos que realmente vamos utilizar);
 5. Quando um método retorna uma lista, devemos sempre torná-la imutável com `Collections.unmodifiableList()`, passando
@@ -52,7 +52,7 @@ em contato.
 ## Preenchimento de dados
 
 Um dos requisitos de sistema é que o mesmo seja inicializado com dados já inseridos. A maneira escolhida para alcançar
-este objetivo foi a criação de um arquivo que contém, linha a linha, os dados dos objetos que deve ser criados e
+este objetivo foi a criação de um arquivo que contém, linha a linha, os dados dos objetos que devem ser criados e
 inseridos no sistema. Um método da classe de aplicação deverá ler este arquivo, instânciar os objetos lá dispostos e
 armazená-los corretamente nas classes _handler_.
 

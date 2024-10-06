@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * @author Rodrigo Miotto Slongo
+ * @author Lucas da Paz, Rodrigo Miotto Slongo
  */
 public class Proposta {
 	private final DadosProposta solicitante;
@@ -13,10 +13,7 @@ public class Proposta {
 	private StatusProposta status;
 
 	public Proposta(DadosProposta solicitante, DadosProposta solicitado) {
-		this.solicitante = solicitante;
-		this.solicitado = solicitado;
-		this.data = LocalDateTime.now();
-		this.status = StatusProposta.ABERTA;
+		this(solicitante, solicitado, LocalDateTime.now(), StatusProposta.ABERTA);
 	}
 
 	public Proposta(DadosProposta solicitante, DadosProposta solicitado, LocalDateTime data, StatusProposta status) {
@@ -24,6 +21,9 @@ public class Proposta {
 		this.solicitado = solicitado;
 		this.data = data;
 		this.status = status;
+
+		solicitante.jogador().addProposta(this);
+		solicitado.jogador().addProposta(this);
 	}
 
 	/**
@@ -43,16 +43,70 @@ public class Proposta {
 	}
 
 	/**
-	 * Atualiza o <em>status</em> da proposta; apenas propostas em
-	 * aberto terão o <em>status</em> atualizado.
-	 *
-	 * @param status O novo <code>StatusProposta</code>.
+	 * @return O <em>status</em> da proposta.
 	 */
-	public void setStatus(StatusProposta status) {
+	public StatusProposta getStatus() {
+		return this.status;
+	}
+
+	/**
+	 * Atualiza o <em>status</em> da <code>Proposta</code> para <code>CONFIRMADA</code>
+	 * e realiza a troca dos itens entre os jogadores envolvidos.
+	 */
+	public void confirmar() {
 		if (!this.status.equals(StatusProposta.ABERTA)) {
 			return;
 		}
-		this.status = status;
+		Jogador jSolicitante = solicitante.jogador();
+		Item iSolicitante = solicitante.item();
+
+		Jogador jSolicitado = solicitado.jogador();
+		Item iSolicitado = solicitado.item();
+
+		jSolicitante.removeItem(iSolicitante);
+		jSolicitante.addItem(iSolicitado);
+
+		jSolicitado.removeItem(iSolicitado);
+		jSolicitado.addItem(iSolicitante);
+
+		this.status = StatusProposta.CONFIRMADA;
+	}
+
+	/**
+	 * Define o <em>status</em> da <code>Proposta</code>
+	 * para <code>RECUSADA</code>.
+	 */
+	public void recusar() {
+		if (!this.status.equals(StatusProposta.ABERTA)) {
+			return;
+		}
+
+		this.status = StatusProposta.RECUSADA;
+	}
+	public StatusProposta getStatus(){
+		return status;
+	}
+	public void aceitaProposta(){
+		boolean aceitou = false;
+		boolean aberta = true;
+		if(this.status.equals(StatusProposta.ABERTA)){
+			aceitou = true;
+			aberta = false;
+			System.out.println("Proposta aceita com sucesso!");
+		}else{
+			System.out.println("Não foi possível aceitar a proposta foi ela foi fechada");
+		}
+	}
+	public void recusaProposta(){
+		boolean aceitou = false;
+		boolean aberta = true;
+		if(this.status.equals(StatusProposta.ABERTA)){
+			aceitou = false;
+			aberta = false;
+			System.out.println("Proposta recusada!");
+		}else{
+			System.out.println("Não foi possível recusar a proposta pois ela já foi fechada");
+		}
 	}
 
 	/**
