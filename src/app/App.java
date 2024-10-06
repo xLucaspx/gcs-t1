@@ -175,7 +175,6 @@ public class App {
 		}
 	}
 
-
 	/**
 	 * <p>Método responsável por buscar itens pela descrição.</p>
 	 * <p>O método solicita ao usuário a descrição (ou parte da descrição) do item
@@ -184,18 +183,23 @@ public class App {
 	 * exibidas. Caso contrário, uma mensagem informando que nenhum item foi
 	 * encontrado é exibida.</p>
 	 */
-	private void buscaItensDescricao() {
-		System.out.println("Digite a descrição do item o qual deseja buscar");
+	private void buscaItensPorDescricao() {
+		if (!isAutenticado()) return;
+
+		System.out.print("Digite a descrição para buscar: ");
 		String descricao = in.nextLine();
+
 		List<Item> itensEncontrados = itemHandler.buscaPorDescricao(descricao);
 		if (itensEncontrados.isEmpty()) {
-			System.out.println("Não foi encontrado nenhum item com a descrição digitada.");
+			System.out.printf("Nenhum item encontrado para a busca \"%s\"!%n", descricao);
 			return;
 		}
-		for (Item item : itensEncontrados) {
-			System.out.println(item);
+
+		for (Item i : itensEncontrados) {
+			System.out.printf("%s%n%n", i);
 		}
 	}
+
 
 	/**
 	 * <p>Método responsável por buscar itens pela categoria.</p>
