@@ -200,7 +200,6 @@ public class App {
 		}
 	}
 
-
 	/**
 	 * <p>Método responsável por buscar itens pela categoria.</p>
 	 * <p>O método solicita ao usuário a categoria do item que deseja buscar. Em
@@ -210,15 +209,19 @@ public class App {
 	 * exibida.</p>
 	 */
 	private void buscaItensCategoria() {
-		System.out.println("Digite a categoria do item o qual deseja buscar.");
+		if (!isAutenticado()) return;
+
+		System.out.print("Digite a categoria para buscar: ");
 		String categoria = in.nextLine();
+
 		List<Item> itensEncontrados = itemHandler.buscaPorCategoria(categoria);
 		if (itensEncontrados.isEmpty()) {
-			System.out.println("Não foi encontrado nenhum item com a categoria digitada.");
+			System.out.printf("Nenhum item encontrado para a busca \"%s\"!%n", categoria);
 			return;
 		}
-		for (Item item : itensEncontrados) {
-			System.out.println(item);
+
+		for (Item i : itensEncontrados) {
+			System.out.printf("%s%n%n", i);
 		}
 	}
 
