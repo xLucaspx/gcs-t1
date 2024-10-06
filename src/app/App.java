@@ -3,12 +3,6 @@ package app;
 import handler.ItemHandler;
 import handler.JogadorHandler;
 import handler.PropostaHandler;
-import model.DadosProposta;
-import model.Item;
-import model.Jogador;
-import model.Proposta;
-import model.StatusProposta;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,6 +12,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
+import model.DadosProposta;
+import model.Item;
+import model.Jogador;
+import model.Proposta;
+import model.StatusProposta;
 
 /**
  * <p>
@@ -101,6 +100,32 @@ public class App {
 		}
 		for (Item item : jogador.getItems()) {
 			System.out.println(item);
+		}
+	}
+
+	/**
+	 * Menu de busca de itens.
+	 */
+	private void buscaItens() {
+		if (!isAutenticado()) return;
+
+		System.out.print("""
+
+			- Pesquisa de itens -
+			[1] Buscar por ID
+			[2] Buscar por nome
+			[3] Buscar por descrição
+			[4] Buscar por categoria
+			[0] Voltar
+
+			Escolha...\s""");
+
+		int op = Integer.parseInt(in.nextLine());
+		switch (op) {
+			case 1 -> buscaItemPorId();
+			case 2 -> buscaItensPorNome();
+			case 3 -> buscaItensPorDescricao();
+			case 4 -> buscaItensCategoria();
 		}
 	}
 

@@ -1,10 +1,9 @@
 package handler;
 
-import model.Item;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import model.Item;
 
 /**
  * <p>A classe ItemHandler é responsável por gerenciar uma lista de objetos do tipo
