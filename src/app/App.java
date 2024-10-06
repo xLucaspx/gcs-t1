@@ -14,7 +14,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -31,7 +30,8 @@ import java.util.Scanner;
  * 	<li>Toda entrada e saida de dados deve ocorrer apenas na classe <code>App</code>.</li>
  * </ul>
  *
- * @author Caetano Kich Taffe, Gabriel Domingues, Gabriel Paim, Gustavo Fidélis, Lucas da Paz
+ * @author Caetano Kich Taffe, Daniella Moraes, Gabriel Domingues, Gabriel Paim,
+ * Gustavo Fidélis, Lucas da Paz
  */
 public class App {
 
@@ -68,7 +68,7 @@ public class App {
 	}
 
 	/**
-	 * Método que executa a aplicação.
+	 * Executa a aplicação.
 	 */
 	public void executar() {
 		System.out.println("TODO: implementar métodos!");
@@ -106,7 +106,7 @@ public class App {
 					listaPropostasRecebidas();
 					break;
 				case 9:
-					handlePropostaRecebida();
+					handlePropostasRecebidas();
 					break;
 				case 10:
 					mostraInformacoesSistema();
@@ -306,14 +306,14 @@ public class App {
 		if (!isAutenticado()) return;
 
 		System.out.print("""
-
+			
 			- Pesquisa de itens -
 			[1] Buscar por ID
 			[2] Buscar por nome
 			[3] Buscar por descrição
 			[4] Buscar por categoria
 			[0] Voltar
-
+			
 			Escolha...\s""");
 
 		int op = Integer.parseInt(in.nextLine());
@@ -438,23 +438,83 @@ public class App {
 		}
 	}
 
-	/**
-	 * <p>Método para retornar/printar todas as propostas recebidas do jogador logado </p>
-	 */
-	private void listaPropostasRecebidas() {
-		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas();
-		for (int i = 0; i < recebidas.size(); i++) {
-			System.out.println(recebidas.get(i));
+	private void listaPropostas() {
+		if (!isAutenticado()) return;
+
+		System.out.print("""
+			
+			- Listagem de propostas -
+			[1] Propostas recebidas
+			[2] Propostas realizadas
+			[3] Propostas recebidas em aberto
+			[4] Propostas realizadas em aberto
+			[0] Voltar
+			
+			Escolha...\s""");
+
+		int op = Integer.parseInt(in.nextLine());
+		switch (op) {
+			case 1 -> listaPropostasRecebidas();
+			case 2 -> listaPropostasRealizadas();
+			case 3 -> listaPropostasRecebidasAbertas();
+			case 4 -> listaPropostasRealizadasAbertas();
 		}
 	}
 
 	/**
-	 * <p>Método para retornar/printar todas as propostas realizadas do jogador logado </p>
+	 * <p>Lista todas as propostas recebidas em aberto do jogador logado </p>
+	 */
+	private void listaPropostasRecebidasAbertas() {
+		if (!isAutenticado()) return;
+
+		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
+			.equals(StatusProposta.ABERTA)).toList();
+		System.out.printf("%n%d propostas recebidas em aberto:%n", recebidas.size());
+
+		for (Proposta p : recebidas) {
+			System.out.println(p);
+		}
+	}
+
+	/**
+	 * <p>Lista todas as propostas recebidas do jogador logado </p>
+	 */
+	private void listaPropostasRecebidas() {
+		if (!isAutenticado()) return;
+
+		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas();
+		System.out.printf("%n%d propostas recebidas:%n", recebidas.size());
+		for (Proposta p : recebidas) {
+			System.out.println(p);
+		}
+	}
+
+	/**
+	 * <p>Lista todas as propostas realizadas em aberto do jogador logado </p>
+	 */
+	private void listaPropostasRealizadasAbertas() {
+		if (!isAutenticado()) return;
+
+		List<Proposta> realizadas = jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus()
+			.equals(StatusProposta.ABERTA)).toList();
+		System.out.printf("%n%d propostas realizadas em aberto:%n", realizadas.size());
+
+		for (Proposta p : realizadas) {
+			System.out.println(p);
+		}
+	}
+
+	/**
+	 * <p>Lista todas as propostas realizadas do jogador logado </p>
 	 */
 	private void listaPropostasRealizadas() {
+		if (!isAutenticado()) return;
+
 		List<Proposta> realizadas = jogadorLogado.getPropostasRealizadas();
-		for (int i = 0; i < realizadas.size(); i++) {
-			System.out.println(realizadas.get(i));
+		System.out.printf("%n%d propostas realizadas:%n", realizadas.size());
+
+		for (Proposta p : realizadas) {
+			System.out.println(p);
 		}
 	}
 
@@ -466,48 +526,60 @@ public class App {
 		System.out.println("O jogador " + novaProposta.getSolicitante() + " enviou uma nova proposta de troca!");
 	}
 
-	private void handlePropostaRecebida(Proposta p) {
-		ArrayList<Proposta> listaDePropostas = new ArrayList<>();
-		for (Proposta proposta : propostaHandler.getPropostas()) {
-			if (proposta.getStatus().equals(StatusProposta.ABERTA)) {
-				listaDePropostas.add(proposta);
-			}
-		}
-		if (listaDePropostas.isEmpty()) {
-			System.out.println("Nenhuma proposta encontrada!");
-		}
-		System.out.println("Propostas recebidas: ");
-		for (int i = 0; i < listaDePropostas.size(); i++) {
-			System.out.println((i + 1) + ". " + listaDePropostas.get(i).toString());
-		}
-		System.out.println("Digite a referência da proposta que desejas aceitar, ou digite '0' para fechar a troca: ");
-		int ref = in.nextInt();
-		if (ref > 0 && ref < listaDePropostas.size()) {
-			Proposta propostaSelecionada = listaDePropostas.get(ref);
+	/**
+	 * Permite ao jogador visualizar suas propostas recebidas em aberto,
+	 * selecionar uma proposta da lista e aceitá-la ou recusá-la.
+	 */
+	private void handlePropostasRecebidas() {
+		System.out.println("\n- Gerenciar propostas recebidas -");
+		List<Proposta> propostas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
+			.equals(StatusProposta.ABERTA)).toList();
+		int size = propostas.size();
 
-			System.out.println("Proposta selecionada: " + propostaSelecionada.toString());
-			System.out.println("Deseja aceitar ou recusar a proposta ? ");
-			System.out.println("Digite '1' para aceitar a proposta ou '2' para recusar");
-			int resposta = in.nextInt();
-			if (resposta == 1) {
-				propostaSelecionada.confirmar();
-				System.out.println("Proposta aceitada com sucesso!");
-			} else if (resposta == 2) {
-				propostaSelecionada.recusar();
-				System.out.println("Proposta recusada com sucesso!");
-			} else {
-				System.out.println("Opção inválida!");
-			}
-		} else if (ref == 0) {
+		for (int i = 0; i < size; i++) {
+			System.out.printf("[%d]:%n%s%n", i + 1, propostas.get(i));
+		}
+
+		System.out.print("Selecione a proposta: ");
+		int pIndex = Integer.parseInt(in.nextLine());
+
+		if (pIndex < 1 || pIndex > size) {
+			System.out.println("Valor inválido inserido!");
+			return;
+		}
+
+		Proposta p = propostas.get(--pIndex);
+		System.out.printf("%nSeleção: %s%n", p);
+		System.out.print("""
+			[1] Aceitar
+			[2] Rejeitar
+			[0] Voltar
+			
+			Escolha...\s""");
+		int op = Integer.parseInt(in.nextLine());
+
+		if (op < 1 || op > 2) {
 			System.out.println("Operação cancelada!");
-		} else {
-			System.out.println("Referência incorreta!");
+			return;
+		}
+
+		System.out.print("Esta operação não pode ser desfeita! Digite S para continuar... ");
+		String input = in.nextLine();
+
+		if (!input.equalsIgnoreCase("S")) {
+			System.out.println("Operação cancelada!");
+			return;
+		}
+
+		switch (op) {
+			case 1 -> p.confirmar();
+			case 2 -> p.recusar();
 		}
 	}
 
 	/**
-	 * <p>Método responsável por exibir informações gerais do sistema.</p>
-	 * <p>Este método coleta e exibe no console diversas informações importantes
+	 * <p>Exibe informações gerais do sistema.</p>
+	 * <p>Coleta e exibe no console diversas informações importantes
 	 * sobre o sistema: - Total de usuários cadastrados. - Total de itens
 	 * cadastrados e a soma de seus preços. - Quantidade de propostas de troca
 	 * aceitas ou declinadas. - Quantidade de propostas de troca que estão
@@ -526,9 +598,8 @@ public class App {
 	}
 
 	/**
-	 * Método que deve ler arquivo contendo os dados que serão inseridos no
-	 * sistema, instanciar os objetos e armazená-los corretamente para posterior
-	 * uso na aplicação.
+	 * Lê arquivo contendo os dados que serão inseridos no sistema, instancia
+	 * os objetos e armazena-os corretamente para posterior uso na aplicação.
 	 */
 	private void insereDados() {
 		redirecionaEntrada(CAMINHO_ARQUIVO_SEEDER);

@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author Gabriel Domingues, Luca WB, Lucas da Paz
+ * @author Gabriel Domingues, Luca WB, Lucas da Paz, Mateus Tieppo
  */
 public class PropostaHandler {
 
@@ -17,47 +17,45 @@ public class PropostaHandler {
 	public PropostaHandler() {
 		this.propostas = new ArrayList<>();
 	}
-
-	/**
-	 * Retorna o número de propostas finalizadas pelo jogador.
-	 * Propostas são consideradas finalizadas se o <em>status</em>
-	 * for diferente de <code>ABERTA</code>.
-	 *
-	 * @return Número de propostas finalizadas.
-	 */
-	public int getNumeroPropostasFinalizadas() {
-		int cont = 0;
-		for (Proposta p : propostas) {
-			if (!p.getStatus().equals(StatusProposta.ABERTA)) {
-				cont++;
-			}
-		}
-		return cont;
-	}
-
-	/**
-	 * Retorna o número de propostas abertas pelo jogador.
-	 * Propostas são consideradas abertas se o <em>status</em>
-	 * for igual a <code>ABERTA</code>.
-	 *
-	 * @return Número de propostas abertas
-	 */
-	public int getNumeroPropostasAbertas() {
-		int cont = 0;
-		for (Proposta p : propostas) {
-			if (p.getStatus().equals(StatusProposta.ABERTA)) {
-				cont++;
-			}
-		}
-		return cont;
-	}
-
-
-	public boolean cadastra(Proposta p) {
+  
+  public boolean cadastra(Proposta p) {
 		if (p == null) {
 			return false;
 		}
 		return propostas.add(p);
+	}
+
+	/**
+	 * Retorna o número de propostas confirmadas pelos jogadores.
+	 * Propostas são consideradas confirmadas se o <em>status</em>
+	 * for igual a <code>StatusProposta.CONFIRMADA</code>.
+	 *
+	 * @return Número de propostas confirmadas.
+	 */
+	public long getNumeroPropostasConfirmadas() {
+		return propostas.stream().filter(p -> p.getStatus().equals(StatusProposta.CONFIRMADA)).count();
+	}
+
+	/**
+	 * Retorna o número de propostas recusadas pelos jogadores.
+	 * Propostas são consideradas recusadas se o <em>status</em>
+	 * for igual a <code>StatusProposta.RECUSADA</code>.
+	 *
+	 * @return Número de propostas recusadas.
+	 */
+	public long getNumeroPropostasRecusadas() {
+		return propostas.stream().filter(p -> p.getStatus().equals(StatusProposta.RECUSADA)).count();
+	}
+
+	/**
+	 * Retorna o número de propostas em aberto.
+	 * Propostas são consideradas em aberto se o <em>status</em>
+	 * for igual a <code>StatusProposta.ABERTA</code>.
+	 *
+	 * @return Número de propostas abertas
+	 */
+	public long getNumeroPropostasAbertas() {
+		return propostas.stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).count();
 	}
 
 	public List<Proposta> getPropostas() {

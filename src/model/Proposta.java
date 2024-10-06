@@ -90,19 +90,19 @@ public class Proposta {
 	@Override
 	public String toString() {
 		return """
-			Data: %s
-			Status: %s
-			===============Solicitante============
-			Jogador: %s
-			Item: %s
-			===============Solicitado=============
-			Jogador: %s
-			Item: %s
+			Proposta
+			- Data: %s\t|\tStatus: %s
+			- Remetente:
+			\tJogador: %s
+			\tItem oferecido: %s
+			- Destinatário:
+			\tJogador: %s
+			\tItem solicitado: %s
 			""".formatted(data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
 			status,
-			solicitante.jogador(),
+			solicitante.jogador().getNome(),
 			solicitante.item(),
-			solicitado.jogador(),
+			solicitado.jogador().getNome(),
 			solicitado.item()
 		);
 	}
