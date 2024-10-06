@@ -150,7 +150,6 @@ public class App {
 		System.out.println(item);
 	}
 
-
 	/**
 	 * <p>Método responsável por buscar itens pelo nome.</p>
 	 * <p>O método solicita ao usuário o nome (ou parte do nome) do item que deseja
@@ -159,18 +158,23 @@ public class App {
 	 * Caso contrário, uma mensagem informando que nenhum item foi encontrado é
 	 * exibida.</p>
 	 */
-	private void buscaItensNome() {
-		System.out.println("Digite o nome do item o qual deseja buscar");
+	private void buscaItensPorNome() {
+		if (!isAutenticado()) return;
+
+		System.out.print("Digite o nome para buscar: ");
 		String nome = in.nextLine();
+
 		List<Item> itensEncontrados = itemHandler.buscaPorNome(nome);
 		if (itensEncontrados.isEmpty()) {
-			System.out.println("Não foi encontrado nenhum item com o nome digitado.");
+			System.out.printf("Nenhum item encontrado para a busca \"%s\"!%n", nome);
 			return;
 		}
-		for (Item item : itensEncontrados) {
-			System.out.println(item);
+
+		for (Item i : itensEncontrados) {
+			System.out.printf("%s%n%n", i);
 		}
 	}
+
 
 	/**
 	 * <p>Método responsável por buscar itens pela descrição.</p>
