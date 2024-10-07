@@ -12,7 +12,6 @@ import model.StatusProposta;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -31,7 +30,8 @@ import java.util.Scanner;
  * 	<li>Toda entrada e saida de dados deve ocorrer apenas na classe <code>App</code>.</li>
  * </ul>
  *
- * @author Caetano Kich Taffe, Gabriel Domingues, Gabriel Paim, Gustavo Fidélis, Lucas da Paz
+ * @author Caetano Kich Taffe, Daniella Moraes, Gabriel Domingues, Gabriel Paim,
+ * Gustavo Fidélis, Lucas da Paz
  */
 public class App {
 
@@ -57,9 +57,7 @@ public class App {
 	private final ItemHandler itemHandler;
 	private final PropostaHandler propostaHandler;
 
-	private final PrintStream out = System.out;
 	private Scanner in;
-
 	private Jogador jogadorLogado;
 	private boolean run;
 
@@ -70,9 +68,8 @@ public class App {
 	}
 
 	/**
-	 * Método que executa a aplicação.
+	 * Executa a aplicação.
 	 */
-
 	public void executar() {
 		System.out.println("TODO: implementar métodos!");
 
@@ -109,7 +106,7 @@ public class App {
 					listaPropostasRecebidas();
 					break;
 				case 9:
-					handlePropostaRecebida();
+					handlePropostasRecebidas();
 					break;
 				case 10:
 					mostraInformacoesSistema();
@@ -293,12 +290,38 @@ public class App {
 			System.out.println("Não existe nenhum jogador cadastrado com esse email.");
 			return;
 		}
-		if (jogador.getItems().isEmpty()) {
+		if (jogador.getItens().isEmpty()) {
 			System.out.printf("O jogador com o email %s não possui itens.%n", emailJogador);
 			return;
 		}
-		for (Item item : jogador.getItems()) {
+		for (Item item : jogador.getItens()) {
 			System.out.println(item);
+		}
+	}
+
+	/**
+	 * Menu de busca de itens.
+	 */
+	private void buscaItens() {
+		if (!isAutenticado()) return;
+
+		System.out.print("""
+			
+			- Pesquisa de itens -
+			[1] Buscar por ID
+			[2] Buscar por nome
+			[3] Buscar por descrição
+			[4] Buscar por categoria
+			[0] Voltar
+			
+			Escolha...\s""");
+
+		int op = Integer.parseInt(in.nextLine());
+		switch (op) {
+			case 1 -> buscaItemPorId();
+			case 2 -> buscaItensPorNome();
+			case 3 -> buscaItensPorDescricao();
+			case 4 -> buscaItensPorCategoria();
 		}
 	}
 
@@ -309,12 +332,15 @@ public class App {
 	 * encontrado, suas informações serão exibidas. Caso contrário, uma mensagem
 	 * informando que nenhum item foi encontrado é exibida.</p>
 	 */
-	private void buscaItensId() {
-		System.out.println("Digite o id do item o qual deseja buscar");
+	private void buscaItemPorId() {
+		if (!isAutenticado()) return;
+
+		System.out.print("Digite o ID do item: ");
 		int id = Integer.parseInt(in.nextLine());
+
 		Item item = itemHandler.buscaPorId(id);
 		if (item == null) {
-			System.out.println("Não foi encontrado nenhum item com o id digitado.");
+			System.out.println("Item não encontrado!");
 			return;
 		}
 		System.out.println(item);
@@ -345,16 +371,20 @@ public class App {
 	 * Caso contrário, uma mensagem informando que nenhum item foi encontrado é
 	 * exibida.</p>
 	 */
-	private void buscaItensNome() {
-		System.out.println("Digite o nome do item o qual deseja buscar");
+	private void buscaItensPorNome() {
+		if (!isAutenticado()) return;
+
+		System.out.print("Digite o nome para buscar: ");
 		String nome = in.nextLine();
+
 		List<Item> itensEncontrados = itemHandler.buscaPorNome(nome);
 		if (itensEncontrados.isEmpty()) {
-			System.out.println("Não foi encontrado nenhum item com o nome digitado.");
+			System.out.printf("Nenhum item encontrado para a busca \"%s\"!%n", nome);
 			return;
 		}
-		for (Item item : itensEncontrados) {
-			System.out.println(item);
+
+		for (Item i : itensEncontrados) {
+			System.out.printf("%s%n%n", i);
 		}
 	}
 
@@ -366,16 +396,20 @@ public class App {
 	 * exibidas. Caso contrário, uma mensagem informando que nenhum item foi
 	 * encontrado é exibida.</p>
 	 */
-	private void buscaItensDescricao() {
-		System.out.println("Digite a descrição do item o qual deseja buscar");
+	private void buscaItensPorDescricao() {
+		if (!isAutenticado()) return;
+
+		System.out.print("Digite a descrição para buscar: ");
 		String descricao = in.nextLine();
+
 		List<Item> itensEncontrados = itemHandler.buscaPorDescricao(descricao);
 		if (itensEncontrados.isEmpty()) {
-			System.out.println("Não foi encontrado nenhum item com a descrição digitada.");
+			System.out.printf("Nenhum item encontrado para a busca \"%s\"!%n", descricao);
 			return;
 		}
-		for (Item item : itensEncontrados) {
-			System.out.println(item);
+
+		for (Item i : itensEncontrados) {
+			System.out.printf("%s%n%n", i);
 		}
 	}
 
@@ -387,36 +421,100 @@ public class App {
 	 * contrário, uma mensagem informando que nenhum item foi encontrado é
 	 * exibida.</p>
 	 */
-	private void buscaItensCategoria() {
-		System.out.println("Digite a categoria do item o qual deseja buscar.");
+	private void buscaItensPorCategoria() {
+		if (!isAutenticado()) return;
+
+		System.out.print("Digite a categoria para buscar: ");
 		String categoria = in.nextLine();
+
 		List<Item> itensEncontrados = itemHandler.buscaPorCategoria(categoria);
 		if (itensEncontrados.isEmpty()) {
-			System.out.println("Não foi encontrado nenhum item com a categoria digitada.");
+			System.out.printf("Nenhum item encontrado para a busca \"%s\"!%n", categoria);
 			return;
 		}
-		for (Item item : itensEncontrados) {
-			System.out.println(item);
+
+		for (Item i : itensEncontrados) {
+			System.out.printf("%s%n%n", i);
+		}
+	}
+
+	private void listaPropostas() {
+		if (!isAutenticado()) return;
+
+		System.out.print("""
+			
+			- Listagem de propostas -
+			[1] Propostas recebidas
+			[2] Propostas realizadas
+			[3] Propostas recebidas em aberto
+			[4] Propostas realizadas em aberto
+			[0] Voltar
+			
+			Escolha...\s""");
+
+		int op = Integer.parseInt(in.nextLine());
+		switch (op) {
+			case 1 -> listaPropostasRecebidas();
+			case 2 -> listaPropostasRealizadas();
+			case 3 -> listaPropostasRecebidasAbertas();
+			case 4 -> listaPropostasRealizadasAbertas();
 		}
 	}
 
 	/**
-	 * <p>Método para retornar/printar todas as propostas recebidas do jogador logado </p>
+	 * <p>Lista todas as propostas recebidas em aberto do jogador logado </p>
+	 */
+	private void listaPropostasRecebidasAbertas() {
+		if (!isAutenticado()) return;
+
+		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
+			.equals(StatusProposta.ABERTA)).toList();
+		System.out.printf("%n%d propostas recebidas em aberto:%n", recebidas.size());
+
+		for (Proposta p : recebidas) {
+			System.out.println(p);
+		}
+	}
+
+	/**
+	 * <p>Lista todas as propostas recebidas do jogador logado </p>
 	 */
 	private void listaPropostasRecebidas() {
+		if (!isAutenticado()) return;
+
 		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas();
-		for (int i = 0; i < recebidas.size(); i++) {
-			System.out.println(recebidas.get(i));
+		System.out.printf("%n%d propostas recebidas:%n", recebidas.size());
+		for (Proposta p : recebidas) {
+			System.out.println(p);
 		}
 	}
 
 	/**
-	 * <p>Método para retornar/printar todas as propostas realizadas do jogador logado </p>
+	 * <p>Lista todas as propostas realizadas em aberto do jogador logado </p>
+	 */
+	private void listaPropostasRealizadasAbertas() {
+		if (!isAutenticado()) return;
+
+		List<Proposta> realizadas = jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus()
+			.equals(StatusProposta.ABERTA)).toList();
+		System.out.printf("%n%d propostas realizadas em aberto:%n", realizadas.size());
+
+		for (Proposta p : realizadas) {
+			System.out.println(p);
+		}
+	}
+
+	/**
+	 * <p>Lista todas as propostas realizadas do jogador logado </p>
 	 */
 	private void listaPropostasRealizadas() {
+		if (!isAutenticado()) return;
+
 		List<Proposta> realizadas = jogadorLogado.getPropostasRealizadas();
-		for (int i = 0; i < realizadas.size(); i++) {
-			System.out.println(realizadas.get(i));
+		System.out.printf("%n%d propostas realizadas:%n", realizadas.size());
+
+		for (Proposta p : realizadas) {
+			System.out.println(p);
 		}
 	}
 
@@ -456,7 +554,7 @@ public class App {
 			[1] Aceitar
 			[2] Rejeitar
 			[0] Voltar
-
+			
 			Escolha...\s""");
 		int op = Integer.parseInt(in.nextLine());
 
@@ -479,10 +577,9 @@ public class App {
 		}
 	}
 
-
 	/**
-	 * <p>Método responsável por exibir informações gerais do sistema.</p>
-	 * <p>Este método coleta e exibe no console diversas informações importantes
+	 * <p>Exibe informações gerais do sistema.</p>
+	 * <p>Coleta e exibe no console diversas informações importantes
 	 * sobre o sistema: - Total de usuários cadastrados. - Total de itens
 	 * cadastrados e a soma de seus preços. - Quantidade de propostas de troca
 	 * aceitas ou declinadas. - Quantidade de propostas de troca que estão
@@ -501,9 +598,8 @@ public class App {
 	}
 
 	/**
-	 * Método que deve ler arquivo contendo os dados que serão inseridos no
-	 * sistema, instanciar os objetos e armazená-los corretamente para posterior
-	 * uso na aplicação.
+	 * Lê arquivo contendo os dados que serão inseridos no sistema, instancia
+	 * os objetos e armazena-os corretamente para posterior uso na aplicação.
 	 */
 	private void insereDados() {
 		redirecionaEntrada(CAMINHO_ARQUIVO_SEEDER);
@@ -576,85 +672,5 @@ public class App {
 	 */
 	private void restauraEntrada() {
 		in = new Scanner(System.in);
-	}
-
-	private void listaPropostas() {
-		if (!isAutenticado()) return;
-
-		System.out.print("""
-
-			- Listagem de propostas -
-			[1] Propostas recebidas
-			[2] Propostas realizadas
-			[3] Propostas recebidas em aberto
-			[4] Propostas realizadas em aberto
-			[0] Voltar
-
-			Escolha...\s""");
-
-		int op = Integer.parseInt(in.nextLine());
-		switch (op) {
-			case 1 -> listaPropostasRecebidas();
-			case 2 -> listaPropostasRealizadas();
-			case 3 -> listaPropostasRecebidasAbertas();
-			case 4 -> listaPropostasRealizadasAbertas();
-		}
-	}
-
-	/**
-	 * <p>Lista todas as propostas recebidas em aberto do jogador logado </p>
-	 */
-	private void listaPropostasRecebidasAbertas() {
-		if (!isAutenticado()) return;
-
-		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).toList();
-		System.out.printf("%n%d propostas recebidas em aberto:%n", recebidas.size());
-
-		for (Proposta p : recebidas) {
-			System.out.println(p);
-		}
-	}
-
-	/**
-	 * <p>Lista todas as propostas recebidas do jogador logado </p>
-	 */
-	private void listaPropostasRecebidas() {
-		if (!isAutenticado()) return;
-
-		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas();
-		System.out.printf("%n%d propostas recebidas:%n", recebidas.size());
-		for (Proposta p : recebidas) {
-			System.out.println(p);
-		}
-	}
-
-	/**
-	 * <p>Lista todas as propostas realizadas em aberto do jogador logado </p>
-	 */
-	private void listaPropostasRealizadasAbertas() {
-		if (!isAutenticado()) return;
-
-		List<Proposta> realizadas = jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).toList();
-		System.out.printf("%n%d propostas realizadas em aberto:%n", realizadas.size());
-
-		for (Proposta p : realizadas) {
-			System.out.println(p);
-		}
-	}
-
-	/**
-	 * <p>Lista todas as propostas realizadas do jogador logado </p>
-	 */
-	private void listaPropostasRealizadas() {
-		if (!isAutenticado()) return;
-
-		List<Proposta> realizadas = jogadorLogado.getPropostasRealizadas();
-		System.out.printf("%n%d propostas realizadas:%n", realizadas.size());
-
-		for (Proposta p : realizadas) {
-			System.out.println(p);
-		}
 	}
 }
