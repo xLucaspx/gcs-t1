@@ -14,9 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * <p>
@@ -309,22 +307,7 @@ public class App {
 	 * jogador não possuir itens ou se o email não corresponder a nenhum jogador
 	 * cadastrado, uma mensagem adequada será exibida.
 	 */
-	private void listaItensJogador() {
-		System.out.println("Digite o email do jogador o qual deseja buscar");
-		String emailJogador = in.nextLine();
-		Jogador jogador = jogadorHandler.buscaPorEmail(emailJogador);
-		if (jogador == null) {
-			System.out.println("Não existe nenhum jogador cadastrado com esse email.");
-			return;
-		}
-		if (jogador.getItens().isEmpty()) {
-			System.out.printf("O jogador com o email %s não possui itens.%n", emailJogador);
-			return;
-		}
-		for (Item item : jogador.getItens()) {
-			System.out.println(item);
-		}
-	}
+
 
 	/**
 	 * Menu de busca de itens.
@@ -746,5 +729,102 @@ public class App {
 	 */
 	private void restauraEntrada() {
 		in = new Scanner(System.in);
+	}
+
+
+	/**
+	 * Permite que o usuário cadastre um novo <code>Item</code>.
+	 */
+	private void cadastraItem() {
+		if (!isAutenticado()) return;
+
+		System.out.println("\n- Cadastro de item -");
+		System.out.print("Digite o nome do item: ");
+		String nome = in.nextLine();
+
+		if (nome.isBlank()) {
+			System.out.println("O nome do item deve ser informado!");
+			return;
+		}
+
+		System.out.print("Digite a descrição do item: ");
+		String descricao = in.nextLine();
+
+		if (descricao.isBlank()) {
+			System.out.println("A descrição do item deve ser informada!");
+			return;
+		}
+
+		System.out.print("Digite a categoria do item: ");
+		String categoria = in.nextLine();
+
+		if (categoria.isBlank()) {
+			System.out.println("A categoria do item deve ser informada!");
+			return;
+		}
+
+		System.out.print("Digite o preço do item (utilize ponto decimal): ");
+		float preco = Float.parseFloat(in.nextLine());
+
+		Item i = new Item(nome, descricao, categoria, preco);
+		System.out.printf("%n%s%n%n", i);
+
+		System.out.print("Confirma a criação do item? Digite S para confirmar... ");
+		String input = in.nextLine();
+
+		if (!input.equalsIgnoreCase("S")) {
+			System.out.println("Operação cancelada!");
+			return;
+		}
+
+		itemHandler.add(i);
+		jogadorLogado.addItem(i);
+		System.out.println("Cadastro realizado com sucesso!");
+	}
+
+	/**
+	 * Lista os itens do jogador logado, em ordem alfabética.
+	 */
+	private void listaItensJogador() {
+		if (!isAutenticado()) return;
+
+		System.out.println("\n- Seus itens -");
+		List<Item> itens = new ArrayList<>(jogadorLogado.getItens());
+
+		if (itens.isEmpty()) {
+			System.out.println("Nenhum item encontrado!");
+			return;
+		}
+
+		// ordena alfabeticamente
+		itens.sort(Comparator.comparing(Item::getNome));
+
+		for (Item i : itens) {
+			System.out.printf("%s%n%n", i);
+		}
+	}
+
+	/**
+	 * Lista todos os itens cadastrados no sistema, exceto os do próprio jogador.
+	 * Ordena os itens pelo preço.
+	 */
+	private void listaItensDisponiveis() {
+		if (!isAutenticado()) return;
+
+		System.out.println("\n- Itens disponíveis -");
+		List<Item> itens = new ArrayList<>(itemHandler.getItens());
+
+		if (itens.isEmpty()) {
+			System.out.println("Nenhum item encontrado!");
+			return;
+		}
+
+		// ordena por preço
+		itens.sort(Comparator.comparing(Item::getPreco));
+
+		for (Item i : itens) {
+			if (i.getJogador().equals(jogadorLogado)) continue;
+			System.out.printf("%s%n%n", i);
+		}
 	}
 }
