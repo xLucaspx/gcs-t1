@@ -461,6 +461,13 @@ public class App {
 			System.out.println("Operação cancelada!");
 			return;
 		}
+
+		DadosProposta solicitante = new DadosProposta(jogadorLogado, itemOferecido);
+		DadosProposta solicitado = new DadosProposta(itemSolicitado.getJogador(), itemSolicitado);
+		Proposta p = new Proposta(solicitante, solicitado);
+		propostaHandler.cadastra(p);
+
+		System.out.println("Proposta realizada com sucesso!");
 	}
 
 	/**
