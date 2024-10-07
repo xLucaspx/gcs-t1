@@ -471,7 +471,9 @@ public class App {
 	private void mostraInformacoesSistema() {
 		int totalUsuarios = jogadorHandler.totalJogadores();
 		int totalItens = itemHandler.totalItens();
-		long propostasFinalizadas = propostaHandler.getNumeroPropostasFinalizadas();
+		long propostasConfirmadas = propostaHandler.getNumeroPropostasConfirmadas();
+		long propostasRecusadas = propostaHandler.getNumeroPropostasRecusadas();
+		long propostasFinalizadas = propostasConfirmadas + propostasRecusadas;
 		long propostasEmAndamento = propostaHandler.getNumeroPropostasAbertas();
 		double precoTotal = itemHandler.precoTotal();
 		System.out.printf("O total de usuários é: %d%n", totalUsuarios);
