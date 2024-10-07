@@ -17,8 +17,13 @@ public class PropostaHandler {
 	public PropostaHandler() {
 		this.propostas = new ArrayList<>();
 	}
-  
-  public boolean cadastra(Proposta p) {
+
+	/**
+	 * Adiciona proposta a lista.
+	 * @param p proposta a ser adicionada.
+	 * @return verdadeiro se for executado com sucesso
+	 */
+  	public boolean cadastra(Proposta p) {
 		if (p == null) {
 			return false;
 		}
@@ -58,6 +63,10 @@ public class PropostaHandler {
 		return propostas.stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).count();
 	}
 
+	/**
+	 * Pega as propostas existentes na classe.
+	 * @return lista de proposta da classe.
+	 */
 	public List<Proposta> getPropostas() {
 		return Collections.unmodifiableList(propostas);
 	}
