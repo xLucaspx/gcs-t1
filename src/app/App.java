@@ -634,9 +634,11 @@ public class App {
 	 * aguardando uma resposta.</p>
 	 */
 	private void mostraInformacoesSistema() {
-		int totalUsuarios = jogadorHandler.size();
-		int totalItens = itemHandler.size();
-		long propostasFinalizadas = propostaHandler.getNumeroPropostasFinalizadas();
+		int totalUsuarios = jogadorHandler.totalJogadores();
+		int totalItens = itemHandler.totalItens();
+		long propostasConfirmadas = propostaHandler.getNumeroPropostasConfirmadas();
+		long propostasRecusadas = propostaHandler.getNumeroPropostasRecusadas();
+		long propostasFinalizadas = propostasConfirmadas + propostasRecusadas;
 		long propostasEmAndamento = propostaHandler.getNumeroPropostasAbertas();
 		double precoTotal = itemHandler.precoTotal();
 		System.out.printf("O total de usuários é: %d%n", totalUsuarios);
