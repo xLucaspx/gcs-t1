@@ -471,44 +471,6 @@ public class App {
 		}
 	}
 
-	private void listaPropostas() {
-		if (!isAutenticado()) return;
-
-		System.out.print("""
-			
-			- Listagem de propostas -
-			[1] Propostas recebidas
-			[2] Propostas realizadas
-			[3] Propostas recebidas em aberto
-			[4] Propostas realizadas em aberto
-			[0] Voltar
-			
-			Escolha...\s""");
-
-		int op = Integer.parseInt(in.nextLine());
-		switch (op) {
-			case 1 -> listaPropostasRecebidas();
-			case 2 -> listaPropostasRealizadas();
-			case 3 -> listaPropostasRecebidasAbertas();
-			case 4 -> listaPropostasRealizadasAbertas();
-		}
-	}
-
-	/**
-	 * <p>Lista todas as propostas recebidas em aberto do jogador logado </p>
-	 */
-	private void listaPropostasRecebidasAbertas() {
-		if (!isAutenticado()) return;
-
-		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).toList();
-		System.out.printf("%n%d propostas recebidas em aberto:%n", recebidas.size());
-
-		for (Proposta p : recebidas) {
-			System.out.println(p);
-		}
-	}
-
 	/**
 	 * <p>Lista todas as propostas recebidas em aberto do jogador logado </p>
 	 */
@@ -566,12 +528,54 @@ public class App {
 		}
 	}
 
-	private void abreProposta(DadosProposta solicitante, DadosProposta solicitado) {
-		Proposta novaProposta = new Proposta(solicitante, solicitado);
-		propostaHandler.getPropostas().add(novaProposta);
+	/**
+	 * <p>Método para abrir uma proposta de troca de um item próprio do jodador por outro</p>
+	 */
+	private void abrePropostaTroca() {
+		if (!isAutenticado()) return;
 
-		System.out.println("A nova proposta com o jogador " + novaProposta.getSolicitado() + " foi aberta com sucesso!");
-		System.out.println("O jogador " + novaProposta.getSolicitante() + " enviou uma nova proposta de troca!");
+		System.out.println("\n- Nova proposta de troca -");
+		System.out.print("Digite o ID do item que está oferecendo: ");
+		int id = Integer.parseInt(in.nextLine());
+		Item itemOferecido = jogadorLogado.getItem(id);
+
+		if (itemOferecido == null) {
+			System.out.println("Item não encontrado!");
+			return;
+		}
+
+		System.out.print("Digite o ID do item solicitado: ");
+		id = Integer.parseInt(in.nextLine());
+		Item itemSolicitado = itemHandler.buscaPorId(id);
+
+		if (itemSolicitado == null) {
+			System.out.println("Item não encontrado!");
+			return;
+		}
+
+		System.out.printf("""
+
+				Remetente: %s
+				Item oferecido: %s
+
+				Destinatário: %s
+				Item solicitado: %s
+
+				""", jogadorLogado.getNome(), itemOferecido, itemSolicitado.getJogador().getNome(), itemSolicitado);
+		System.out.print("Confirma a criação da proposta? Digite S para confirmar... ");
+		String input = in.nextLine();
+
+		if (!input.equalsIgnoreCase("S")) {
+			System.out.println("Operação cancelada!");
+			return;
+		}
+
+		DadosProposta solicitante = new DadosProposta(jogadorLogado, itemOferecido);
+		DadosProposta solicitado = new DadosProposta(itemSolicitado.getJogador(), itemSolicitado);
+		Proposta p = new Proposta(solicitante, solicitado);
+		propostaHandler.cadastra(p);
+
+		System.out.println("Proposta realizada com sucesso!");
 	}
 
 	/**
@@ -634,17 +638,37 @@ public class App {
 	 * aguardando uma resposta.</p>
 	 */
 	private void mostraInformacoesSistema() {
-		int totalUsuarios = jogadorHandler.totalJogadores();
-		int totalItens = itemHandler.totalItens();
+		int qtdUsuarios = jogadorHandler.totalJogadores();
+		int qtdItens = itemHandler.totalItens();
+		double precoTotalItens = itemHandler.precoTotal();
+		double mediaPrecoItens = precoTotalItens / qtdItens;
+		long propostasAbertas = propostaHandler.getNumeroPropostasAbertas();
 		long propostasConfirmadas = propostaHandler.getNumeroPropostasConfirmadas();
 		long propostasRecusadas = propostaHandler.getNumeroPropostasRecusadas();
-		long propostasFinalizadas = propostasConfirmadas + propostasRecusadas;
-		long propostasEmAndamento = propostaHandler.getNumeroPropostasAbertas();
-		double precoTotal = itemHandler.precoTotal();
-		System.out.printf("O total de usuários é: %d%n", totalUsuarios);
-		System.out.printf("O total de itens é: %d e a soma total de seus preços é: R$ %.2f%n", totalItens, precoTotal);
-		System.out.printf("A quantidade de propostas de trocas aceitas/declinadas é: %d%n", propostasFinalizadas);
-		System.out.printf("A quantidade total de propostas aguardando resposta é: %d%n", propostasEmAndamento);
+		long totalPropostas = propostasAbertas + propostasConfirmadas + propostasRecusadas;
+
+
+		System.out.printf("""
+				- Informações do Sistema -
+				> Quantidade de usuários cadastrados: %d
+				> Quantidade de itens cadastrados: %d
+				\t- Valor total dos itens: R$ %.2f
+				\t- Média de preço dos itens: R$ %.2f
+				> Quantidade de propostas no sistema: %d
+				\t- Propostas em aberto: %d
+				\t- Propostas fechadas: %d
+				\t\t* Confirmadas: %d
+				\t\t* Recusadas: %d%n""",
+				qtdUsuarios,
+				qtdItens,
+				precoTotalItens,
+				mediaPrecoItens,
+				totalPropostas,
+				propostasAbertas,
+				propostasConfirmadas + propostasRecusadas,
+				propostasConfirmadas,
+				propostasRecusadas
+		);
 	}
 
 	/**
