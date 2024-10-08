@@ -76,10 +76,14 @@ public class App {
 		run = true;
 
 		while (run) {
-			if (jogadorLogado == null) {
-				menuInicial();
-			} else {
-				menuPrincipal();
+			try {
+				if (jogadorLogado == null) {
+					menuInicial();
+				} else {
+					menuPrincipal();
+				}
+			} catch (Exception e) {
+				System.err.printf("Ocorreu um erro inesperado: %s%n%n", e.getMessage());
 			}
 		}
 	}
