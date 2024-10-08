@@ -16,7 +16,7 @@ import java.util.Map;
  * <p>Esta classe encapsula uma coleção de itens e fornece métodos para operar sobre
  * ela, garantindo que possa ser manipulada de maneira controlada e segura.</p>
  *
- * @author Gabriel Domingues, LucaWB
+ * @author Gabriel Domingues, LucaWB, Lucas da Paz
  */
 public class ItemHandler {
 
@@ -37,7 +37,7 @@ public class ItemHandler {
 	 *
 	 * @param i O item a ser adicionado.
 	 */
-	public void add(Item i) {
+	public void cadastra(Item i) {
 		if (i == null) {
 			return;
 		}

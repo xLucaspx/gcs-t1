@@ -1,7 +1,7 @@
 package model;
 
 /**
- * @author Rodrigo Miotto Slongo
+ * @author Lucas da Paz, Rodrigo Miotto Slongo
  */
 public enum StatusProposta {
 	ABERTA(1, "Em processamento"), CONFIRMADA(2, "Proposta aceita"), RECUSADA(3, "Proposta recusada");
@@ -9,9 +9,9 @@ public enum StatusProposta {
 	private final int codigo;
 	private final String descricao;
 
-	StatusProposta(int codigo, String status) {
+	StatusProposta(int codigo, String descricao) {
 		this.codigo = codigo;
-		this.descricao = status;
+		this.descricao = descricao;
 	}
 
 	/**
