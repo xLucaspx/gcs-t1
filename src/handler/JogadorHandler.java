@@ -3,6 +3,7 @@ package handler;
 import model.Jogador;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,6 +33,13 @@ public class JogadorHandler {
 			return false;
 		}
 		return jogadores.add(j);
+	}
+
+	/**
+	 * @return Lista contendo todos os jogadores cadastrados na aplicação.
+	 */
+	public List<Jogador> getJogadores() {
+		return Collections.unmodifiableList(jogadores);
 	}
 
 	/**

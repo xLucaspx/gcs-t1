@@ -21,10 +21,8 @@ import java.util.Locale;
 import java.util.Scanner;
 
 /**
- * <p>
- * Classe da aplicação.</p>
- * <p>
- * <strong>Restrições</strong>:</p>
+ * <p>Classe da aplicação.</p>
+ * <p><strong>Restrições</strong>:</p>
  * <ul>
  * 	<li>A entrada de dados para popular o sistema na inicialização deverá ocorrer por
  * 	leitura de arquivo de texto;</li>
@@ -67,6 +65,7 @@ public class App {
 		jogadorHandler = new JogadorHandler();
 		itemHandler = new ItemHandler();
 		propostaHandler = new PropostaHandler();
+		in = new Scanner(System.in);
 	}
 
 	/**
@@ -126,6 +125,7 @@ public class App {
 		System.out.print("""
 			[1] Login
 			[2] Cadastro
+			[3] Escolher usuário
 			[0] Encerrar
 
 			Escolha...\s""");
@@ -134,8 +134,8 @@ public class App {
 		switch (op) {
 			case 1 -> login();
 			case 2 -> cadastro();
+			case 3 -> escolheUsuario();
 			case 0 -> encerrar();
-			case 42 -> jogadorLogado = jogadorHandler.buscaPorEmail("lucasilva@email.com");
 			default -> System.out.println("\nOpção inválida");
 		}
 	}
@@ -210,7 +210,8 @@ public class App {
 			return;
 		}
 
-		System.out.print("\nDigite seu nome: ");
+		System.out.println("\n- Cadastro -");
+		System.out.print("Digite seu nome: ");
 		String nome = in.nextLine();
 
 		if (nome.isBlank()) {
@@ -258,7 +259,8 @@ public class App {
 			return;
 		}
 
-		System.out.print("\nE-mail: ");
+		System.out.println("\n- Login -");
+		System.out.print("E-mail: ");
 		String email = in.nextLine();
 		Jogador j = jogadorHandler.buscaPorEmail(email);
 
@@ -277,6 +279,35 @@ public class App {
 
 		jogadorLogado = j;
 		System.out.printf("Seja bem-vindo(a), %s%n", j.getNome());
+	}
+
+	/**
+	 * Permite escolher um usuário da lista de usuários cadastrados,
+	 * evitando a necessidade de login. Para fins didáticos e de testes.
+	 */
+	private void escolheUsuario() {
+		if (jogadorLogado != null) {
+			System.out.printf("\nVocê já está autenticado como %s%n", jogadorLogado.getNome());
+			return;
+		}
+
+		System.out.println("\n- Jogadores disponíveis -");
+		List<Jogador> jogadores = jogadorHandler.getJogadores();
+		int size = jogadores.size();
+		for (int i = 0; i < size; i++) {
+			Jogador j = jogadores.get(i);
+			System.out.printf("[%2d] - %s <%s>%n", i + 1, j.getNome(), j.getEmail());
+		}
+
+		System.out.print("\nEscolha... ");
+		int op = Integer.parseInt(in.nextLine());
+
+		if (op < 1 || op > size) {
+			System.out.println("Valor inválido inserido!");
+			return;
+		}
+
+		jogadorLogado = jogadores.get(--op);
 	}
 
 	/**
@@ -356,7 +387,7 @@ public class App {
 			return;
 		}
 
-		itemHandler.add(i);
+		itemHandler.cadastra(i);
 		jogadorLogado.addItem(i);
 		System.out.println("Cadastro realizado com sucesso!");
 	}
@@ -429,7 +460,7 @@ public class App {
 			case 1 -> buscaItemPorId();
 			case 2 -> buscaItensPorNome();
 			case 3 -> buscaItensPorDescricao();
-			case 4 -> buscaItensCategoria();
+			case 4 -> buscaItensPorCategoria();
 		}
 	}
 
@@ -512,7 +543,7 @@ public class App {
 	 * contrário, uma mensagem informando que nenhum item foi encontrado é
 	 * exibida.</p>
 	 */
-	private void buscaItensCategoria() {
+	private void buscaItensPorCategoria() {
 		if (!isAutenticado()) return;
 
 		System.out.print("Digite a categoria para buscar: ");
@@ -666,8 +697,13 @@ public class App {
 			.equals(StatusProposta.ABERTA)).toList();
 		int size = propostas.size();
 
+		if (size == 0) {
+			System.out.println("Nenhuma proposta em aberto!");
+			return;
+		}
+
 		for (int i = 0; i < size; i++) {
-			System.out.printf("[%d]:%n%s%n", i + 1, propostas.get(i));
+			System.out.printf("[%2d]:%n%s%n", i + 1, propostas.get(i));
 		}
 
 		System.out.print("Selecione a proposta: ");
@@ -727,6 +763,7 @@ public class App {
 
 
 		System.out.printf("""
+
 				- Informações do Sistema -
 				> Quantidade de usuários cadastrados: %d
 				> Quantidade de itens cadastrados: %d
@@ -774,7 +811,7 @@ public class App {
 			float preco = Float.parseFloat(itemInfo[4]);
 			Jogador j = jogadorHandler.buscaPorEmail(itemInfo[5]);
 			Item item = new Item(id, nome, descricao, categoria, preco, j);
-			itemHandler.add(item);
+			itemHandler.cadastra(item);
 		}
 
 		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
