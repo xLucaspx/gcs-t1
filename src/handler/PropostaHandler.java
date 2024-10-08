@@ -20,10 +20,11 @@ public class PropostaHandler {
 
 	/**
 	 * Adiciona proposta a lista.
+	 *
 	 * @param p proposta a ser adicionada.
 	 * @return verdadeiro se for executado com sucesso
 	 */
-  	public boolean cadastra(Proposta p) {
+	public boolean cadastra(Proposta p) {
 		if (p == null) {
 			return false;
 		}
@@ -65,6 +66,7 @@ public class PropostaHandler {
 
 	/**
 	 * Pega as propostas existentes na classe.
+	 *
 	 * @return lista de proposta da classe.
 	 */
 	public List<Proposta> getPropostas() {
