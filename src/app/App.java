@@ -70,9 +70,19 @@ public class App {
 
 	/**
 	 * Método que executa a aplicação.
+	 *
+	 * @param args <em>Array</em> de argumentos recebidos para a execução do programa,
+	 *             conforme segue:
+	 *             <ul>
+	 *             		<li>[0] -> Caminho do arquivo <em>seeder</em>: A primeira posição
+	 *             		deve conter o caminho para o arquivo contendo os dados que serão inseridos
+	 *             		no sistema ao iniciar a aplicação; caso este valor não seja informado, será
+	 *             		utilizado o valor da constante <code>CAMINHO_ARQUIVO_SEEDER</code>.</li>
+	 *             </ul>
 	 */
-	public void executar() {
-		insereDados();
+	public void executar(String... args) {
+		String caminhoArquivoSeeder = args.length > 0 ? args[0] : CAMINHO_ARQUIVO_SEEDER;
+		insereDados(caminhoArquivoSeeder);
 		run = true;
 
 		while (run) {
@@ -781,10 +791,13 @@ public class App {
 	/**
 	 * <p>Método responsável por exibir informações gerais do sistema.</p>
 	 * <p>Este método coleta e exibe no console diversas informações importantes
-	 * sobre o sistema: - Total de usuários cadastrados. - Total de itens
-	 * cadastrados e a soma de seus preços. - Quantidade de propostas de troca
-	 * aceitas ou declinadas. - Quantidade de propostas de troca que estão
-	 * aguardando uma resposta.</p>
+	 * sobre o sistema, como:</p>
+	 * <ul>
+	 *   <li>Total de usuários cadastrados;</li>
+	 *   <li>Total de itens cadastrados e a soma de seus preços;</li>
+	 *   <li>Quantidade de propostas de troca aceitas ou declinadas;</li>
+	 *   <li>Quantidade de propostas de troca que estão aguardando uma resposta.</li>
+	 * </ul>
 	 */
 	private void mostraInformacoesSistema() {
 		int qtdUsuarios = jogadorHandler.totalJogadores();
@@ -825,9 +838,11 @@ public class App {
 	 * Método que deve ler arquivo contendo os dados que serão inseridos no
 	 * sistema, instanciar os objetos e armazená-los corretamente para posterior
 	 * uso na aplicação.
+	 *
+	 * @param caminhoArquivoSeeder Caminho para o arquivo que contém os dados.
 	 */
-	private void insereDados() {
-		redirecionaEntrada(CAMINHO_ARQUIVO_SEEDER);
+	private void insereDados(String caminhoArquivoSeeder) {
+		redirecionaEntrada(caminhoArquivoSeeder);
 
 		int qtdJogadores = Integer.parseInt(in.nextLine());
 		for (int i = 0; i < qtdJogadores; i++) {
@@ -877,15 +892,18 @@ public class App {
 	 * Redireciona a entrada de dados para o arquivo especificado. Ajusta o
 	 * <code>Locale</code> para utilizar ponto decimal.
 	 *
-	 * @param arquivoEntrada Caminho do arquivo que será utilizado para a
-	 *                       entrada.
+	 * @param arquivoEntrada Caminho do arquivo que será utilizado para a entrada.
 	 */
 	private void redirecionaEntrada(String arquivoEntrada) {
 		try {
 			BufferedReader inputStream = new BufferedReader(new FileReader(arquivoEntrada));
 			in = new Scanner(inputStream);
 		} catch (IOException e) {
-			System.err.println(e.getMessage());
+			System.err.printf("Erro durante o carregamento da aplicação: %s%n", e.getMessage());
+			System.out.printf("Verifique seu diretório de execução (working directory) e a localização do arquivo: %s%n",
+				arquivoEntrada
+			);
+			System.exit(1);
 		}
 
 		Locale.setDefault(Locale.ENGLISH);
