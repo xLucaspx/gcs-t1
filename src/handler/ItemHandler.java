@@ -1,13 +1,12 @@
 package handler;
 
-import model.Item;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import model.Item;
 
 /**
  * <p>A classe ItemHandler é responsável por gerenciar de objetos do tipo
@@ -141,6 +140,15 @@ public class ItemHandler {
 		return itens.size();
 	}
 
+	/**
+	 * Calcula o preço total de todos os itens de uma coleção.
+	 * 
+	 * Este método itera sobre os valores da coleção de itens, utilizando um 
+	 * fluxo de dados (`Stream`) para converter cada item em seu preço 
+	 * correspondente, e então soma todos os preços.
+	 * 
+	 * @return O preço total de todos os itens presentes na coleção.
+	 */
 	public double precoTotal() {
 		return itens.values().stream().mapToDouble(Item::getPreco).sum();
 	}
