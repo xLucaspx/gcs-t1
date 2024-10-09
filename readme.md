@@ -8,6 +8,19 @@ dados. Para conveniência, o sistema inicia com dados já preenchidos; estes dad
 na memória no início de cada execução. Mais informações sobre o preenchimento dos dados podem ser encontradas abaixo, na
 seção [Preenchimento de dados](#preenchimento-de-dados).
 
+**Equipe**:
+- [Caetano Kich](https://github.com/CaetanoKich);
+- [Daniella Moraes](https://github.com/MSDaniella);
+- [Filipe Roman](https://github.com/fitroman);
+- [Gabriel Paim](https://github.com/GabrielArrudaPaim);
+- [Gabriel Domingues](https://github.com/DominguesGabriel);
+- [Gustavo Fidélis](https://github.com/gustavofid);
+- [Luca Bohnenberger](https://github.com/LucaWBohnenberger);
+- [Lucas da Paz](https://github.com/xLucaspx);
+- [Mateus Tieppo](https://github.com/Mateus-Tieppo);
+- [Rodrigo Slongo](https://github.com/Slongo11);
+- [William Klein](https://github.com/William-Olv-Kln).
+
 [Trello - Tarefas](https://trello.com/b/olub9SuD).
 
 ## Índice
@@ -41,10 +54,11 @@ git clone https://github.com/xLucaspx/gcs-t1.git
 ```
 
 Dentro da pasta clonada, o repositório já estará configurado, bastando apenas criar uma nova _branch_ a partir da
-_branch_ `dev` e iniciar o desenvolvimento da sua _feature_. Isso pode ser realizado com os comandos `git switch dev`
-e `git switch -C feature/nova-branch`, onde `nova-branch` será o nome da feature que você irá desenvolver. Tente criar
-nomes curtos, mas descritivos; atenção para a flag `-C` (com a letra "C" maiúscula), ela será a responsável por criar
-a _branch_, enquanto o comando `switch` irá transferir a `head` para a _branch_ desejada.
+_branch_ `dev` e iniciar o desenvolvimento. Isso pode ser realizado com os comandos `git switch dev` e
+`git switch -C prefixo/nova-branch`, onde `prefixo` denota o propósito da _branch_ e `nova-branch` será o nome da
+_branch_, conforme descrito em [Processo de _branching_](#processo-de-_branching_). Tente criar nomes curtos, mas
+descritivos; atenção para a flag `-C` (com a letra "C" maiúscula), ela será a responsável por criar a _branch_, enquanto
+o comando `switch` irá transferir a `head` para a _branch_ desejada.
 
 **Importante**: crie sua _branch_ a partir da _branch_ `dev`.
 
@@ -91,7 +105,7 @@ O arquivo padrão será armazenado em [_resources/seeder.txt_](./resources/seede
 execução e do diretório no qual o código será executado (_working directory_), o sistema pode não encontrar o arquivo no
 caminho especificado. Neste caso, é possível alterar a constante `CAMINHO_ARQUIVO_SEEDER` na classe `App` para o caminho
 correto. Outra possibilidade é passar o caminho do arquivo _seeder_ como argumento ao executar o programa, não sendo
-necessário modificar o código; e.g.: `Java Main ../resources/seeder.txt`, se o seu _working directory_ for a pasta _src_
+necessário modificar o código; e.g.: `java Main ../resources/seeder.txt`, se o seu _working directory_ for a pasta _src_
 ao invés da pasta raíz do projeto.
 
 O arquivo _seeder_ terá a seguinte estrutura:
