@@ -14,6 +14,6 @@ public class Main {
 	 *             no início da execução do programa.
 	 */
 	public static void main(String... args) {
-		new App().executar();
+		new App().executar(args);
 	}
 }
