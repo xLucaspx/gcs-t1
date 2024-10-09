@@ -4,7 +4,8 @@ package model;
  * @author Lucas da Paz, Rodrigo Miotto Slongo
  */
 public enum StatusProposta {
-	ABERTA(1, "Em processamento"), CONFIRMADA(2, "Proposta aceita"), RECUSADA(3, "Proposta recusada");
+	ABERTA(1, "Em processamento"), CONFIRMADA(2, "Proposta aceita"), RECUSADA(3, "Proposta recusada"),
+	CANCELADA(4, "Proposta cancelada");
 
 	private final int codigo;
 	private final String descricao;

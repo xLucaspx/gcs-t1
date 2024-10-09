@@ -322,6 +322,7 @@ public class App {
 
 		if (!input.equalsIgnoreCase("S")) {
 			System.out.println("Operação cancelada!");
+			return;
 		}
 
 		System.out.println("Saindo... Até mais!");
@@ -656,6 +657,10 @@ public class App {
 		}
 	}
 
+	/**
+	 * Permite que o jogador selecione um item seu e um item de outro jogador
+	 * e abra uma proposta de troca.
+	 */
 	private void abrePropostaTroca() {
 		if (!isAutenticado()) return;
 
@@ -703,6 +708,10 @@ public class App {
 		System.out.println("Proposta realizada com sucesso!");
 	}
 
+	/**
+	 * Permite ao jogador selecionar o tipo de listagem de propostas que deseja
+	 * e chama o método correspondente.
+	 */
 	private void listaPropostas() {
 		if (!isAutenticado()) return;
 
@@ -783,8 +792,26 @@ public class App {
 		}
 	}
 
+	/**
+	 * Menu de gerenciamento de propostas.
+	 */
 	private void gerenciaPropostas() {
+		if (!isAutenticado()) return;
 
+		System.out.print("""
+
+			- Gerenciar propostas -
+			[1] Propostas recebidas (em aberto)
+			[2] Propostas realizadas (em aberto)
+			[0] Voltar
+
+			Escolha...\s""");
+
+		int op = Integer.parseInt(in.nextLine());
+		switch (op) {
+			case 1 -> handlePropostasRecebidas();
+			case 2 -> handlePropostasRealizadas();
+		}
 	}
 
 	/**
@@ -795,30 +822,16 @@ public class App {
 		System.out.println("\n- Gerenciar propostas recebidas -");
 		List<Proposta> propostas =
 			jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).toList();
-		int size = propostas.size();
+		Proposta p = selecionaProposta(propostas);
 
-		if (size == 0) {
-			System.out.println("Nenhuma proposta em aberto!");
+		if (p == null) {
 			return;
 		}
 
-		for (int i = 0; i < size; i++) {
-			System.out.printf("[%2d]:%n%s%n", i + 1, propostas.get(i));
-		}
-
-		System.out.print("Selecione a proposta: ");
-		int pIndex = Integer.parseInt(in.nextLine());
-
-		if (pIndex < 1 || pIndex > size) {
-			System.out.println("Valor inválido inserido!");
-			return;
-		}
-
-		Proposta p = propostas.get(--pIndex);
 		System.out.printf("%nSeleção: %s%n", p);
 		System.out.print("""
-			[1] Aceitar
-			[2] Rejeitar
+			[1] Aceitar proposta
+			[2] Rejeitar proposta
 			[0] Voltar
 
 			Escolha...\s""");
@@ -845,8 +858,66 @@ public class App {
 		System.out.println("Operação realizada com sucesso!");
 	}
 
+	/**
+	 * Permite ao jogador visualizar suas propostas realizadas em aberto,
+	 * selecionar uma proposta da lista e fazer seu cancelamento, se assim desejar.
+	 */
 	private void handlePropostasRealizadas() {
+		System.out.println("\n- Gerenciar propostas realizadas -");
+		List<Proposta> propostas =
+			jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).toList();
+		Proposta p = selecionaProposta(propostas);
 
+		if (p == null) {
+			return;
+		}
+
+		System.out.printf("%nSeleção: %s%n", p);
+		System.out.print("""
+			[1] Cancelar proposta
+			[0] Voltar
+
+			Escolha...\s""");
+		int op = Integer.parseInt(in.nextLine());
+
+		if (op != 1) {
+			System.out.println("Operação cancelada!");
+			return;
+		}
+
+		System.out.print("Esta operação não pode ser desfeita! Digite S para continuar... ");
+		String input = in.nextLine();
+
+		if (!input.equalsIgnoreCase("S")) {
+			System.out.println("Operação cancelada!");
+			return;
+		}
+
+		p.cancelar();
+		System.out.println("Operação realizada com sucesso!");
+	}
+
+	private Proposta selecionaProposta(List<Proposta> propostas) {
+		int size = propostas.size();
+
+		if (size == 0) {
+			System.out.println("Nenhuma proposta em aberto!");
+			return null;
+		}
+
+		for (int i = 0; i < size; i++) {
+			System.out.printf("[%2d]:%n%s%n", i + 1, propostas.get(i));
+		}
+
+		System.out.print("Selecione a proposta: ");
+		int pIndex = Integer.parseInt(in.nextLine());
+
+		if (pIndex < 1 || pIndex > size) {
+			System.out.println("Valor inválido inserido!");
+			return null;
+		}
+
+		return propostas.get(--pIndex);
 	}
 
 	/**
@@ -865,7 +936,8 @@ public class App {
 		long propostasAbertas = propostaHandler.getNumeroPropostasAbertas();
 		long propostasConfirmadas = propostaHandler.getNumeroPropostasConfirmadas();
 		long propostasRecusadas = propostaHandler.getNumeroPropostasRecusadas();
-		long totalPropostas = propostasAbertas + propostasConfirmadas + propostasRecusadas;
+		long propostasCanceladas = propostaHandler.getNumeroPropostasCanceladas();
+		long totalPropostas = propostasAbertas + propostasConfirmadas + propostasRecusadas + propostasCanceladas;
 
 
 		System.out.printf("""
@@ -879,16 +951,18 @@ public class App {
 				\t- Propostas em aberto: %d
 				\t- Propostas fechadas: %d
 				\t\t* Confirmadas: %d
-				\t\t* Recusadas: %d%n""",
+				\t\t* Recusadas: %d
+				\t\t* Canceladas: %d%n""",
 			qtdUsuarios,
 			qtdItens,
 			precoTotalItens,
 			mediaPrecoItens,
 			totalPropostas,
 			propostasAbertas,
-			propostasConfirmadas + propostasRecusadas,
+			propostasConfirmadas + propostasRecusadas + propostasCanceladas,
 			propostasConfirmadas,
-			propostasRecusadas
+			propostasRecusadas,
+			propostasCanceladas
 		);
 	}
 
