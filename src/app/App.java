@@ -98,10 +98,10 @@ public class App {
 		if (jogadorLogado == null) return;
 
 		System.out.println(jogadorLogado);
-		long qtdPropostasRecebidasAbertas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).count();
-		long qtdPropostasRealizadasAbertas = jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).count();
+		long qtdPropostasRecebidasAbertas =
+			jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).count();
+		long qtdPropostasRealizadasAbertas =
+			jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).count();
 
 		System.out.printf("Notificações:%n- %d propostas recebidas em aberto%n- %d propostas realizadas em aberto%n%n",
 			qtdPropostasRecebidasAbertas,
@@ -152,32 +152,30 @@ public class App {
 
 		System.out.print("""
 			- Menu Principal -
-			[ 1] Listar seus itens
-			[ 2] Cadastrar novo item
-			[ 3] Excluir item
-			[ 4] Listar itens disponíveis
-			[ 5] Pesquisar itens
-			[ 6] Nova proposta de troca
-			[ 7] Listar propostas de troca
-			[ 8] Gerenciar propostas recebidas
-			[ 9] Informações do sistema
-			[10] Logout
-			[ 0] Encerrar
+			[1] Listar seus itens
+			[2] Gerenciar seus itens
+			[3] Listar itens disponíveis
+			[4] Pesquisar itens
+			[5] Nova proposta de troca
+			[6] Listar propostas de troca
+			[7] Gerenciar suas propostas
+			[8] Informações do sistema
+			[9] Logout
+			[0] Encerrar
 
 			Escolha...\s""");
 
 		int op = Integer.parseInt(in.nextLine());
 		switch (op) {
 			case 1 -> listaItensJogador();
-			case 2 -> cadastraItem();
-			case 3 -> deletaItem();
-			case 4 -> listaItensDisponiveis();
-			case 5 -> buscaItens();
-			case 6 -> abrePropostaTroca();
-			case 7 -> listaPropostas();
-			case 8 -> handlePropostasRecebidas();
-			case 9 -> mostraInformacoesSistema();
-			case 10 -> logout();
+			case 2 -> gerenciaItens();
+			case 3 -> listaItensDisponiveis();
+			case 4 -> buscaItens();
+			case 5 -> abrePropostaTroca();
+			case 6 -> listaPropostas();
+			case 7 -> gerenciaPropostas();
+			case 8 -> mostraInformacoesSistema();
+			case 9 -> logout();
 			case 0 -> encerrar();
 			default -> System.out.println("\nOpção inválida");
 		}
@@ -345,6 +343,28 @@ public class App {
 	}
 
 	/**
+	 * Menu de gerenciamento de itens.
+	 */
+	private void gerenciaItens() {
+		if (!isAutenticado()) return;
+
+		System.out.print("""
+
+			- Gerenciar itens -
+			[1] Cadastrar novo item
+			[2] Excluir item
+			[0] Voltar
+
+			Escolha...\s""");
+
+		int op = Integer.parseInt(in.nextLine());
+		switch (op) {
+			case 1 -> cadastraItem();
+			case 2 -> deletaItem();
+		}
+	}
+
+	/**
 	 * Permite que o usuário cadastre um novo <code>Item</code>.
 	 */
 	private void cadastraItem() {
@@ -394,6 +414,9 @@ public class App {
 		System.out.println("Cadastro realizado com sucesso!");
 	}
 
+	/**
+	 * Permite que o usuário escolha um de seus itens para excluir.
+	 */
 	private void deletaItem() {
 		if (!isAutenticado()) return;
 
@@ -480,6 +503,7 @@ public class App {
 			[2] Buscar por nome
 			[3] Buscar por descrição
 			[4] Buscar por categoria
+			[5] Buscar por preço
 			[0] Voltar
 
 			Escolha...\s""");
@@ -490,6 +514,7 @@ public class App {
 			case 2 -> buscaItensPorNome();
 			case 3 -> buscaItensPorDescricao();
 			case 4 -> buscaItensPorCategoria();
+			case 5 -> buscaItensPorPreco();
 		}
 	}
 
@@ -589,6 +614,48 @@ public class App {
 		}
 	}
 
+	/**
+	 * <p>Método responsável por buscar itens por preço.</p>
+	 * <p>Solicita ao usuário o preço mínimo e o preço máximo do item que deseja
+	 * buscar; em seguida, realiza a filtragem no sistema e, caso itens sejam encontrados,
+	 * suas informações serão exibidas. Caso contrário, uma mensagem informando que nenhum
+	 * item foi encontrado é exibida.</p>
+	 */
+	private void buscaItensPorPreco() {
+		if (!isAutenticado()) return;
+
+		System.out.print("Digite o valor mínimo (utilize ponto decimal): R$ ");
+		float min = Float.parseFloat(in.nextLine());
+
+		if (min < 0) {
+			System.out.println("Os valores não podem ser negativos!");
+			return;
+		}
+
+		System.out.print("Digite o valor máximo (utilize ponto decimal): R$ ");
+		float max = Float.parseFloat(in.nextLine());
+
+		if (max < 0) {
+			System.out.println("Os valores não podem ser negativos!");
+			return;
+		}
+
+		if (max < min) {
+			System.out.println("O valor máximo não pode ser menor do que o valor mínimo!");
+			return;
+		}
+
+		List<Item> itensEncontrados = itemHandler.buscaPorPreco(min, max);
+		if (itensEncontrados.isEmpty()) {
+			System.out.printf("Nenhum item encontrado com preço entre R$ %.2f e R$ %.2f!%n", min, max);
+			return;
+		}
+
+		for (Item i : itensEncontrados) {
+			System.out.printf("%s%n%n", i);
+		}
+	}
+
 	private void abrePropostaTroca() {
 		if (!isAutenticado()) return;
 
@@ -665,8 +732,8 @@ public class App {
 	private void listaPropostasRecebidasAbertas() {
 		if (!isAutenticado()) return;
 
-		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).toList();
+		List<Proposta> recebidas =
+			jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).toList();
 		System.out.printf("%n%d propostas recebidas em aberto:%n", recebidas.size());
 
 		for (Proposta p : recebidas) {
@@ -693,8 +760,8 @@ public class App {
 	private void listaPropostasRealizadasAbertas() {
 		if (!isAutenticado()) return;
 
-		List<Proposta> realizadas = jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).toList();
+		List<Proposta> realizadas =
+			jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).toList();
 		System.out.printf("%n%d propostas realizadas em aberto:%n", realizadas.size());
 
 		for (Proposta p : realizadas) {
@@ -716,14 +783,18 @@ public class App {
 		}
 	}
 
+	private void gerenciaPropostas() {
+
+	}
+
 	/**
 	 * Permite ao jogador visualizar suas propostas recebidas em aberto,
 	 * selecionar uma proposta da lista e aceitá-la ou recusá-la.
 	 */
 	private void handlePropostasRecebidas() {
 		System.out.println("\n- Gerenciar propostas recebidas -");
-		List<Proposta> propostas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).toList();
+		List<Proposta> propostas =
+			jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).toList();
 		int size = propostas.size();
 
 		if (size == 0) {
@@ -772,6 +843,10 @@ public class App {
 		}
 
 		System.out.println("Operação realizada com sucesso!");
+	}
+
+	private void handlePropostasRealizadas() {
+
 	}
 
 	/**

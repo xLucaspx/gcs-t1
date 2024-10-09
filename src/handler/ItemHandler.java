@@ -5,6 +5,7 @@ import model.Item;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,6 +133,23 @@ public class ItemHandler {
 			}
 		}
 		return Collections.unmodifiableList(itensEncontrados);
+	}
+
+	/**
+	 * Filtra itens por preço.
+	 *
+	 * @param min O preço mínimo do item.
+	 * @param max O preço máximo do item
+	 * @return Lista imutável contendo todos os itens cadastrados na aplicação cujo preço
+	 * é maior ou igual ao <code>min</code> e menor ou igual ao <code>max</code> passados
+	 * como argumento.
+	 */
+	public List<Item> buscaPorPreco(float min, float max) {
+		return itens.values()
+								.stream()
+								.filter(i -> i.getPreco() >= min && i.getPreco() <= max)
+								.sorted(Comparator.comparing(Item::getPreco))
+								.toList();
 	}
 
 	/**
