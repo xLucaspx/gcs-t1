@@ -14,13 +14,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Scanner;
 
 /**
- * <p>
- * Classe da aplicação.</p>
- * <p>
- * <strong>Restrições</strong>:</p>
+ * <p>Classe da aplicação.</p>
+ * <p><strong>Restrições</strong>:</p>
  * <ul>
  * 	<li>A entrada de dados para popular o sistema na inicialização deverá ocorrer por
  * 	leitura de arquivo de texto;</li>
@@ -63,10 +65,11 @@ public class App {
 		jogadorHandler = new JogadorHandler();
 		itemHandler = new ItemHandler();
 		propostaHandler = new PropostaHandler();
+		in = new Scanner(System.in);
 	}
 
 	/**
-	 * Executa a aplicação.
+	 * Método que executa a aplicação.
 	 */
 	public void executar() {
 		insereDados();
@@ -95,10 +98,10 @@ public class App {
 		if (jogadorLogado == null) return;
 
 		System.out.println(jogadorLogado);
-		long qtdPropostasRecebidasAbertas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).count();
-		long qtdPropostasRealizadasAbertas = jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).count();
+		long qtdPropostasRecebidasAbertas =
+			jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).count();
+		long qtdPropostasRealizadasAbertas =
+			jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).count();
 
 		System.out.printf("Notificações:%n- %d propostas recebidas em aberto%n- %d propostas realizadas em aberto%n%n",
 			qtdPropostasRecebidasAbertas,
@@ -112,6 +115,70 @@ public class App {
 	private void aguardaUsuario() {
 		System.out.print("\nPressione ENTER para continuar...");
 		in.nextLine();
+	}
+
+	/**
+	 * Menu que permite ao usuário se autenticar ou se cadastrar no sistema.
+	 */
+	private void menuInicial() {
+		cabecalho();
+		System.out.print("""
+			[1] Login
+			[2] Cadastro
+			[3] Escolher usuário
+			[0] Encerrar
+
+			Escolha...\s""");
+
+		int op = Integer.parseInt(in.nextLine());
+		switch (op) {
+			case 1 -> login();
+			case 2 -> cadastro();
+			case 3 -> escolheUsuario();
+			case 0 -> encerrar();
+			default -> System.out.println("\nOpção inválida");
+		}
+	}
+
+	/**
+	 * Menu que permite ao usuário autenticado utilizar funcionalidades do sistema.
+	 */
+	private void menuPrincipal() {
+		if (!isAutenticado()) return;
+
+		aguardaUsuario();
+		cabecalho();
+		informacoesJogador();
+
+		System.out.print("""
+			- Menu Principal -
+			[1] Listar seus itens
+			[2] Gerenciar seus itens
+			[3] Listar itens disponíveis
+			[4] Pesquisar itens
+			[5] Nova proposta de troca
+			[6] Listar propostas de troca
+			[7] Gerenciar suas propostas
+			[8] Informações do sistema
+			[9] Logout
+			[0] Encerrar
+
+			Escolha...\s""");
+
+		int op = Integer.parseInt(in.nextLine());
+		switch (op) {
+			case 1 -> listaItensJogador();
+			case 2 -> gerenciaItens();
+			case 3 -> listaItensDisponiveis();
+			case 4 -> buscaItens();
+			case 5 -> abrePropostaTroca();
+			case 6 -> listaPropostas();
+			case 7 -> gerenciaPropostas();
+			case 8 -> mostraInformacoesSistema();
+			case 9 -> logout();
+			case 0 -> encerrar();
+			default -> System.out.println("\nOpção inválida");
+		}
 	}
 
 	/**
@@ -133,78 +200,17 @@ public class App {
 	}
 
 	/**
-	 * Menu que permite ao usuário se autenticar ou se cadastrar no sistema.
-	 */
-	private void menuInicial() {
-		cabecalho();
-		System.out.print("""
-			[1] Login
-			[2] Cadastro
-			[0] Encerrar
-			
-			Escolha...\s""");
-
-		int op = Integer.parseInt(in.nextLine());
-		switch (op) {
-			case 1 -> login();
-			case 2 -> cadastro();
-			case 0 -> encerrar();
-			default -> System.out.println("\nOpção inválida");
-		}
-	}
-
-	/**
-	 * Menu que permite ao usuário autenticado utilizar funcionalidades do sistema.
-	 */
-	private void menuPrincipal() {
-		if (!isAutenticado()) return;
-
-		aguardaUsuario();
-		cabecalho();
-		informacoesJogador();
-
-		System.out.print("""
-			- Menu Principal -
-			[1] Listar seus itens
-			[2] Cadastrar novo item
-			[3] Listar itens disponíveis
-			[4] Pesquisar itens
-			[5] Nova proposta de troca
-			[6] Listar propostas de troca
-			[7] Gerenciar propostas recebidas
-			[8] Informações do sistema
-			[9] Logout
-			[0] Encerrar
-			
-			Escolha...\s""");
-
-		int op = Integer.parseInt(in.nextLine());
-		switch (op) {
-			case 1 -> listaItensJogador();
-			case 2 -> cadastraItem();
-			case 3 -> listaItensDisponiveis();
-			case 4 -> buscaItens();
-			case 5 -> abrePropostaTroca();
-			case 6 -> listaPropostas();
-			case 7 -> handlePropostasRecebidas();
-			case 8 -> mostraInformacoesSistema();
-			case 9 -> logout();
-			case 0 -> encerrar();
-			default -> System.out.println("\nOpção inválida");
-		}
-	}
-
-	/**
 	 * Lê as informações de cadastro inseridas pelo usuário, valida
 	 * conforme as regras da aplicação e realiza o cadastro do usuário.
 	 * Em caso de erro, é exibida mensagem na tela.
 	 */
 	private void cadastro() {
 		if (jogadorLogado != null) {
-			System.out.println("Você já possui cadastro!");
+			System.out.println("\nVocê já possui cadastro!");
 			return;
 		}
 
+		System.out.println("\n- Cadastro -");
 		System.out.print("Digite seu nome: ");
 		String nome = in.nextLine();
 
@@ -216,8 +222,8 @@ public class App {
 		System.out.print("Digite seu e-mail: ");
 		String email = in.nextLine();
 
-		if (email.isBlank()) {
-			System.out.println("O e-mail deve ser preenchido!");
+		if (email.isBlank() || !email.matches("^\\w+([.\\-]?\\w+)*@\\w+([.\\-]?\\w+)*(\\.\\w{2,3})+$")) {
+			System.out.println("O e-mail inserido é inválido!");
 			return;
 		}
 
@@ -231,6 +237,7 @@ public class App {
 
 		if (!pin.matches("\\d{6}")) {
 			System.out.println("O pin deve ser preenchido com 6 dígitos!");
+			return;
 		}
 
 		Jogador j = new Jogador(nome, email, pin);
@@ -247,6 +254,12 @@ public class App {
 	 * caso sejam válidas, permite que o usuário entre no sistema.
 	 */
 	private void login() {
+		if (jogadorLogado != null) {
+			System.out.println("\nVocê já está logado!");
+			return;
+		}
+
+		System.out.println("\n- Login -");
 		System.out.print("E-mail: ");
 		String email = in.nextLine();
 		Jogador j = jogadorHandler.buscaPorEmail(email);
@@ -269,6 +282,35 @@ public class App {
 	}
 
 	/**
+	 * Permite escolher um usuário da lista de usuários cadastrados,
+	 * evitando a necessidade de login. Para fins didáticos e de testes.
+	 */
+	private void escolheUsuario() {
+		if (jogadorLogado != null) {
+			System.out.printf("\nVocê já está autenticado como %s%n", jogadorLogado.getNome());
+			return;
+		}
+
+		System.out.println("\n- Jogadores disponíveis -");
+		List<Jogador> jogadores = jogadorHandler.getJogadores();
+		int size = jogadores.size();
+		for (int i = 0; i < size; i++) {
+			Jogador j = jogadores.get(i);
+			System.out.printf("[%2d] - %s <%s>%n", i + 1, j.getNome(), j.getEmail());
+		}
+
+		System.out.print("\nEscolha... ");
+		int op = Integer.parseInt(in.nextLine());
+
+		if (op < 1 || op > size) {
+			System.out.println("Valor inválido inserido!");
+			return;
+		}
+
+		jogadorLogado = jogadores.get(--op);
+	}
+
+	/**
 	 * Confirma a opção de <em>logout</em> do usuário e, caso afirmativa,
 	 * realiza a saída da aplicação.
 	 */
@@ -280,6 +322,7 @@ public class App {
 
 		if (!input.equalsIgnoreCase("S")) {
 			System.out.println("Operação cancelada!");
+			return;
 		}
 
 		System.out.println("Saindo... Até mais!");
@@ -294,20 +337,159 @@ public class App {
 	 */
 	private boolean isAutenticado() {
 		if (jogadorLogado == null) {
-			System.out.println("É necessário realizar o login no sistema!");
+			System.out.println("\nÉ necessário realizar o login no sistema!");
 			return false;
 		}
 		return true;
 	}
 
 	/**
-	 * Lista os itens de um jogador com base no email fornecido pelo usuário. O
-	 * método solicita ao usuário que insira o email de um jogador. Caso o
-	 * jogador seja encontrado, seus itens serão listados no console. Se o
-	 * jogador não possuir itens ou se o email não corresponder a nenhum jogador
-	 * cadastrado, uma mensagem adequada será exibida.
+	 * Menu de gerenciamento de itens.
 	 */
+	private void gerenciaItens() {
+		if (!isAutenticado()) return;
 
+		System.out.print("""
+
+			- Gerenciar itens -
+			[1] Cadastrar novo item
+			[2] Excluir item
+			[0] Voltar
+
+			Escolha...\s""");
+
+		int op = Integer.parseInt(in.nextLine());
+		switch (op) {
+			case 1 -> cadastraItem();
+			case 2 -> deletaItem();
+		}
+	}
+
+	/**
+	 * Permite que o usuário cadastre um novo <code>Item</code>.
+	 */
+	private void cadastraItem() {
+		if (!isAutenticado()) return;
+
+		System.out.println("\n- Cadastro de item -");
+		System.out.print("Digite o nome do item: ");
+		String nome = in.nextLine();
+
+		if (nome.isBlank()) {
+			System.out.println("O nome do item deve ser informado!");
+			return;
+		}
+
+		System.out.print("Digite a descrição do item: ");
+		String descricao = in.nextLine();
+
+		if (descricao.isBlank()) {
+			System.out.println("A descrição do item deve ser informada!");
+			return;
+		}
+
+		System.out.print("Digite a categoria do item: ");
+		String categoria = in.nextLine();
+
+		if (categoria.isBlank()) {
+			System.out.println("A categoria do item deve ser informada!");
+			return;
+		}
+
+		System.out.print("Digite o preço do item (utilize ponto decimal): ");
+		float preco = Float.parseFloat(in.nextLine());
+
+		Item i = new Item(nome, descricao, categoria, preco);
+		System.out.printf("%n%s%n%n", i);
+
+		System.out.print("Confirma a criação do item? Digite S para confirmar... ");
+		String input = in.nextLine();
+
+		if (!input.equalsIgnoreCase("S")) {
+			System.out.println("Operação cancelada!");
+			return;
+		}
+
+		itemHandler.cadastra(i);
+		jogadorLogado.addItem(i);
+		System.out.println("Cadastro realizado com sucesso!");
+	}
+
+	/**
+	 * Permite que o usuário escolha um de seus itens para excluir.
+	 */
+	private void deletaItem() {
+		if (!isAutenticado()) return;
+
+		System.out.println("\n- Exclusão de item -");
+		System.out.print("Digite o ID do item que quer excluir: ");
+		int id = Integer.parseInt(in.nextLine());
+		Item i = jogadorLogado.getItem(id);
+
+		if (i == null) {
+			System.out.println("Item não encontrado!");
+			return;
+		}
+
+		System.out.printf("%nItem selecionado:%n%s%n%n", i);
+		System.out.print("Esta operação não pode ser desfeita! Digite S para continuar... ");
+		String input = in.nextLine();
+
+		if (!input.equalsIgnoreCase("S")) {
+			System.out.println("Operação cancelada!");
+			return;
+		}
+
+		jogadorLogado.removeItem(i);
+		itemHandler.remove(i);
+		System.out.println("Item excluído com sucesso!");
+	}
+
+	/**
+	 * Lista os itens do jogador logado, em ordem alfabética.
+	 */
+	private void listaItensJogador() {
+		if (!isAutenticado()) return;
+
+		System.out.println("\n- Seus itens -");
+		List<Item> itens = new ArrayList<>(jogadorLogado.getItens());
+
+		if (itens.isEmpty()) {
+			System.out.println("Nenhum item encontrado!");
+			return;
+		}
+
+		// ordena alfabeticamente
+		itens.sort(Comparator.comparing(Item::getNome));
+
+		for (Item i : itens) {
+			System.out.printf("%s%n%n", i);
+		}
+	}
+
+	/**
+	 * Lista todos os itens cadastrados no sistema, exceto os do próprio jogador.
+	 * Ordena os itens pelo preço.
+	 */
+	private void listaItensDisponiveis() {
+		if (!isAutenticado()) return;
+
+		System.out.println("\n- Itens disponíveis -");
+		List<Item> itens = new ArrayList<>(itemHandler.getItens());
+
+		if (itens.isEmpty()) {
+			System.out.println("Nenhum item encontrado!");
+			return;
+		}
+
+		// ordena por preço
+		itens.sort(Comparator.comparing(Item::getPreco));
+
+		for (Item i : itens) {
+			if (i.getJogador().equals(jogadorLogado)) continue;
+			System.out.printf("%s%n%n", i);
+		}
+	}
 
 	/**
 	 * Menu de busca de itens.
@@ -316,14 +498,15 @@ public class App {
 		if (!isAutenticado()) return;
 
 		System.out.print("""
-			
+
 			- Pesquisa de itens -
 			[1] Buscar por ID
 			[2] Buscar por nome
 			[3] Buscar por descrição
 			[4] Buscar por categoria
+			[5] Buscar por preço
 			[0] Voltar
-			
+
 			Escolha...\s""");
 
 		int op = Integer.parseInt(in.nextLine());
@@ -332,6 +515,7 @@ public class App {
 			case 2 -> buscaItensPorNome();
 			case 3 -> buscaItensPorDescricao();
 			case 4 -> buscaItensPorCategoria();
+			case 5 -> buscaItensPorPreco();
 		}
 	}
 
@@ -431,18 +615,115 @@ public class App {
 		}
 	}
 
+	/**
+	 * <p>Método responsável por buscar itens por preço.</p>
+	 * <p>Solicita ao usuário o preço mínimo e o preço máximo do item que deseja
+	 * buscar; em seguida, realiza a filtragem no sistema e, caso itens sejam encontrados,
+	 * suas informações serão exibidas. Caso contrário, uma mensagem informando que nenhum
+	 * item foi encontrado é exibida.</p>
+	 */
+	private void buscaItensPorPreco() {
+		if (!isAutenticado()) return;
+
+		System.out.print("Digite o valor mínimo (utilize ponto decimal): R$ ");
+		float min = Float.parseFloat(in.nextLine());
+
+		if (min < 0) {
+			System.out.println("Os valores não podem ser negativos!");
+			return;
+		}
+
+		System.out.print("Digite o valor máximo (utilize ponto decimal): R$ ");
+		float max = Float.parseFloat(in.nextLine());
+
+		if (max < 0) {
+			System.out.println("Os valores não podem ser negativos!");
+			return;
+		}
+
+		if (max < min) {
+			System.out.println("O valor máximo não pode ser menor do que o valor mínimo!");
+			return;
+		}
+
+		List<Item> itensEncontrados = itemHandler.buscaPorPreco(min, max);
+		if (itensEncontrados.isEmpty()) {
+			System.out.printf("Nenhum item encontrado com preço entre R$ %.2f e R$ %.2f!%n", min, max);
+			return;
+		}
+
+		for (Item i : itensEncontrados) {
+			System.out.printf("%s%n%n", i);
+		}
+	}
+
+	/**
+	 * Permite que o jogador selecione um item seu e um item de outro jogador
+	 * e abra uma proposta de troca.
+	 */
+	private void abrePropostaTroca() {
+		if (!isAutenticado()) return;
+
+		System.out.println("\n- Nova proposta de troca -");
+		System.out.print("Digite o ID do item que está oferecendo: ");
+		int id = Integer.parseInt(in.nextLine());
+		Item itemOferecido = jogadorLogado.getItem(id);
+
+		if (itemOferecido == null) {
+			System.out.println("Item não encontrado!");
+			return;
+		}
+
+		System.out.print("Digite o ID do item solicitado: ");
+		id = Integer.parseInt(in.nextLine());
+		Item itemSolicitado = itemHandler.buscaPorId(id);
+
+		if (itemSolicitado == null) {
+			System.out.println("Item não encontrado!");
+			return;
+		}
+
+		System.out.printf("""
+
+			Remetente: %s
+			Item oferecido: %s
+
+			Destinatário: %s
+			Item solicitado: %s
+
+			""", jogadorLogado.getNome(), itemOferecido, itemSolicitado.getJogador().getNome(), itemSolicitado);
+		System.out.print("Confirma a criação da proposta? Digite S para confirmar... ");
+		String input = in.nextLine();
+
+		if (!input.equalsIgnoreCase("S")) {
+			System.out.println("Operação cancelada!");
+			return;
+		}
+
+		DadosProposta solicitante = new DadosProposta(jogadorLogado, itemOferecido);
+		DadosProposta solicitado = new DadosProposta(itemSolicitado.getJogador(), itemSolicitado);
+		Proposta p = new Proposta(solicitante, solicitado);
+		propostaHandler.cadastra(p);
+
+		System.out.println("Proposta realizada com sucesso!");
+	}
+
+	/**
+	 * Permite ao jogador selecionar o tipo de listagem de propostas que deseja
+	 * e chama o método correspondente.
+	 */
 	private void listaPropostas() {
 		if (!isAutenticado()) return;
 
 		System.out.print("""
-			
+
 			- Listagem de propostas -
 			[1] Propostas recebidas
 			[2] Propostas realizadas
 			[3] Propostas recebidas em aberto
 			[4] Propostas realizadas em aberto
 			[0] Voltar
-			
+
 			Escolha...\s""");
 
 		int op = Integer.parseInt(in.nextLine());
@@ -460,8 +741,8 @@ public class App {
 	private void listaPropostasRecebidasAbertas() {
 		if (!isAutenticado()) return;
 
-		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).toList();
+		List<Proposta> recebidas =
+			jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).toList();
 		System.out.printf("%n%d propostas recebidas em aberto:%n", recebidas.size());
 
 		for (Proposta p : recebidas) {
@@ -488,8 +769,8 @@ public class App {
 	private void listaPropostasRealizadasAbertas() {
 		if (!isAutenticado()) return;
 
-		List<Proposta> realizadas = jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).toList();
+		List<Proposta> realizadas =
+			jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).toList();
 		System.out.printf("%n%d propostas realizadas em aberto:%n", realizadas.size());
 
 		for (Proposta p : realizadas) {
@@ -512,53 +793,25 @@ public class App {
 	}
 
 	/**
-	 * <p>Método para abrir uma proposta de troca de um item próprio do jodador por outro</p>
+	 * Menu de gerenciamento de propostas.
 	 */
-	private void abrePropostaTroca() {
+	private void gerenciaPropostas() {
 		if (!isAutenticado()) return;
 
-		System.out.println("\n- Nova proposta de troca -");
-		System.out.print("Digite o ID do item que está oferecendo: ");
-		int id = Integer.parseInt(in.nextLine());
-		Item itemOferecido = jogadorLogado.getItem(id);
+		System.out.print("""
 
-		if (itemOferecido == null) {
-			System.out.println("Item não encontrado!");
-			return;
+			- Gerenciar propostas -
+			[1] Propostas recebidas (em aberto)
+			[2] Propostas realizadas (em aberto)
+			[0] Voltar
+
+			Escolha...\s""");
+
+		int op = Integer.parseInt(in.nextLine());
+		switch (op) {
+			case 1 -> handlePropostasRecebidas();
+			case 2 -> handlePropostasRealizadas();
 		}
-
-		System.out.print("Digite o ID do item solicitado: ");
-		id = Integer.parseInt(in.nextLine());
-		Item itemSolicitado = itemHandler.buscaPorId(id);
-
-		if (itemSolicitado == null) {
-			System.out.println("Item não encontrado!");
-			return;
-		}
-
-		System.out.printf("""
-
-				Remetente: %s
-				Item oferecido: %s
-
-				Destinatário: %s
-				Item solicitado: %s
-
-				""", jogadorLogado.getNome(), itemOferecido, itemSolicitado.getJogador().getNome(), itemSolicitado);
-		System.out.print("Confirma a criação da proposta? Digite S para confirmar... ");
-		String input = in.nextLine();
-
-		if (!input.equalsIgnoreCase("S")) {
-			System.out.println("Operação cancelada!");
-			return;
-		}
-
-		DadosProposta solicitante = new DadosProposta(jogadorLogado, itemOferecido);
-		DadosProposta solicitado = new DadosProposta(itemSolicitado.getJogador(), itemSolicitado);
-		Proposta p = new Proposta(solicitante, solicitado);
-		propostaHandler.cadastra(p);
-
-		System.out.println("Proposta realizada com sucesso!");
 	}
 
 	/**
@@ -567,29 +820,20 @@ public class App {
 	 */
 	private void handlePropostasRecebidas() {
 		System.out.println("\n- Gerenciar propostas recebidas -");
-		List<Proposta> propostas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).toList();
-		int size = propostas.size();
+		List<Proposta> propostas =
+			jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).toList();
+		Proposta p = selecionaProposta(propostas);
 
-		for (int i = 0; i < size; i++) {
-			System.out.printf("[%d]:%n%s%n", i + 1, propostas.get(i));
-		}
-
-		System.out.print("Selecione a proposta: ");
-		int pIndex = Integer.parseInt(in.nextLine());
-
-		if (pIndex < 1 || pIndex > size) {
-			System.out.println("Valor inválido inserido!");
+		if (p == null) {
 			return;
 		}
 
-		Proposta p = propostas.get(--pIndex);
 		System.out.printf("%nSeleção: %s%n", p);
 		System.out.print("""
-			[1] Aceitar
-			[2] Rejeitar
+			[1] Aceitar proposta
+			[2] Rejeitar proposta
 			[0] Voltar
-			
+
 			Escolha...\s""");
 		int op = Integer.parseInt(in.nextLine());
 
@@ -610,11 +854,75 @@ public class App {
 			case 1 -> p.confirmar();
 			case 2 -> p.recusar();
 		}
+
+		System.out.println("Operação realizada com sucesso!");
 	}
 
 	/**
-	 * <p>Exibe informações gerais do sistema.</p>
-	 * <p>Coleta e exibe no console diversas informações importantes
+	 * Permite ao jogador visualizar suas propostas realizadas em aberto,
+	 * selecionar uma proposta da lista e fazer seu cancelamento, se assim desejar.
+	 */
+	private void handlePropostasRealizadas() {
+		System.out.println("\n- Gerenciar propostas realizadas -");
+		List<Proposta> propostas =
+			jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).toList();
+		Proposta p = selecionaProposta(propostas);
+
+		if (p == null) {
+			return;
+		}
+
+		System.out.printf("%nSeleção: %s%n", p);
+		System.out.print("""
+			[1] Cancelar proposta
+			[0] Voltar
+
+			Escolha...\s""");
+		int op = Integer.parseInt(in.nextLine());
+
+		if (op != 1) {
+			System.out.println("Operação cancelada!");
+			return;
+		}
+
+		System.out.print("Esta operação não pode ser desfeita! Digite S para continuar... ");
+		String input = in.nextLine();
+
+		if (!input.equalsIgnoreCase("S")) {
+			System.out.println("Operação cancelada!");
+			return;
+		}
+
+		p.cancelar();
+		System.out.println("Operação realizada com sucesso!");
+	}
+
+	private Proposta selecionaProposta(List<Proposta> propostas) {
+		int size = propostas.size();
+
+		if (size == 0) {
+			System.out.println("Nenhuma proposta em aberto!");
+			return null;
+		}
+
+		for (int i = 0; i < size; i++) {
+			System.out.printf("[%2d]:%n%s%n", i + 1, propostas.get(i));
+		}
+
+		System.out.print("Selecione a proposta: ");
+		int pIndex = Integer.parseInt(in.nextLine());
+
+		if (pIndex < 1 || pIndex > size) {
+			System.out.println("Valor inválido inserido!");
+			return null;
+		}
+
+		return propostas.get(--pIndex);
+	}
+
+	/**
+	 * <p>Método responsável por exibir informações gerais do sistema.</p>
+	 * <p>Este método coleta e exibe no console diversas informações importantes
 	 * sobre o sistema: - Total de usuários cadastrados. - Total de itens
 	 * cadastrados e a soma de seus preços. - Quantidade de propostas de troca
 	 * aceitas ou declinadas. - Quantidade de propostas de troca que estão
@@ -628,10 +936,12 @@ public class App {
 		long propostasAbertas = propostaHandler.getNumeroPropostasAbertas();
 		long propostasConfirmadas = propostaHandler.getNumeroPropostasConfirmadas();
 		long propostasRecusadas = propostaHandler.getNumeroPropostasRecusadas();
-		long totalPropostas = propostasAbertas + propostasConfirmadas + propostasRecusadas;
+		long propostasCanceladas = propostaHandler.getNumeroPropostasCanceladas();
+		long totalPropostas = propostasAbertas + propostasConfirmadas + propostasRecusadas + propostasCanceladas;
 
 
 		System.out.printf("""
+
 				- Informações do Sistema -
 				> Quantidade de usuários cadastrados: %d
 				> Quantidade de itens cadastrados: %d
@@ -641,22 +951,25 @@ public class App {
 				\t- Propostas em aberto: %d
 				\t- Propostas fechadas: %d
 				\t\t* Confirmadas: %d
-				\t\t* Recusadas: %d%n""",
-				qtdUsuarios,
-				qtdItens,
-				precoTotalItens,
-				mediaPrecoItens,
-				totalPropostas,
-				propostasAbertas,
-				propostasConfirmadas + propostasRecusadas,
-				propostasConfirmadas,
-				propostasRecusadas
+				\t\t* Recusadas: %d
+				\t\t* Canceladas: %d%n""",
+			qtdUsuarios,
+			qtdItens,
+			precoTotalItens,
+			mediaPrecoItens,
+			totalPropostas,
+			propostasAbertas,
+			propostasConfirmadas + propostasRecusadas + propostasCanceladas,
+			propostasConfirmadas,
+			propostasRecusadas,
+			propostasCanceladas
 		);
 	}
 
 	/**
-	 * Lê arquivo contendo os dados que serão inseridos no sistema, instancia
-	 * os objetos e armazena-os corretamente para posterior uso na aplicação.
+	 * Método que deve ler arquivo contendo os dados que serão inseridos no
+	 * sistema, instanciar os objetos e armazená-los corretamente para posterior
+	 * uso na aplicação.
 	 */
 	private void insereDados() {
 		redirecionaEntrada(CAMINHO_ARQUIVO_SEEDER);
@@ -678,7 +991,7 @@ public class App {
 			float preco = Float.parseFloat(itemInfo[4]);
 			Jogador j = jogadorHandler.buscaPorEmail(itemInfo[5]);
 			Item item = new Item(id, nome, descricao, categoria, preco, j);
-			itemHandler.add(item);
+			itemHandler.cadastra(item);
 		}
 
 		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -729,102 +1042,5 @@ public class App {
 	 */
 	private void restauraEntrada() {
 		in = new Scanner(System.in);
-	}
-
-
-	/**
-	 * Permite que o usuário cadastre um novo <code>Item</code>.
-	 */
-	private void cadastraItem() {
-		if (!isAutenticado()) return;
-
-		System.out.println("\n- Cadastro de item -");
-		System.out.print("Digite o nome do item: ");
-		String nome = in.nextLine();
-
-		if (nome.isBlank()) {
-			System.out.println("O nome do item deve ser informado!");
-			return;
-		}
-
-		System.out.print("Digite a descrição do item: ");
-		String descricao = in.nextLine();
-
-		if (descricao.isBlank()) {
-			System.out.println("A descrição do item deve ser informada!");
-			return;
-		}
-
-		System.out.print("Digite a categoria do item: ");
-		String categoria = in.nextLine();
-
-		if (categoria.isBlank()) {
-			System.out.println("A categoria do item deve ser informada!");
-			return;
-		}
-
-		System.out.print("Digite o preço do item (utilize ponto decimal): ");
-		float preco = Float.parseFloat(in.nextLine());
-
-		Item i = new Item(nome, descricao, categoria, preco);
-		System.out.printf("%n%s%n%n", i);
-
-		System.out.print("Confirma a criação do item? Digite S para confirmar... ");
-		String input = in.nextLine();
-
-		if (!input.equalsIgnoreCase("S")) {
-			System.out.println("Operação cancelada!");
-			return;
-		}
-
-		itemHandler.add(i);
-		jogadorLogado.addItem(i);
-		System.out.println("Cadastro realizado com sucesso!");
-	}
-
-	/**
-	 * Lista os itens do jogador logado, em ordem alfabética.
-	 */
-	private void listaItensJogador() {
-		if (!isAutenticado()) return;
-
-		System.out.println("\n- Seus itens -");
-		List<Item> itens = new ArrayList<>(jogadorLogado.getItens());
-
-		if (itens.isEmpty()) {
-			System.out.println("Nenhum item encontrado!");
-			return;
-		}
-
-		// ordena alfabeticamente
-		itens.sort(Comparator.comparing(Item::getNome));
-
-		for (Item i : itens) {
-			System.out.printf("%s%n%n", i);
-		}
-	}
-
-	/**
-	 * Lista todos os itens cadastrados no sistema, exceto os do próprio jogador.
-	 * Ordena os itens pelo preço.
-	 */
-	private void listaItensDisponiveis() {
-		if (!isAutenticado()) return;
-
-		System.out.println("\n- Itens disponíveis -");
-		List<Item> itens = new ArrayList<>(itemHandler.getItens());
-
-		if (itens.isEmpty()) {
-			System.out.println("Nenhum item encontrado!");
-			return;
-		}
-
-		// ordena por preço
-		itens.sort(Comparator.comparing(Item::getPreco));
-
-		for (Item i : itens) {
-			if (i.getJogador().equals(jogadorLogado)) continue;
-			System.out.printf("%s%n%n", i);
-		}
 	}
 }

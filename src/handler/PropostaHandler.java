@@ -20,14 +20,26 @@ public class PropostaHandler {
 
 	/**
 	 * Adiciona proposta a lista.
+	 *
 	 * @param p proposta a ser adicionada.
 	 * @return verdadeiro se for executado com sucesso
 	 */
-  	public boolean cadastra(Proposta p) {
+	public boolean cadastra(Proposta p) {
 		if (p == null) {
 			return false;
 		}
 		return propostas.add(p);
+	}
+
+	/**
+	 * Retorna o número de propostas em aberto.
+	 * Propostas são consideradas em aberto se o <em>status</em>
+	 * for igual a <code>StatusProposta.ABERTA</code>.
+	 *
+	 * @return Número de propostas abertas
+	 */
+	public long getNumeroPropostasAbertas() {
+		return propostas.stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).count();
 	}
 
 	/**
@@ -53,18 +65,19 @@ public class PropostaHandler {
 	}
 
 	/**
-	 * Retorna o número de propostas em aberto.
-	 * Propostas são consideradas em aberto se o <em>status</em>
-	 * for igual a <code>StatusProposta.ABERTA</code>.
+	 * Retorna o número de propostas canceladas pelos jogadores.
+	 * Propostas são consideradas canceladas se o <em>status</em>
+	 * for igual a <code>StatusProposta.CANCELADA</code>.
 	 *
-	 * @return Número de propostas abertas
+	 * @return Número de propostas canceladas.
 	 */
-	public long getNumeroPropostasAbertas() {
-		return propostas.stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).count();
+	public long getNumeroPropostasCanceladas() {
+		return propostas.stream().filter(p -> p.getStatus().equals(StatusProposta.CANCELADA)).count();
 	}
 
 	/**
 	 * Pega as propostas existentes na classe.
+	 *
 	 * @return lista de proposta da classe.
 	 */
 	public List<Proposta> getPropostas() {

@@ -5,6 +5,7 @@ import model.Item;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,7 @@ import java.util.Map;
  * <p>Esta classe encapsula uma coleção de itens e fornece métodos para operar sobre
  * ela, garantindo que possa ser manipulada de maneira controlada e segura.</p>
  *
- * @author Gabriel Domingues, LucaWB
+ * @author Gabriel Domingues, LucaWB, Lucas da Paz
  */
 public class ItemHandler {
 
@@ -37,7 +38,7 @@ public class ItemHandler {
 	 *
 	 * @param i O item a ser adicionado.
 	 */
-	public void add(Item i) {
+	public void cadastra(Item i) {
 		if (i == null) {
 			return;
 		}
@@ -132,6 +133,23 @@ public class ItemHandler {
 			}
 		}
 		return Collections.unmodifiableList(itensEncontrados);
+	}
+
+	/**
+	 * Filtra itens por preço.
+	 *
+	 * @param min O preço mínimo do item.
+	 * @param max O preço máximo do item
+	 * @return Lista imutável contendo todos os itens cadastrados na aplicação cujo preço
+	 * é maior ou igual ao <code>min</code> e menor ou igual ao <code>max</code> passados
+	 * como argumento.
+	 */
+	public List<Item> buscaPorPreco(float min, float max) {
+		return itens.values()
+								.stream()
+								.filter(i -> i.getPreco() >= min && i.getPreco() <= max)
+								.sorted(Comparator.comparing(Item::getPreco))
+								.toList();
 	}
 
 	/**
