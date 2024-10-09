@@ -17,7 +17,7 @@ import java.util.Map;
  * trocas que o envolvem devem aparecer, junto com opções de aceitar ou declinar a proposta. Aceitando, o
  * sistema automaticamente troca a propriedade dos dois itens.
  *
- * @author Lucas da Paz, Rodrigo Slongo, William Klein, Luca WB
+ * @author Luca WB, Lucas da Paz, Rodrigo Slongo, William Klein
  */
 
 public class Jogador {
@@ -56,11 +56,11 @@ public class Jogador {
 	 * instância de <code>Jogador</code> que chamou o método será
 	 * atribuída ao respectivo atributo do <code>Item</code>.
 	 *
-	 * @param item O <code>Item</code> a ser adicionado.
+	 * @param i O <code>Item</code> a ser adicionado.
 	 */
-	public void addItem(Item item) {
-		item.setJogador(this);
-		itens.put(item.getId(), item);
+	public void addItem(Item i) {
+		i.setJogador(this);
+		itens.put(i.getId(), i);
 	}
 
 	/**
@@ -68,20 +68,20 @@ public class Jogador {
 	 * Define o atributo <code>Jogador</code> do <code>Item</code>
 	 * para <code>null</code>.
 	 *
-	 * @param item O <code>Item</code> a ser removido.
+	 * @param i O <code>Item</code> a ser removido.
 	 */
-	public void removeItem(Item item) {
-		item.setJogador(null);
+	public void removeItem(Item i) {
+		i.setJogador(null);
 
 		// se o jogador não possui mais o item, as propostas que envolvem o item são canceladas
-		DadosProposta d = new DadosProposta(this, item);
+		DadosProposta d = new DadosProposta(this, i);
 		for (Proposta p : propostas) {
 			if (p.getSolicitante().equals(d) || p.getSolicitado().equals(d)) {
 				p.recusar();
 			}
 		}
 
-		itens.remove(item.getId());
+		itens.remove(i.getId());
 	}
 
 	/**

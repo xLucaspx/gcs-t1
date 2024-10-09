@@ -21,10 +21,8 @@ import java.util.Locale;
 import java.util.Scanner;
 
 /**
- * <p>
- * Classe da aplicação.</p>
- * <p>
- * <strong>Restrições</strong>:</p>
+ * <p>Classe da aplicação.</p>
+ * <p><strong>Restrições</strong>:</p>
  * <ul>
  * 	<li>A entrada de dados para popular o sistema na inicialização deverá ocorrer por
  * 	leitura de arquivo de texto;</li>
@@ -67,6 +65,7 @@ public class App {
 		jogadorHandler = new JogadorHandler();
 		itemHandler = new ItemHandler();
 		propostaHandler = new PropostaHandler();
+		in = new Scanner(System.in);
 	}
 
 	/**
@@ -126,6 +125,7 @@ public class App {
 		System.out.print("""
 			[1] Login
 			[2] Cadastro
+			[3] Escolher usuário
 			[0] Encerrar
 
 			Escolha...\s""");
@@ -134,8 +134,8 @@ public class App {
 		switch (op) {
 			case 1 -> login();
 			case 2 -> cadastro();
+			case 3 -> escolheUsuario();
 			case 0 -> encerrar();
-			case 42 -> jogadorLogado = jogadorHandler.buscaPorEmail("lucasilva@email.com");
 			default -> System.out.println("\nOpção inválida");
 		}
 	}
@@ -152,16 +152,17 @@ public class App {
 
 		System.out.print("""
 			- Menu Principal -
-			[1] Listar seus itens
-			[2] Cadastrar novo item
-			[3] Listar itens disponíveis
-			[4] Pesquisar itens
-			[5] Nova proposta de troca
-			[6] Listar propostas de troca
-			[7] Gerenciar propostas recebidas
-			[8] Informações do sistema
-			[9] Logout
-			[0] Encerrar
+			[ 1] Listar seus itens
+			[ 2] Cadastrar novo item
+			[ 3] Excluir item
+			[ 4] Listar itens disponíveis
+			[ 5] Pesquisar itens
+			[ 6] Nova proposta de troca
+			[ 7] Listar propostas de troca
+			[ 8] Gerenciar propostas recebidas
+			[ 9] Informações do sistema
+			[10] Logout
+			[ 0] Encerrar
 
 			Escolha...\s""");
 
@@ -169,13 +170,14 @@ public class App {
 		switch (op) {
 			case 1 -> listaItensJogador();
 			case 2 -> cadastraItem();
-			case 3 -> listaItensDisponiveis();
-			case 4 -> buscaItens();
-			case 5 -> abrePropostaTroca();
-			case 6 -> listaPropostas();
-			case 7 -> handlePropostasRecebidas();
-			case 8 -> mostraInformacoesSistema();
-			case 9 -> logout();
+			case 3 -> deletaItem();
+			case 4 -> listaItensDisponiveis();
+			case 5 -> buscaItens();
+			case 6 -> abrePropostaTroca();
+			case 7 -> listaPropostas();
+			case 8 -> handlePropostasRecebidas();
+			case 9 -> mostraInformacoesSistema();
+			case 10 -> logout();
 			case 0 -> encerrar();
 			default -> System.out.println("\nOpção inválida");
 		}
@@ -210,7 +212,8 @@ public class App {
 			return;
 		}
 
-		System.out.print("\nDigite seu nome: ");
+		System.out.println("\n- Cadastro -");
+		System.out.print("Digite seu nome: ");
 		String nome = in.nextLine();
 
 		if (nome.isBlank()) {
@@ -258,7 +261,8 @@ public class App {
 			return;
 		}
 
-		System.out.print("\nE-mail: ");
+		System.out.println("\n- Login -");
+		System.out.print("E-mail: ");
 		String email = in.nextLine();
 		Jogador j = jogadorHandler.buscaPorEmail(email);
 
@@ -277,6 +281,35 @@ public class App {
 
 		jogadorLogado = j;
 		System.out.printf("Seja bem-vindo(a), %s%n", j.getNome());
+	}
+
+	/**
+	 * Permite escolher um usuário da lista de usuários cadastrados,
+	 * evitando a necessidade de login. Para fins didáticos e de testes.
+	 */
+	private void escolheUsuario() {
+		if (jogadorLogado != null) {
+			System.out.printf("\nVocê já está autenticado como %s%n", jogadorLogado.getNome());
+			return;
+		}
+
+		System.out.println("\n- Jogadores disponíveis -");
+		List<Jogador> jogadores = jogadorHandler.getJogadores();
+		int size = jogadores.size();
+		for (int i = 0; i < size; i++) {
+			Jogador j = jogadores.get(i);
+			System.out.printf("[%2d] - %s <%s>%n", i + 1, j.getNome(), j.getEmail());
+		}
+
+		System.out.print("\nEscolha... ");
+		int op = Integer.parseInt(in.nextLine());
+
+		if (op < 1 || op > size) {
+			System.out.println("Valor inválido inserido!");
+			return;
+		}
+
+		jogadorLogado = jogadores.get(--op);
 	}
 
 	/**
@@ -356,9 +389,36 @@ public class App {
 			return;
 		}
 
-		itemHandler.add(i);
+		itemHandler.cadastra(i);
 		jogadorLogado.addItem(i);
 		System.out.println("Cadastro realizado com sucesso!");
+	}
+
+	private void deletaItem() {
+		if (!isAutenticado()) return;
+
+		System.out.println("\n- Exclusão de item -");
+		System.out.print("Digite o ID do item que quer excluir: ");
+		int id = Integer.parseInt(in.nextLine());
+		Item i = jogadorLogado.getItem(id);
+
+		if (i == null) {
+			System.out.println("Item não encontrado!");
+			return;
+		}
+
+		System.out.printf("%nItem selecionado:%n%s%n%n", i);
+		System.out.print("Esta operação não pode ser desfeita! Digite S para continuar... ");
+		String input = in.nextLine();
+
+		if (!input.equalsIgnoreCase("S")) {
+			System.out.println("Operação cancelada!");
+			return;
+		}
+
+		jogadorLogado.removeItem(i);
+		itemHandler.remove(i);
+		System.out.println("Item excluído com sucesso!");
 	}
 
 	/**
@@ -429,7 +489,7 @@ public class App {
 			case 1 -> buscaItemPorId();
 			case 2 -> buscaItensPorNome();
 			case 3 -> buscaItensPorDescricao();
-			case 4 -> buscaItensCategoria();
+			case 4 -> buscaItensPorCategoria();
 		}
 	}
 
@@ -512,7 +572,7 @@ public class App {
 	 * contrário, uma mensagem informando que nenhum item foi encontrado é
 	 * exibida.</p>
 	 */
-	private void buscaItensCategoria() {
+	private void buscaItensPorCategoria() {
 		if (!isAutenticado()) return;
 
 		System.out.print("Digite a categoria para buscar: ");
@@ -666,8 +726,13 @@ public class App {
 			.equals(StatusProposta.ABERTA)).toList();
 		int size = propostas.size();
 
+		if (size == 0) {
+			System.out.println("Nenhuma proposta em aberto!");
+			return;
+		}
+
 		for (int i = 0; i < size; i++) {
-			System.out.printf("[%d]:%n%s%n", i + 1, propostas.get(i));
+			System.out.printf("[%2d]:%n%s%n", i + 1, propostas.get(i));
 		}
 
 		System.out.print("Selecione a proposta: ");
@@ -705,6 +770,8 @@ public class App {
 			case 1 -> p.confirmar();
 			case 2 -> p.recusar();
 		}
+
+		System.out.println("Operação realizada com sucesso!");
 	}
 
 	/**
@@ -727,6 +794,7 @@ public class App {
 
 
 		System.out.printf("""
+
 				- Informações do Sistema -
 				> Quantidade de usuários cadastrados: %d
 				> Quantidade de itens cadastrados: %d
@@ -774,7 +842,7 @@ public class App {
 			float preco = Float.parseFloat(itemInfo[4]);
 			Jogador j = jogadorHandler.buscaPorEmail(itemInfo[5]);
 			Item item = new Item(id, nome, descricao, categoria, preco, j);
-			itemHandler.add(item);
+			itemHandler.cadastra(item);
 		}
 
 		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
