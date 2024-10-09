@@ -45,7 +45,7 @@ do repositório.
 No terminal _Git Bash_ da sua máquina, navegue até a pasta na qual você deseja clonar o projeto e digite o comando
 `git clone`, colando o endereço ou chave copiadas do repositório.
 
-E.g.: a sequência de comandos abaixo, executada no _Git Bash_, irá clonar o projeto na área de trabalho (_Desktop_)
+_E.g._: a sequência de comandos abaixo, executada no _Git Bash_, irá clonar o projeto na área de trabalho (_Desktop_)
 do usuário, dentro de uma pasta com o mesmo nome do repositório (_gcs-t1_), utilizando o protocolo _HTTPS_.
 
 ```bash
@@ -86,7 +86,7 @@ Priorizar nomes descritivos e concisos, que representem o trabalho realizado na 
 5. Quando um método retorna uma lista, devemos torná-la imutável com `Collections.unmodifiableList()`, passando a lista
 	 em questão por parâmetro;
 6. Quando utilizar a classe `Scanner`, utilize **apenas** o método `nextLine()`; se necessário ler um número, utilize
-	 os métodos de conversão das classes _wrappers_ (e.g. `Integer.parseInt()`, `Double.parseDouble` etc.);
+	 os métodos de conversão das classes _wrappers_ (_e.g._ `Integer.parseInt()`, `Double.parseDouble` etc.);
 7. **Não _commitar_ na _branch_ `main`**;
 8. **Não _commitar_ código que não funciona**!
 
@@ -105,8 +105,8 @@ O arquivo padrão será armazenado em [_resources/seeder.txt_](./resources/seede
 execução e do diretório no qual o código será executado (_working directory_), o sistema pode não encontrar o arquivo no
 caminho especificado. Neste caso, é possível alterar a constante `CAMINHO_ARQUIVO_SEEDER` na classe `App` para o caminho
 correto. Outra possibilidade é passar o caminho do arquivo _seeder_ como argumento ao executar o programa, não sendo
-necessário modificar o código; e.g.: `java Main ../resources/seeder.txt`, se o seu _working directory_ for a pasta _src_
-ao invés da pasta raíz do projeto.
+necessário modificar o código; _e.g._: `java Main ../resources/seeder.txt`, se o seu _working directory_ for a pasta
+_src_ ao invés da pasta raíz do projeto.
 
 O arquivo _seeder_ terá a seguinte estrutura:
 
@@ -121,8 +121,8 @@ O arquivo _seeder_ terá a seguinte estrutura:
 Excepcionalmente na inserção manual de dados, o _ID_ dos itens será informado; isso se dá visando garantir a
 consistência dos dados inseridos. De mesmo modo, as propostas de inserção manual devem receber a data e o _status_ no
 construtor. (No arquivo, toma-se como garantido, no caso das propostas com _status_ `CONFIRMADA`, que os itens
-envolvidos já estão na posse dos donos corretos, i.e. ao confirmar a troca o item oferecido pelo solicitante foi para o
-solicitado e vice-versa).
+envolvidos já estão na posse dos donos corretos, _i.e._ ao confirmar a troca o item oferecido pelo solicitante foi para
+o solicitado e vice-versa).
 
 ## Utilização e funcionalidades
 
@@ -131,9 +131,11 @@ há uma forma de se autenticar no sistema apenas selecionando o jogador desejado
 informações do jogador (nome e _e-mail_) e notificações de troca, que informam quantas propostas recebidas e quantas
 propostas realizadas estão em aberto.
 
-É possível listar os itens em posse do jogador autenticado, cadastrar um novo item ou excluir um item. Também é possível
-listar os itens disponíveis, i.e., os itens em posse de outros jogadores, e buscar itens por _ID_, nome, descrição,
-categoria ou preço.
+É possível listar os itens em posse do jogador autenticado (em ordem alfabética), cadastrar um novo item ou excluir um
+item. Também é possível listar os itens disponíveis, _i.e._, os itens em posse de outros jogadores, por ordem de preço e
+buscar itens por _ID_, nome, descrição, categoria ou preço. Destes critérios, a busca por ID retornará um ou nenhum item
+e a busca por preço receberá o valor mínimo e o valor máximo, retornando todos os itens com preço neste intervalo
+(incluso). As demais buscas retornam todos os itens cujo atributo correspondente contém o valor buscado.
 
 Para abrir uma nova proposta de troca informa-se o _ID_ do item oferecido e o _ID_ do item solicitado; após, é
 apresentada a proposta e o jogador confirma se deseja efetivamente realizá-la. É possível listar as propostas recebidas,
