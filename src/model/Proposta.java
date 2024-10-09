@@ -85,6 +85,18 @@ public class Proposta {
 	}
 
 	/**
+	 * Define o <em>status</em> da <code>Proposta</code>
+	 * para <code>CANCELADA</code>.
+	 */
+	public void cancelar() {
+		if (!this.status.equals(StatusProposta.ABERTA)) {
+			return;
+		}
+
+		this.status = StatusProposta.CANCELADA;
+	}
+
+	/**
 	 * @return Os dados da proposta em formato de String.
 	 */
 	@Override

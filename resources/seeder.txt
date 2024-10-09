@@ -30,7 +30,7 @@ Anderson Martins,andersonmartins@email.com,101010
 18,Luvas de Ferro,Aumenta o poder de ataque dos punhos,Armadura,22,larissasantos@email.com
 19,Poção de Mana,Recupera pontos de mana para magos e feiticeiros,Poção,12,juliasantos@email.com
 20,Brincos da Fortuna,Aumenta as chances de encontrar tesouros raros,Artefato,23,juliasantos@email.com
-10
+13
 lucasilva@email.com,20,juliasantos@email.com,10,06/05/2024 15:32:11,CONFIRMADA
 andersonmartins@email.com,14,marianapereira@email.com,16,10/05/2024 20:10:00,RECUSADA
 mariasantos@email.com,1,rafaelribeiro@email.com,2,12/06/2024 07:40:55,CONFIRMADA
@@ -41,3 +41,6 @@ marianapereira@email.com,16,lucasilva@email.com,10,30/07/2024 12:34:56,ABERTA
 rafaelribeiro@email.com,7,gabrielalmeida@email.com,5,14/08/2024 03:21:01,ABERTA
 eduardoveiga@email.com,11,mariasantos@email.com,9,26/08/2024 07:53:31,ABERTA
 carlosnascimento@email.com,3,larissasantos@email.com,6,02/09/2024 16:22:59,ABERTA
+gabrielalmeida@email.com,15,eduardoveiga@email.com,11,15/09/2024 08:13:02,CANCELADA
+marianapereira@email.com,17,rafaelribeiro@email.com,1,29/09/2024 13:03:33,CANCELADA
+juliasantos@email.com,20,lucasilva@email.com,4,06/10/2024 22:35:42,CANCELADA

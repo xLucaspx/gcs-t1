@@ -32,6 +32,17 @@ public class PropostaHandler {
 	}
 
 	/**
+	 * Retorna o número de propostas em aberto.
+	 * Propostas são consideradas em aberto se o <em>status</em>
+	 * for igual a <code>StatusProposta.ABERTA</code>.
+	 *
+	 * @return Número de propostas abertas
+	 */
+	public long getNumeroPropostasAbertas() {
+		return propostas.stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).count();
+	}
+
+	/**
 	 * Retorna o número de propostas confirmadas pelos jogadores.
 	 * Propostas são consideradas confirmadas se o <em>status</em>
 	 * for igual a <code>StatusProposta.CONFIRMADA</code>.
@@ -54,14 +65,14 @@ public class PropostaHandler {
 	}
 
 	/**
-	 * Retorna o número de propostas em aberto.
-	 * Propostas são consideradas em aberto se o <em>status</em>
-	 * for igual a <code>StatusProposta.ABERTA</code>.
+	 * Retorna o número de propostas canceladas pelos jogadores.
+	 * Propostas são consideradas canceladas se o <em>status</em>
+	 * for igual a <code>StatusProposta.CANCELADA</code>.
 	 *
-	 * @return Número de propostas abertas
+	 * @return Número de propostas canceladas.
 	 */
-	public long getNumeroPropostasAbertas() {
-		return propostas.stream().filter(p -> p.getStatus().equals(StatusProposta.ABERTA)).count();
+	public long getNumeroPropostasCanceladas() {
+		return propostas.stream().filter(p -> p.getStatus().equals(StatusProposta.CANCELADA)).count();
 	}
 
 	/**
