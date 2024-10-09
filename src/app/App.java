@@ -98,10 +98,16 @@ public class App {
 		if (jogadorLogado == null) return;
 
 		System.out.println(jogadorLogado);
-		long qtdPropostasRecebidasAbertas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).count();
-		long qtdPropostasRealizadasAbertas = jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).count();
+		long qtdPropostasRecebidasAbertas = jogadorLogado.getPropostasRecebidas()
+																										 .stream()
+																										 .filter(p -> p.getStatus()
+																																	 .equals(StatusProposta.ABERTA))
+																										 .count();
+		long qtdPropostasRealizadasAbertas = jogadorLogado.getPropostasRealizadas()
+																											.stream()
+																											.filter(p -> p.getStatus()
+																																		.equals(StatusProposta.ABERTA))
+																											.count();
 
 		System.out.printf("Notificações:%n- %d propostas recebidas em aberto%n- %d propostas realizadas em aberto%n%n",
 			qtdPropostasRecebidasAbertas,
@@ -665,8 +671,11 @@ public class App {
 	private void listaPropostasRecebidasAbertas() {
 		if (!isAutenticado()) return;
 
-		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).toList();
+		List<Proposta> recebidas = jogadorLogado.getPropostasRecebidas()
+																						.stream()
+																						.filter(p -> p.getStatus()
+																													.equals(StatusProposta.ABERTA))
+																						.toList();
 		System.out.printf("%n%d propostas recebidas em aberto:%n", recebidas.size());
 
 		for (Proposta p : recebidas) {
@@ -693,8 +702,11 @@ public class App {
 	private void listaPropostasRealizadasAbertas() {
 		if (!isAutenticado()) return;
 
-		List<Proposta> realizadas = jogadorLogado.getPropostasRealizadas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).toList();
+		List<Proposta> realizadas = jogadorLogado.getPropostasRealizadas()
+																						 .stream()
+																						 .filter(p -> p.getStatus()
+																													 .equals(StatusProposta.ABERTA))
+																						 .toList();
 		System.out.printf("%n%d propostas realizadas em aberto:%n", realizadas.size());
 
 		for (Proposta p : realizadas) {
@@ -722,8 +734,11 @@ public class App {
 	 */
 	private void handlePropostasRecebidas() {
 		System.out.println("\n- Gerenciar propostas recebidas -");
-		List<Proposta> propostas = jogadorLogado.getPropostasRecebidas().stream().filter(p -> p.getStatus()
-			.equals(StatusProposta.ABERTA)).toList();
+		List<Proposta> propostas = jogadorLogado.getPropostasRecebidas()
+																						.stream()
+																						.filter(p -> p.getStatus()
+																													.equals(StatusProposta.ABERTA))
+																						.toList();
 		int size = propostas.size();
 
 		if (size == 0) {
