@@ -159,6 +159,14 @@ public class ItemHandler {
 		return itens.size();
 	}
 
+	/**
+	 * <p>Calcula o preço total de todos os itens de uma coleção.</p>
+	 * <p>Este método itera sobre os valores da coleção de itens, utilizando um
+	 * fluxo de dados (<code>stream</code>) para converter cada item em seu preço
+	 * correspondente, e então soma todos os preços.</p>
+	 *
+	 * @return O preço total de todos os itens presentes na coleção.
+	 */
 	public double precoTotal() {
 		return itens.values().stream().mapToDouble(Item::getPreco).sum();
 	}
