@@ -11,7 +11,6 @@ seção [Preenchimento de dados](#preenchimento-de-dados).
 **Equipe**:
 - [Caetano Kich](https://github.com/CaetanoKich);
 - [Daniella Moraes](https://github.com/MSDaniella);
-- [Filipe Roman](https://github.com/fitroman);
 - [Gabriel Paim](https://github.com/GabrielArrudaPaim);
 - [Gabriel Domingues](https://github.com/DominguesGabriel);
 - [Gustavo Fidélis](https://github.com/gustavofid);
