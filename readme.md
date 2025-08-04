@@ -54,10 +54,10 @@ git clone https://github.com/xLucaspx/gcs-t1.git
 
 Dentro da pasta clonada, o repositório já estará configurado, bastando apenas criar uma nova _branch_ a partir da
 _branch_ `dev` e iniciar o desenvolvimento. Isso pode ser realizado com os comandos `git switch dev` e
-`git switch -C prefixo/nova-branch`, onde `prefixo` denota o propósito da _branch_ e `nova-branch` será o nome da
+`git switch -c prefixo/nova-branch`, onde `prefixo` denota o propósito da _branch_ e `nova-branch` será o nome da
 _branch_, conforme descrito em [Processo de _branching_](#processo-de-_branching_). Tente criar nomes curtos, mas
-descritivos; atenção para a flag `-C` (com a letra "C" maiúscula), ela será a responsável por criar a _branch_, enquanto
-o comando `switch` irá transferir a `head` para a _branch_ desejada.
+descritivos; atenção para a flag `-c`, ela será a responsável por criar a _branch_, enquanto o comando `switch` irá
+transferir a `head` para a _branch_ desejada.
 
 **Importante**: crie sua _branch_ a partir da _branch_ `dev`.
 
